@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 enum Cor{
 	VERDE, PRETO, AZUL, VERMELHO, AMARELO,BRANCO;
@@ -9,6 +10,7 @@ public class Geral {
 	ArrayList<Jogador> jogadores = new ArrayList<Jogador>();
 	Objetivo objetivo = new Objetivo();
 	Cartas cartas = new Cartas();
+	int jogadorDaVez = 0;
 	public void adicionarJogador(String nome,Cor cor) {
 		Jogador auxJogador = new Jogador(nome, cor, objetivo.randomizarObjetivo());
 		jogadores.add(auxJogador);
@@ -21,5 +23,9 @@ public class Geral {
 		}
 	}
 	
+	//Antes de começar randomizar o os jogadores para determinar ordem
+	public void randomizarJogadores() {
+		Collections.shuffle(jogadores);
+	}
 
 }

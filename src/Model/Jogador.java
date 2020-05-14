@@ -22,10 +22,11 @@ class Jogador {
 		// Adicionar no territorio
 	}
 	
-	public void trocarDeCartas(String territorio) {
-		if(getCartas().get(0).podeTrocarCarta(getCartas())) {
+	public void trocarDeCartas(String territorio, ArrayList<CartaObject> cartasTrocadas) {
+		if(getCartas().get(0).podeTrocarCarta(cartasTrocadas)) {
 			adicionarExercitos(numeroDeTrocas, territorio); // precisa trocar para o territorio escolhido
 			numeroDeTrocas += 2;
+			removerCartas(cartasTrocadas);
 		}
 		else {
 			// Avisa algum coisa aqui?
@@ -48,4 +49,12 @@ class Jogador {
 		return cartas;
 	}
 
+	public void removerCartas(ArrayList<CartaObject> cartasASeremRemovidas) {
+		for (int i = 0; i < cartas.size(); i++) {
+			for (int j = 0; j < cartasASeremRemovidas.size(); j++) {
+				if(cartas.get(i).getTerritorio().equals(cartasASeremRemovidas.get(j).getTerritorio()))
+					cartas.remove(i);	
+			}
+		}
+	}
 }
