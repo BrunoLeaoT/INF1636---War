@@ -12,6 +12,8 @@ public class Geral {
 	Cartas cartas = new Cartas();
 	int jogadorDaVez = 0;
 	public void adicionarJogador(String nome,Cor cor) {
+		if(jogadores.size() == 6)
+			throw new IllegalArgumentException("quantidade de jogadores excedida");
 		Jogador auxJogador = new Jogador(nome, cor, objetivo.randomizarObjetivo());
 		jogadores.add(auxJogador);
 	}

@@ -5,8 +5,10 @@ import java.util.Random;
 
 class Objetivo {
 	private ArrayList<String> ListaDeObjetivos;
+	private Random rand;
 	public Objetivo() {
 		adicionarObjetivos();
+		rand =  new Random();
 	}
 	
 	private void adicionarObjetivos() {
@@ -21,8 +23,7 @@ class Objetivo {
 		ListaDeObjetivos.add("Conquiste 24 territorios e tenha duas peças em cada");
 	}
 	
-	public String randomizarObjetivo() {
-		Random rand =  new Random();
+	public String randomizarObjetivo() {;
 		int index = rand.nextInt(ListaDeObjetivos.size());
 		return ListaDeObjetivos.remove(index);
 	

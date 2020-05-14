@@ -12,6 +12,8 @@ class Jogador {
 	//territorios
 	
 	public Jogador(String nomeRecebido, Cor corRecebida, String objetivoRecebido) {
+		if(nomeRecebido.equals(""))
+			throw new IllegalArgumentException("nome não pode ser vazio");
 		nome = nomeRecebido;
 		cor = corRecebida;
 		objetivo = objetivoRecebido;
@@ -20,9 +22,13 @@ class Jogador {
 	
 	private void adicionarExercitos(int numeroDeTropas, String territorio) {
 		// Adicionar no territorio
+		
 	}
 	
 	public void trocarDeCartas(String territorio, ArrayList<CartaObject> cartasTrocadas) {
+		if(cartasTrocadas.size() < 3)
+			throw new IllegalArgumentException("Quantidade de cartas deve ser maior ou igual a 3");
+		
 		if(getCartas().get(0).podeTrocarCarta(cartasTrocadas)) {
 			adicionarExercitos(numeroDeTrocas, territorio); // precisa trocar para o territorio escolhido
 			numeroDeTrocas += 2;
