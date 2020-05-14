@@ -4,9 +4,9 @@ import java.awt.Point;
 
 /// Classe Territorio
 /// Representa um territorio no mapa.
-public class Territorio 
+class Territorio 
 {
-	public String Nome;
+	String Nome;
 	private Jogador Dono;
 	private int Tropas;
 	

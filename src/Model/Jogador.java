@@ -35,8 +35,8 @@ class Jogador {
 			removerCartas(cartasTrocadas);
 		}
 		else {
-			// Avisa algum coisa aqui?
-			System.out.println("Cartas não podem efetuar troca");
+			throw new IllegalArgumentException("Cartas não batem com os requerimentos para a troca");
+			
 		}
 	}
 	
@@ -50,6 +50,7 @@ class Jogador {
 		}
 		cartas.clear();
 	}
+	
 	
 	public ArrayList<CartaObject> getCartas() {
 		return cartas;

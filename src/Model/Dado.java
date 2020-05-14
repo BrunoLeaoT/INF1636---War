@@ -4,7 +4,7 @@ import java.util.Random;
 
 /// Classe Dado
 /// Responsável por pela manipulação de dados de 6 lados.
-public class Dado 
+class Dado 
 {
 	static private Random rand; 
 	

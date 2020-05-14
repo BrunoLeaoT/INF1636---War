@@ -12,6 +12,7 @@ class Cartas {
 	public void distribuirCartas(ArrayList<Jogador> jogadores) {
 		if(jogadores.size() == 0)
 			throw new IllegalArgumentException("quantidade jogadores deve ser maior que zero");
+		
 		for (int i = 0; i < cartas.size(); i++) {
 			for(int j = 0; j < jogadores.size();j++) {
 				if(cartas.size() == i)
