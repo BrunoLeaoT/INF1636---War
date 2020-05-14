@@ -7,28 +7,28 @@ enum Forma{
 	QUADRADO, CIRCULO, TRIANGULO;
 }
 
-class CartaObject {
+class Carta {
 	
 	private String nomeTerritorio;
 	private Forma forma;
 	
 	// Deck de cartas.
-	static private ArrayList<CartaObject> Deck; 
+	static private ArrayList<Carta> Deck; 
 	
-	public CartaObject(String nome,Forma forma) {
+	public Carta(String nome,Forma forma) {
 		nomeTerritorio = nome;
 		this.forma = forma;
 		
 		// Inicializa deck.
-		Deck = new ArrayList<CartaObject>();
-		Deck.add(new CartaObject("África do Sul", Forma.TRIANGULO));
-		Deck.add(new CartaObject("Alaska", Forma.TRIANGULO));
-		Deck.add(new CartaObject("Alemanha", Forma.CIRCULO));
-		Deck.add(new CartaObject("Aral", Forma.TRIANGULO));
-		Deck.add(new CartaObject("Argélia", Forma.CIRCULO));
-		Deck.add(new CartaObject("Argentina", Forma.QUADRADO));
-		Deck.add(new CartaObject("Austrália", Forma.TRIANGULO));
-		Deck.add(new CartaObject("Bolívia", Forma.TRIANGULO));
+		Deck = new ArrayList<Carta>();
+		Deck.add(new Carta("África do Sul", Forma.TRIANGULO));
+		Deck.add(new Carta("Alaska", Forma.TRIANGULO));
+		Deck.add(new Carta("Alemanha", Forma.CIRCULO));
+		Deck.add(new Carta("Aral", Forma.TRIANGULO));
+		Deck.add(new Carta("Argélia", Forma.CIRCULO));
+		Deck.add(new Carta("Argentina", Forma.QUADRADO));
+		Deck.add(new Carta("Austrália", Forma.TRIANGULO));
+		Deck.add(new Carta("Bolívia", Forma.TRIANGULO));
 	}
 	
 	static public void ShuffleDeck()
@@ -49,7 +49,7 @@ class CartaObject {
 		}
 	}
 	
-	public boolean podeTrocarCarta(ArrayList<CartaObject> cartas) {
+	public boolean podeTrocarCarta(ArrayList<Carta> cartas) {
 		int numQuadrado = 0, numCirculo = 0, numTriangulo = 0;
 		
 		for (int i = 0; i < cartas.size(); i++) {

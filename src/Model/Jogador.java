@@ -8,7 +8,7 @@ class Jogador {
 	private Cor cor;
 	String objetivo;
 	private int numeroDeTrocas = 4;//Isso aqui fica numa classe principal, pelo visto é do jogo e não cada jogador
-	private ArrayList<CartaObject> cartas;
+	private ArrayList<Carta> cartas;
 	//territorios
 	
 	public Jogador(String nomeRecebido, Cor corRecebida, String objetivoRecebido) {
@@ -17,7 +17,7 @@ class Jogador {
 		nome = nomeRecebido;
 		cor = corRecebida;
 		objetivo = objetivoRecebido;
-		cartas = new ArrayList<CartaObject>();
+		cartas = new ArrayList<Carta>();
 	}
 	
 	private void adicionarExercitos(int numeroDeTropas, String territorio) {
@@ -25,7 +25,7 @@ class Jogador {
 		
 	}
 	
-	public void trocarDeCartas(String territorio, ArrayList<CartaObject> cartasTrocadas) {
+	public void trocarDeCartas(String territorio, ArrayList<Carta> cartasTrocadas) {
 		if(cartasTrocadas.size() < 3)
 			throw new IllegalArgumentException("Quantidade de cartas deve ser maior ou igual a 3");
 		
@@ -51,11 +51,11 @@ class Jogador {
 		cartas.clear();
 	}
 	
-	public ArrayList<CartaObject> getCartas() {
+	public ArrayList<Carta> getCartas() {
 		return cartas;
 	}
 
-	public void removerCartas(ArrayList<CartaObject> cartasASeremRemovidas) {
+	public void removerCartas(ArrayList<Carta> cartasASeremRemovidas) {
 		for (int i = 0; i < cartas.size(); i++) {
 			for (int j = 0; j < cartasASeremRemovidas.size(); j++) {
 				if(cartas.get(i).getTerritorio().equals(cartasASeremRemovidas.get(j).getTerritorio()))
