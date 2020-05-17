@@ -23,7 +23,7 @@ class Objetivo {
 		ListaDeObjetivos.add("Conquiste 24 territorios e tenha duas peças em cada");
 	}
 	
-	public String randomizarObjetivo() {;
+	public String randomizarObjetivo() {
 		int index = rand.nextInt(ListaDeObjetivos.size());
 		return ListaDeObjetivos.remove(index);
 	

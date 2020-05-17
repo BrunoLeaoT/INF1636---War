@@ -1,20 +1,34 @@
 package Model;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 /// Classe Territorio
 /// Representa um territorio no mapa.
-class Territorio 
+public class Territorio 
 {
 	String Nome;
 	private Jogador Dono;
 	private int Tropas;
-	
+	static private ArrayList<Territorio> territorios; 
 	// Delimitacao do territorio é estabelecida por um quadrilatero (4 pontos).
 	private Point Ponto1;
 	private Point Ponto2;
 	private Point Ponto3;
 	private Point Ponto4;
+	
+	public Territorio() {
+		
+		territorios = new ArrayList<Territorio>();
+		territorios.add(new Territorio("África do Sul"));
+		territorios.add(new Territorio("Alaska"));
+		territorios.add(new Territorio("Alemanha"));
+		territorios.add(new Territorio("Aral"));
+		territorios.add(new Territorio("Argélia"));
+		territorios.add(new Territorio("Argentina"));
+		territorios.add(new Territorio("Austrália"));
+		territorios.add(new Territorio("Bolívia"));
+	}
 	
 	public Territorio(String nome)
 	{

@@ -1,67 +1,51 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
-
+enum Cor{
+	VERDE, PRETO, AZUL, VERMELHO, AMARELO,BRANCO;
+}
 class Jogador {
 	private String nome;
 	private Cor cor;
 	String objetivo;
-	private int numeroDeTrocas = 4;//Isso aqui fica numa classe principal, pelo visto é do jogo e não cada jogador
-	private ArrayList<CartaObject> cartas;
-	//territorios
+	private ArrayList<Carta> cartas;
+	static private ArrayList<Jogador> jogadores;
 	
+	public Jogador() {
+		jogadores = new ArrayList<Jogador>();
+	}
 	public Jogador(String nomeRecebido, Cor corRecebida, String objetivoRecebido) {
 		if(nomeRecebido.equals(""))
-			throw new IllegalArgumentException("nome não pode ser vazio");
+			throw new IllegalArgumentException("Nome não pode ser vazio");
+		if(jaSelecionaramCor(corRecebida))
+			throw new IllegalArgumentException("Cor já foi selecionada");
 		nome = nomeRecebido;
 		cor = corRecebida;
 		objetivo = objetivoRecebido;
-		cartas = new ArrayList<CartaObject>();
+		cartas = new ArrayList<Carta>();
+		jogadores.add(this);
 	}
 	
-	private void adicionarExercitos(int numeroDeTropas, String territorio) {
-		// Adicionar no territorio
-		
+	//Antes de começar randomizar o os jogadores para determinar ordem
+	public void randomizarJogadores() {
+		Collections.shuffle(jogadores);
 	}
 	
-	public void trocarDeCartas(String territorio, ArrayList<CartaObject> cartasTrocadas) {
-		if(cartasTrocadas.size() < 3)
-			throw new IllegalArgumentException("Quantidade de cartas deve ser maior ou igual a 3");
-		
-		if(getCartas().get(0).podeTrocarCarta(cartasTrocadas)) {
-			adicionarExercitos(numeroDeTrocas, territorio); // precisa trocar para o territorio escolhido
-			numeroDeTrocas += 2;
-			removerCartas(cartasTrocadas);
+	private boolean jaSelecionaramCor(Cor cor) {
+		for(int i=0;i<jogadores.size();i++) {
+			if(jogadores.get(i).cor.compareTo(cor) == 0)
+				return true;
 		}
-		else {
-			throw new IllegalArgumentException("Cartas não batem com os requerimentos para a troca");
-			
-		}
+		return false;
 	}
 	
-	public void bonusExercitoContinente() {
-		
+	public ArrayList<Jogador> getJogadores() {
+		return jogadores;
 	}
-
-	public void adicionarExercitosIniciais() {
-		for (int i = 0; i < cartas.size(); i++) {
-			adicionarExercitos(1, cartas.get(i).getTerritorio());
-		}
-		cartas.clear();
-	}
-	
-	
-	public ArrayList<CartaObject> getCartas() {
+	public ArrayList<Carta> getCartas() {
 		return cartas;
 	}
 
-	public void removerCartas(ArrayList<CartaObject> cartasASeremRemovidas) {
-		for (int i = 0; i < cartas.size(); i++) {
-			for (int j = 0; j < cartasASeremRemovidas.size(); j++) {
-				if(cartas.get(i).getTerritorio().equals(cartasASeremRemovidas.get(j).getTerritorio()))
-					cartas.remove(i);	
-			}
-		}
-	}
 }
