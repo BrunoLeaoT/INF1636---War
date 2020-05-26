@@ -3,10 +3,10 @@ package Model;
 import java.util.ArrayList;
 
 public class Teste {
-	static Geral geral = new Geral();
+	static Geral geral =Geral.getGeral();
 	// TESTE DEVEM SER CHAMADOS EM ORDEM QUE ESTÃO IMPLEMENTADOS
 	public static boolean testeInclusãoJogador() {
-		geral.adicionarJogador("Ivan", Cor.AZUL);
+		Geral.getGeral().adicionarJogador("Ivan", Cor.AZUL);
 		if(geral.jogadores.getJogadores().size() > 0) {
 			System.out.println("Caso Teste Adicionar jogadores feito com sucesso");
 			return true;

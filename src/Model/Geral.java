@@ -5,11 +5,24 @@ import java.util.Collections;
 
 
 public class Geral {
-	Jogador jogadores = new Jogador();
-	Objetivo objetivo = new Objetivo();
-	Carta cartas = new Carta();
-	Territorio territorios = new Territorio();
-
+	Jogador jogadores;
+	Objetivo objetivo ;
+	Carta cartas;
+	Territorio territorios;
+	private static Geral singleton;
+	private Geral() {
+		jogadores = new Jogador();
+		objetivo = new Objetivo();
+		cartas = new Carta();
+		territorios = new Territorio();
+	}
+	
+	public static Geral getGeral() {
+		if(singleton == null)
+			singleton = new Geral();
+		return singleton;
+	}
+	
 	// ******** Funções Jogadores ********
 	public void adicionarJogador(String nome,Cor cor) {
 		if(jogadores.getJogadores().size() == 6)
@@ -24,5 +37,5 @@ public class Geral {
 		//ChamarEmTerritorioParaAdd1tropa
 	}
 	
-
+	
 }
