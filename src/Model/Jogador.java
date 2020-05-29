@@ -11,7 +11,7 @@ class Jogador {
 	private Cor cor;
 	String objetivo;
 	private ArrayList<Carta> cartas;
-	static private ArrayList<Jogador> jogadores;
+	static ArrayList<Jogador> jogadores;
 	
 	public Jogador() {
 		jogadores = new ArrayList<Jogador>();
@@ -47,5 +47,8 @@ class Jogador {
 	public ArrayList<Carta> getCartas() {
 		return cartas;
 	}
-
+	
+	public Cor getCor() {
+		return cor;
+	}
 }

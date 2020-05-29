@@ -110,6 +110,48 @@ public class Teste {
 		else
 			System.out.println("Caso Teste nao pode feito com INSUCESSO");
 	}
+	
+	public static void testeObjetivoJogador() {
+		ObjetivoJogador objetivo = (ObjetivoJogador) ObjetivoJogador.obj.randomizarObjetivo();
+		switch (objetivo.jogadorAlvo.toString()) {
+		case "PRETO": {
+			System.out.println("Caso teste objetivo matar jogador feito com sucesso");
+			break;
+		}
+		case "VERDE": {
+			System.out.println("Caso teste objetivo matar jogador feito com sucesso");
+			break;
+		}
+		case "AZUL": {
+			System.out.println("Caso teste objetivo matar jogador feito com sucesso");
+			break;
+		}
+		case "BRANCO": {
+			System.out.println("Caso teste objetivo matar jogador feito com sucesso");
+			break;
+		}
+		case "VERMELHO": {
+			System.out.println("Caso teste objetivo matar jogador feito com sucesso");
+			break;
+		}
+		case "AMARELO": {
+			System.out.println("Caso teste objetivo matar jogador feito com sucesso");
+			break;
+		}
+		default:
+			System.out.println("Caso teste objetivo matar jogador feito com INSUCESSO");
+			break;
+		}
+	}
+	public static void testeObjetivoTerritorio() {
+		ObjetivoTerritorio objetivo = (ObjetivoTerritorio) ObjetivoTerritorio.obj.randomizarObjetivo();
+		if(objetivo.nmTerritorios == 24 || objetivo.nmTerritorios == 18) {
+			System.out.println("Caso teste objetivo territorio feito com sucesso");
+		}
+		else {
+			System.out.println("Caso teste objetivo territorio feito com INSUCESSO");
+		}
+	}
 	public static void main(String[] args) {
 		testeInclusãoJogador();
 		testeRandomizarJogadores();
@@ -121,6 +163,6 @@ public class Teste {
 		testePodeTrocarCartaTrueTresDiferentes();
 		testeNaoTemTresCartasParaTrocar();
 		testeNaoPodeTrocar();
-
+		testeObjetivoJogador();
 	}
 }

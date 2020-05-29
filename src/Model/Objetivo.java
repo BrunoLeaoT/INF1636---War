@@ -6,6 +6,7 @@ import java.util.Random;
 class Objetivo {
 	private ArrayList<String> ListaDeObjetivos;
 	private Random rand;
+	
 	public Objetivo() {
 		adicionarObjetivos();
 		rand =  new Random();

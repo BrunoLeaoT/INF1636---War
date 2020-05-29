@@ -10,7 +10,7 @@ public class Territorio
 	String Nome;
 	private Jogador Dono;
 	private int Tropas;
-	static private ArrayList<Territorio> territorios; 
+	static ArrayList<Territorio> territorios; 
 	// Delimitacao do territorio é estabelecida por um quadrilatero (4 pontos).
 	private Point Ponto1;
 	private Point Ponto2;
