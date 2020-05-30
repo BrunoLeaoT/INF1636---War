@@ -7,10 +7,13 @@ import java.util.ArrayList;
 /// Representa um territorio no mapa.
 public class Territorio 
 {
-	String Nome;
+	public static ArrayList<Territorio> territorios; 
+	
+	public String Nome;
+	public Continente Continente;
 	private Jogador Dono;
 	private int Tropas;
-	static ArrayList<Territorio> territorios; 
+	
 	// Delimitacao do territorio é estabelecida por um quadrilatero (4 pontos).
 	private Point Ponto1;
 	private Point Ponto2;
@@ -20,20 +23,20 @@ public class Territorio
 	public Territorio() {
 		
 		territorios = new ArrayList<Territorio>();
-		territorios.add(new Territorio("África do Sul"));
-		territorios.add(new Territorio("Alaska"));
-		territorios.add(new Territorio("Alemanha"));
-		territorios.add(new Territorio("Aral"));
-		territorios.add(new Territorio("Argélia"));
-		territorios.add(new Territorio("Argentina"));
-		territorios.add(new Territorio("Austrália"));
-		territorios.add(new Territorio("Bolívia"));
+		territorios.add(new Territorio("África do Sul", Continente.Africa));
+		territorios.add(new Territorio("Alaska", Continente.AmericaDoNorte));
+		territorios.add(new Territorio("Alemanha", Continente.Europa));
+		territorios.add(new Territorio("Aral", Continente.Asia));
+		territorios.add(new Territorio("Argélia", Continente.Africa));
+		territorios.add(new Territorio("Argentina", Continente.AmericaDoSul));
+		territorios.add(new Territorio("Austrália", Continente.Oceania));
+		territorios.add(new Territorio("Bolívia", Continente.AmericaDoSul));
 	}
 	
-	public Territorio(String nome)
+	public Territorio(String nome, Continente cont)
 	{
 		Nome = nome;
-		
+		Continente = cont;
 		Ponto1 = new Point(0,0);
 		Ponto1 = new Point(0,0);
 		Ponto1 = new Point(0,0);
