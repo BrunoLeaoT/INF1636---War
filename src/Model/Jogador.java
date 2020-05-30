@@ -7,11 +7,13 @@ enum Cor{
 	VERDE, PRETO, AZUL, VERMELHO, AMARELO,BRANCO;
 }
 class Jogador {
+	static ArrayList<Jogador> jogadores;
+
 	private String nome;
 	private Cor cor;
 	String objetivo;
 	private ArrayList<Carta> cartas;
-	static ArrayList<Jogador> jogadores;
+	private ArrayList<Territorio> Territorios;
 	
 	public Jogador() {
 		jogadores = new ArrayList<Jogador>();
@@ -50,5 +52,20 @@ class Jogador {
 	
 	public Cor getCor() {
 		return cor;
+	}
+	
+	public boolean HasContinente(Continente cont)
+	{
+		int count = 0;
+		for(Territorio t : Territorios)
+		{
+			if(t.Continente == cont)
+				count++;
+		}
+		
+		if(count == cont.NumeroTerritorios)
+			return true;
+		else
+			return false;
 	}
 }
