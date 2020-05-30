@@ -12,7 +12,7 @@ public class Geral {
 	private static Geral singleton;
 	private Geral() {
 		jogadores = new Jogador();
-		objetivo = new Objetivo();
+		objetivo = Objetivo.CreateNew();
 		cartas = new Carta();
 		territorios = new Territorio();
 	}
@@ -27,7 +27,7 @@ public class Geral {
 	public void adicionarJogador(String nome,Cor cor) {
 		if(jogadores.getJogadores().size() == 6)
 			throw new IllegalArgumentException("quantidade de jogadores excedida");
-		new Jogador(nome, cor, objetivo.randomizarObjetivo());
+		new Jogador(nome, cor, Objetivo.CreateNew());
 	}
 	
 

@@ -11,21 +11,21 @@ class Jogador {
 
 	private String nome;
 	private Cor cor;
-	String objetivo;
+	Objetivo objetivo;
 	private ArrayList<Carta> cartas;
 	private ArrayList<Territorio> Territorios;
 	
 	public Jogador() {
 		jogadores = new ArrayList<Jogador>();
 	}
-	public Jogador(String nomeRecebido, Cor corRecebida, String objetivoRecebido) {
+	public Jogador(String nomeRecebido, Cor corRecebida, Objetivo objetivo2) {
 		if(nomeRecebido.equals(""))
 			throw new IllegalArgumentException("Nome não pode ser vazio");
 		if(jaSelecionaramCor(corRecebida))
 			throw new IllegalArgumentException("Cor já foi selecionada");
 		nome = nomeRecebido;
 		cor = corRecebida;
-		objetivo = objetivoRecebido;
+		objetivo = objetivo2;
 		cartas = new ArrayList<Carta>();
 		jogadores.add(this);
 	}
