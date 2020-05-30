@@ -3,23 +3,19 @@ package Model;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ObjetivoTerritorio implements IObjetivo{
+public class ObjetivoTerritorio extends Objetivo{
 	int nmTerritorios;
-	static ObjetivoTerritorio obj = new ObjetivoTerritorio(-1);
+	boolean PrecisaDuasTropas = false;
 	
-	public ObjetivoTerritorio(int nm) {
-		nmTerritorios = nm;
-	}
-	
-	@Override
-	public IObjetivo randomizarObjetivo() {
-		// TODO Auto-generated method stub
+	public ObjetivoTerritorio() {
 		Random rand = new Random();
 		if(rand.nextBoolean())
-			return new ObjetivoTerritorio(18);
+		{
+			nmTerritorios = 18;
+			PrecisaDuasTropas = true;
+		}
 		else
-			return new ObjetivoTerritorio(24);
-		
+			nmTerritorios = 24;
 	}
 
 	@Override
