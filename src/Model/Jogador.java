@@ -9,7 +9,7 @@ enum Cor{
 class Jogador {
 	static ArrayList<Jogador> jogadores;
 
-	private String nome;
+	String nome;
 	private Cor cor;
 	Objetivo objetivo;
 	private ArrayList<Carta> cartas;

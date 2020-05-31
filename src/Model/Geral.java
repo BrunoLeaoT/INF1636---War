@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 
+
 public class Geral {
 	Jogador jogadores;
 	Objetivo objetivo ;
@@ -45,9 +46,33 @@ public class Geral {
 
 	}
 	
-	// Se voltar true o ataque conquistou o territorio, precisa voltar para view e perguntar número de tropas a se movimentar
-	// Ai o próprio controller pode dar esse set direto
-	public boolean ataque(int nmDadosAtaque,int nmDadosDefesa, Territorio territorioAtacante, Territorio territorioDefesa) {
+	// ******** Funções para ataque******** 
+	
+
+	public boolean ataque(int nmDadosAtaque,int nmDadosDefesa, String territorioAtacante, String territorioDefesa) {
+		/* Se voltar true o ataque conquistou o territorio, precisa voltar para view e perguntar número de tropas
+		   a se movimentar. */
+		Territorio atacante = territorios.getTerritorioPorNome(territorioAtacante);
+		Territorio defensor = territorios.getTerritorioPorNome(territorioDefesa);
+		verificaçõesAtaque(atacante, defensor,nmDadosAtaque, nmDadosDefesa);
+		
+		int dadosGanhos = 0;
+		int[] ataque = dado.JogaDados(nmDadosAtaque);
+		int[] defesa = dado.JogaDados(nmDadosDefesa);
+		ataque = dado.organizarDados(ataque);
+		defesa = dado.organizarDados(defesa);
+		for (int i = 0; i < defesa.length; i++) {
+			if(ataque[i] > defesa[i] )
+				dadosGanhos++;
+		}
+		//verDados(ataque, defesa);
+		atacante.removeTropas(nmDadosDefesa - dadosGanhos);
+		if(defensor.removeTropas(dadosGanhos))
+			return true;
+		return false;
+	}
+	
+	public void verificaçõesAtaque(Territorio territorioAtacante, Territorio territorioDefesa,int nmDadosAtaque,int nmDadosDefesa) {		
 		if(territorioAtacante.GetTropas() <= 1) 
 			throw new IllegalArgumentException("Atacante não pode atacar com 1 tropa só");
 		if(territorioDefesa.GetTropas() != nmDadosDefesa)
@@ -56,31 +81,30 @@ public class Geral {
 		if((territorioAtacante.GetTropas() -1) != nmDadosAtaque)
 			if(territorioAtacante.GetTropas() < 5)
 				throw new IllegalArgumentException("Atacante está com número de dados relacionado com numero de tropas incorreto");
-		
-		int dadosGanhos = 0;
-		int[] atacante = dado.JogaDados(nmDadosAtaque);
-		int[] defesa = dado.JogaDados(nmDadosDefesa);
-		atacante = dado.organizarDados(atacante);
-		defesa = dado.organizarDados(defesa);
-		for (int i = 0; i < defesa.length; i++) {
-			if(atacante[i] > defesa[i] )
-				dadosGanhos++;
+		if(territorioAtacante == null || territorioDefesa == null)
+			throw new IllegalArgumentException("Territorio no combate não existente");
+	}
+	
+	public boolean conquista(String nomeJogador, String nomeTerritorio, int quantidadeTropas) {
+		Jogador jogador = null;
+		for (int i = 0; i < jogadores.getJogadores().size(); i++) {
+			if(nomeJogador.compareTo(jogadores.getJogadores().get(i).nome) == 0) {
+				jogador = jogadores.getJogadores().get(i);
+				break;
+			}
 		}
-		//verDados(atacante, defesa);
-		territorioAtacante.removeTropas(nmDadosDefesa - dadosGanhos);
-		if(territorioDefesa.removeTropas(dadosGanhos))
+		Territorio conquistado = territorios.getTerritorioPorNome(nomeTerritorio);
+		conquistado.SetDono(jogador, quantidadeTropas);
+		if(conquistado.GetDono().equals(jogador))
 			return true;
 		return false;
 	}
-	
-
-	
 	public void verDados(int[] atacante,int[] defesa) {
 		for (int i = 0; i < defesa.length; i++) {
-			System.out.println("Dado defesa" + i + ": " + defesa[i]);
+			System.out.println("Dado " +i+" defesa: " + defesa[i]);
 		}
 		for (int i = 0; i < atacante.length; i++) {
-			System.out.println("Dado atacante" + i + ": " + atacante[i]);
+			System.out.println("Dado" +i+" atacante: " + atacante[i]);
 		}
 	}
 	

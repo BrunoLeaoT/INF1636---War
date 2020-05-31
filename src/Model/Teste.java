@@ -12,7 +12,8 @@ public class Teste {
 			return true;
 		}
 		else {
-			System.out.println("Caso Teste adicionar jogadores INSUCESSO");
+			System.err.println("Caso Teste adicionar jogadores INSUCESSO");
+
 			return false;
 		}
 	}
@@ -24,13 +25,13 @@ public class Teste {
 		if(jogadoresAntes.equals(geral.jogadores.getJogadores())) // Num sei real se isso daria insucesso algum momento
 			System.out.println("Caso Randomizando ordem de jogada com sucesso");
 		else
-			System.out.println("Caso Randomizando ordem de jogada com INSUCESSO");
+			System.err.println("Caso Randomizando ordem de jogada com INSUCESSO");
 		
 	}
 	public static void testeCorJaExiste() {
 		try {
 			geral.adicionarJogador("Bruno", Cor.VERDE);
-			System.out.println("Caso teste adicionar mesma cor INSUCESSO");
+			System.err.println("Caso teste adicionar mesma cor INSUCESSO");
 		} catch (Exception e) {
 			System.out.println("Caso teste adicionar mesma cor sucesso " + e.toString());
 
@@ -42,7 +43,7 @@ public class Teste {
 		geral.adicionarJogador("JohnDoe", Cor.BRANCO);
 		try {
 			geral.adicionarJogador("JaneDoe", Cor.AMARELO); 
-			System.out.println("Caso adicionar fora do limite jogador feito com INSUCESSO ");
+			System.err.println("Caso adicionar fora do limite jogador feito com INSUCESSO ");
 		} catch (Exception e) {
 			System.out.println("Caso adicionar fora do limite jogador feito com sucesso "  + e.toString());
 		}
@@ -55,7 +56,7 @@ public class Teste {
 			if(geral.jogadores.getJogadores().get(0).getCartas().size() > 0)
 				System.out.println("Caso Teste distribuir cartas feito com sucesso");
 			else
-				System.out.println("Caso Teste distribuir cartas  jogadores insucesso");
+				System.err.println("Caso Teste distribuir cartas  jogadores insucesso");
 		}
 	}
 //	public static void testeJogadorTemObjetivo() {
@@ -75,7 +76,7 @@ public class Teste {
 		if(numeroTropas > 0)
 			System.out.println("Caso teste trocar cartas três formas iguais feito com sucesso");
 		else
-			System.out.println("Caso teste trocar cartas três formas iguais feito com INSUCESSO");
+			System.err.println("Caso teste trocar cartas três formas iguais feito com INSUCESSO");
 	}
 	public static void testePodeTrocarCartaTrueTresDiferentes() {
 		ArrayList<Carta> cartas = new ArrayList<Carta>();
@@ -86,7 +87,7 @@ public class Teste {
 		if(numeroTropas > 0)
 			System.out.println("Caso teste trocar cartas três formas diff feito com sucesso");
 		else
-			System.out.println("Caso teste trocar cartas três formas diff feito com INSUCESSO");
+			System.err.println("Caso teste trocar cartas três formas diff feito com INSUCESSO");
 	}
 	public static void testeNaoTemTresCartasParaTrocar() {
 		ArrayList<Carta> cartas = new ArrayList<Carta>();
@@ -94,7 +95,7 @@ public class Teste {
 		cartas.add(new Carta("Alemanha", Forma.CIRCULO));
 		try {
 			int numeroTropas = geral.cartas.podeTrocarCarta(cartas);
-			System.out.println("Caso Teste nao tem tres cartas para trocar feito com INSUCESSO");
+			System.err.println("Caso Teste nao tem tres cartas para trocar feito com INSUCESSO");
 		} catch (Exception e) {
 			System.out.println("Caso Teste nao tem tres cartas para trocar feito com sucesso "  + e.toString());
 		}
@@ -108,13 +109,13 @@ public class Teste {
 		if(numeroTropas == 0) 
 			System.out.println("Caso Teste nao pode trocar feito com sucesso");
 		else
-			System.out.println("Caso Teste nao pode feito com INSUCESSO");
+			System.err.println("Caso Teste nao pode feito com INSUCESSO");
 	}
 	public static void testeAdicionarTropasIniciais() {
 		Geral.getGeral().distribuirExercitosIniciais();
 		for (int i = 0; i < Territorio.territorios.size(); i++) {
 			if(Territorio.territorios.get(i).GetDono() == null || Territorio.territorios.get(i).GetTropas() != 1) {
-				System.out.println("Caso Teste tropas iniciais feito com INSUCESSO");
+				System.err.println("Caso Teste tropas iniciais feito com INSUCESSO");
 				return;
 			}
 			
@@ -166,32 +167,40 @@ public class Teste {
 //	}
 	public static void testeAtacanteCom1Tropa() {
 		try {
-			Geral.getGeral().ataque(2, 3, Territorio.territorios.get(0),  Territorio.territorios.get(1));
-			System.out.println("Caso teste de ataque foi realizado com INSUCESSO");
+			Geral.getGeral().ataque(2, 3,  "África do Sul",  "Alaska");
+			System.err.println("Caso teste de ataque foi realizado com INSUCESSO");
 			
 		} catch (Exception e) {
-			System.out.println("Caso teste de ataque foi realizado com sucesso" + e.toString());
+			System.out.println("Caso teste de não pode atacar foi realizado com sucesso: " + e.toString());
 		}
-		
 		
 	}
 	public static void testeDadoseAtaque() {
-		Territorio.territorios.get(0).SetTropas(2);
+		Territorio.territorios.get(0).SetTropas(4);
 		int atacAntes = Territorio.territorios.get(0).GetTropas();
 		int defesAntes = Territorio.territorios.get(1).GetTropas();
-		int tropasDepois2 = Territorio.territorios.get(1).GetTropas();
+
 		System.out.println("AtacAntes: " + atacAntes + "\t DefAntes2: " + defesAntes);
 		
-		Geral.getGeral().ataque(1,Territorio.territorios.get(1).GetTropas(), Territorio.territorios.get(0),  Territorio.territorios.get(1));
+		Geral.getGeral().ataque(3,Territorio.territorios.get(1).GetTropas(), "África do Sul",  "Alaska");
 		int tropasDepois = Territorio.territorios.get(0).GetTropas();
-		System.out.println("AtacDpss: " + tropasDepois + "\t DefDps2: " + tropasDepois2);
-		if(atacAntes == tropasDepois && defesAntes == tropasDepois2) {
-			System.out.println("Caso teste de ataque foi realizado com INSUCESSO");
-		}
-		System.out.println("Caso teste de ataque foi realizado com sucesso" );
+		int tropasDepoisDef = Territorio.territorios.get(1).GetTropas();
 		
+		System.out.println("AtacDpss: " + tropasDepois + "\t DefDps2: " + tropasDepoisDef);
+		if(atacAntes == tropasDepois && defesAntes == tropasDepoisDef) {
+			System.err.println("Caso teste de ataque foi realizado com INSUCESSO");
+		}
+		else {
+			System.out.println("Caso teste de ataque foi realizado com sucesso" );
+		}
 	}
-	
+	public static void testeConquista() {
+		boolean conquista = false;
+		if(geral.conquista("Bruno", "Alaska", 2))
+			System.out.println("Caso de teste Conquista feito com sucesso");
+		else
+			System.err.println("Caso de teste Conquista feito com INSUCESSO");
+	}
 	public static void main(String[] args) {
 		testeInclusãoJogador();
 		testeRandomizarJogadores();
@@ -207,5 +216,6 @@ public class Teste {
 		//testeObjetivoJogador();
 		testeAtacanteCom1Tropa();
 		testeDadoseAtaque();
+		testeConquista();
 	}
 }

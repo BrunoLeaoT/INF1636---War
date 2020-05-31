@@ -59,6 +59,8 @@ public class Territorio
 		// Check qtdTropas.
 		if(qtdTropas < 1 || qtdTropas > 3)
 			throw new IllegalArgumentException("quantidadeTropas deve variar de 1 a 3.");
+		if(jogador == null)
+			throw new IllegalArgumentException("Jogador inválido.");
 		
 		Dono = jogador;
 		Tropas = qtdTropas;
@@ -98,12 +100,16 @@ public class Territorio
 	{
 		return Tropas;
 	}
-	
+	public Territorio getTerritorioPorNome(String nomeTerritorio) {
+		for(int i = 0; i < Territorio.territorios.size(); i++) {
+			if(territorios.get(i).Nome.compareTo(nomeTerritorio) == 0) {
+				return territorios.get(i);
+			}
+		}
+		return null;
+	}
 	public void adicionarTropaPorNome(String nomeTerritorio, int tropas, Jogador jogador) {
 		for(int i = 0; i < Territorio.territorios.size(); i++) {
-			if(nomeTerritorio.compareTo("Austrália") == 0) {
-				System.out.println(territorios.get(i).Nome.compareTo(nomeTerritorio));
-			}
 			if(territorios.get(i).Nome.compareTo(nomeTerritorio) == 0) {
 				//System.out.println(territorios.get(i).Nome);
 				territorios.get(i).SetDono(jogador, tropas);
