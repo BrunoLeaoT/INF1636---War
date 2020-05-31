@@ -24,8 +24,8 @@ class Carta {
 		Deck.add(new Carta("Aral", Forma.TRIANGULO));
 		Deck.add(new Carta("Argélia", Forma.CIRCULO));
 		Deck.add(new Carta("Argentina", Forma.QUADRADO));
-		Deck.add(new Carta("Austrália", Forma.TRIANGULO));
 		Deck.add(new Carta("Bolívia", Forma.TRIANGULO));
+		Deck.add(new Carta("Egito", Forma.TRIANGULO));
 	}
 	public Carta(String nome,Forma forma) {
 		nomeTerritorio = nome;
@@ -47,7 +47,8 @@ class Carta {
 				if(Deck.size() == i)
 					break;
 				jogadores.get(j).getCartas().add(Deck.get(i));
-				i++;
+				if((jogadores.size() -1) != j)
+					i++;
 			}
 		}
 	}

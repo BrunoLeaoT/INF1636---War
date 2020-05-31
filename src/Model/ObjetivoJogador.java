@@ -14,7 +14,8 @@ public class ObjetivoJogador extends Objetivo{
 	public ObjetivoJogador() {
 		ArrayList<Jogador> jogadores = Jogador.jogadores;
 		Random rand = new Random();
-		Jogador jogador = jogadores.get(rand.nextInt(jogadores.size()));
+		System.out.println(rand.nextInt( Jogador.jogadores.size()));
+		Jogador jogador = jogadores.get(rand.nextInt(Jogador.jogadores.size()));
 		
 		jogadorAlvo = jogador.getCor();
 	}

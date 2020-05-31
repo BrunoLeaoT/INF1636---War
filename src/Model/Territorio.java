@@ -29,7 +29,7 @@ public class Territorio
 		territorios.add(new Territorio("Aral", Continente.Asia));
 		territorios.add(new Territorio("Argélia", Continente.Africa));
 		territorios.add(new Territorio("Argentina", Continente.AmericaDoSul));
-		territorios.add(new Territorio("Austrália", Continente.Oceania));
+		territorios.add(new Territorio("Egito", Continente.Oceania));
 		territorios.add(new Territorio("Bolívia", Continente.AmericaDoSul));
 	}
 	
@@ -79,10 +79,36 @@ public class Territorio
 		
 		Tropas = qtdTropas;
 	}
-	
+	/// Remove quantidade de tropas.
+	public boolean removeTropas(int qtdTropas)
+	{
+		// Check qtdTropas.
+		if(qtdTropas < 0)
+			throw new IllegalArgumentException("quantidadeTropas deve deve ser maior ou igual que 0");
+		
+		Tropas = Tropas - qtdTropas;
+		if(Tropas < 0)
+			Tropas = 0;
+		if(Tropas == 0)
+			return true;
+		return false;
+	}
 	/// Geta quantidade de tropas.
 	public int GetTropas()
 	{
 		return Tropas;
+	}
+	
+	public void adicionarTropaPorNome(String nomeTerritorio, int tropas, Jogador jogador) {
+		for(int i = 0; i < Territorio.territorios.size(); i++) {
+			if(nomeTerritorio.compareTo("Austrália") == 0) {
+				System.out.println(territorios.get(i).Nome.compareTo(nomeTerritorio));
+			}
+			if(territorios.get(i).Nome.compareTo(nomeTerritorio) == 0) {
+				//System.out.println(territorios.get(i).Nome);
+				territorios.get(i).SetDono(jogador, tropas);
+				break;
+			}
+		}
 	}
 }

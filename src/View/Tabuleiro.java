@@ -4,8 +4,8 @@ import java.awt.FlowLayout;
 
 import javax.swing.*;
 public class Tabuleiro extends JFrame{
-	public final int LARG_DEFAULT=700;
-	public final int ALT_DEFAULT=600;
+	public final int LARG_DEFAULT=1600;
+	public final int ALT_DEFAULT=1200;
 	public Tabuleiro() {
 		setSize(LARG_DEFAULT,ALT_DEFAULT);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
