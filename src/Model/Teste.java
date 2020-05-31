@@ -201,13 +201,24 @@ public class Teste {
 		else
 			System.err.println("Caso de teste Conquista feito com INSUCESSO");
 	}
+	
+	public static void testeRecebimentoCartaPosConquista(String jogador) {
+		Jogador jogador1 = geral.jogadores.getJogadorPorNome(jogador);
+		int numCartasAntes = jogador1.getCartas().size();
+		testeConquista();
+		int numCartasDepois = jogador1.getCartas().size();
+		if(numCartasAntes < numCartasDepois)
+			System.out.println("Caso teste receber carta pos conquista feito com sucesso");
+		else
+			System.err.println("Caso teste receber carta pos conquista feito com INsucesso");
+	}
 	public static void main(String[] args) {
 		testeInclusãoJogador();
 		testeRandomizarJogadores();
 		testeCorJaExiste();
 		testeJogadoresLimite();
 		//testeDistribuirCartas();
-		testeAdicionarTropasIniciais();
+		testeAdicionarTropasIniciais(); // Distruibuir cartas está aqui
 		//testeJogadorTemObjetivo();
 		testePodeTrocarCartaTrueTresIguais();
 		testePodeTrocarCartaTrueTresDiferentes();
@@ -216,6 +227,6 @@ public class Teste {
 		//testeObjetivoJogador();
 		testeAtacanteCom1Tropa();
 		testeDadoseAtaque();
-		testeConquista();
+		testeRecebimentoCartaPosConquista("Bruno"); // Teste conquista esta atrelado
 	}
 }

@@ -68,4 +68,12 @@ class Jogador {
 		else
 			return false;
 	}
+	public Jogador getJogadorPorNome(String nomeJogador) {
+		for (int i = 0; i < jogadores.size(); i++) {
+			if(nomeJogador.compareTo(jogadores.get(i).nome) == 0) {
+				return jogadores.get(i);
+			}
+		}
+		return null;
+	}
 }

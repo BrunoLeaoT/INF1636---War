@@ -2,6 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 enum Forma{
 	QUADRADO, CIRCULO, TRIANGULO;
@@ -78,6 +79,10 @@ class Carta {
 		return 0;
 	}
 	
+	public Carta getCartaConquista() {
+		Random rand = new Random();
+		return Deck.get(rand.nextInt(Deck.size()));
+	}
 	public String getTerritorio() {
 		return nomeTerritorio;
 	}

@@ -42,8 +42,9 @@ public class Geral {
 			for(int index = 0; index < cartasJogador.size() ; index++) {
 				territorios.adicionarTropaPorNome(cartasJogador.get(index).getTerritorio(), 1, jogadoresList.get(i));
 			}
+			jogadoresList.get(i).getCartas().clear();
 		}
-
+		
 	}
 	
 	// ******** Funções para ataque******** 
@@ -87,16 +88,16 @@ public class Geral {
 	
 	public boolean conquista(String nomeJogador, String nomeTerritorio, int quantidadeTropas) {
 		Jogador jogador = null;
-		for (int i = 0; i < jogadores.getJogadores().size(); i++) {
-			if(nomeJogador.compareTo(jogadores.getJogadores().get(i).nome) == 0) {
-				jogador = jogadores.getJogadores().get(i);
-				break;
-			}
+		jogador = jogadores.getJogadorPorNome(nomeJogador);
+		if(jogador == null) {
+			throw new IllegalArgumentException("Jogador não existente");
 		}
 		Territorio conquistado = territorios.getTerritorioPorNome(nomeTerritorio);
 		conquistado.SetDono(jogador, quantidadeTropas);
-		if(conquistado.GetDono().equals(jogador))
+		if(conquistado.GetDono().equals(jogador)) {
+			jogador.getCartas().add(cartas.getCartaConquista());
 			return true;
+		}
 		return false;
 	}
 	public void verDados(int[] atacante,int[] defesa) {
