@@ -114,12 +114,12 @@ public class Geral {
 	
 	/****** Valores pra view *******/
 	
-	public ArrayList<String> getJogadoresToVIew(){
-		 ArrayList<String> jogs = new ArrayList<String>();
-		for (int i = 0; i < Jogador.jogadores.size(); i++) {
-			 jogs.add(Jogador.jogadores.get(i).nome);
+	public Map<String, String> getJogadoresToVIew(){
+		Map<String,String> aux = new HashMap<String, String>();
+		for (int i = 0; i < Territorio.territorios.size(); i++) {
+			aux.put(Territorio.territorios.get(i).Nome, Territorio.territorios.get(i).GetDono().nome);
 		}
-		return jogs;
+		return aux;
 	}
 	
 	public Map getMapcoords() {

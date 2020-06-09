@@ -26,13 +26,12 @@ public class Tabuleiro extends JFrame implements MouseListener  {
 	public final int ALT_DEFAULT=1200;
 	public Map coords;
 	public Map tropasPorTerritorios;
-	public ArrayList<String> Jogadores;
+	public Map<String, String> donoTerritorio;
 	JLabel tropasNoTerritorioLabels[] = new JLabel[51];
 
 	public Tabuleiro() {
 		setSize(LARG_DEFAULT,ALT_DEFAULT);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-
 		getValoresTabuleiro();
 		addBackground();
 	}
@@ -40,7 +39,7 @@ public class Tabuleiro extends JFrame implements MouseListener  {
 	public void getValoresTabuleiro() {
 		coords = DadosPraView.getDados().getCoords();
 		tropasPorTerritorios = DadosPraView.getDados().getTropasPorTerritorio();
-		Jogadores = DadosPraView.getDados().getJogadores();
+		donoTerritorio = DadosPraView.getDados().getJogadores();
 	}
 
 	
@@ -54,7 +53,6 @@ public class Tabuleiro extends JFrame implements MouseListener  {
 	
 	public void preencherTropasPorTerritorio() {
 		Object[] territorios = tropasPorTerritorios.entrySet().toArray();
-		
 		//Inicializar labels
 		for(int i = 0; i < tropasNoTerritorioLabels.length; i++) {
 			tropasNoTerritorioLabels[i] = new JLabel();
@@ -91,7 +89,7 @@ public class Tabuleiro extends JFrame implements MouseListener  {
 		for (int i = 0; i < territorios.length; i++) {
 			String nomeTer = territorios[i].toString().split("=")[0];
 			if(checarLocalEmCoord((ArrayList<Point>) coords.get(nomeTer), x, y, nomeTer)){
-				showMessageDialog(this, nomeTer + ": "+ tropasPorTerritorios.get(nomeTer));
+				showMessageDialog(this, nomeTer + ": "+ tropasPorTerritorios.get(nomeTer) +"\n Dono:" + donoTerritorio.get(nomeTer));
 			}
 		}
 		

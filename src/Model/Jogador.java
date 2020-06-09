@@ -3,9 +3,7 @@ package Model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-enum Cor{
-	VERDE, PRETO, AZUL, VERMELHO, AMARELO,BRANCO;
-}
+
 class Jogador {
 	static ArrayList<Jogador> jogadores;
 

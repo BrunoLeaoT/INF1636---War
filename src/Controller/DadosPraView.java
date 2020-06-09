@@ -3,12 +3,17 @@ package Controller;
 import java.util.ArrayList;
 import java.util.Map;
 
+import Model.Cor;
 import Model.Geral;
 
 public class DadosPraView {
 	private static DadosPraView dados = null;
 	
 	private DadosPraView() {
+		// Isso é só pra testar sem criar novo jogo
+		Geral.getGeral().adicionarJogador("Bruno", Cor.VERDE);
+		Geral.getGeral().adicionarJogador("Stefano", Cor.AMARELO);
+		Geral.getGeral().distribuirExercitosIniciais();
 	}
 	
 	public static DadosPraView getDados(){
@@ -24,7 +29,7 @@ public class DadosPraView {
 		return Geral.getGeral().getTropasPorTerritorios();
 	}
 	
-	public ArrayList<String> getJogadores() {
+	public Map<String, String> getJogadores() {
 		return Geral.getGeral().getJogadoresToVIew();
 	}
 }
