@@ -19,14 +19,59 @@ class Carta {
 	public Carta() {
 		// Inicializa deck.
 		Deck = new ArrayList<Carta>();
-		Deck.add(new Carta("África do Sul", Forma.TRIANGULO));
-		Deck.add(new Carta("Alaska", Forma.TRIANGULO));
-		Deck.add(new Carta("Alemanha", Forma.CIRCULO));
-		Deck.add(new Carta("Aral", Forma.TRIANGULO));
-		Deck.add(new Carta("Argélia", Forma.CIRCULO));
-		Deck.add(new Carta("Argentina", Forma.QUADRADO));
-		Deck.add(new Carta("Bolívia", Forma.TRIANGULO));
+		Deck.add(new Carta("Africa do Sul", Forma.TRIANGULO));
+		Deck.add(new Carta("Angola", Forma.QUADRADO));
+		Deck.add(new Carta("Argelia", Forma.CIRCULO));
 		Deck.add(new Carta("Egito", Forma.TRIANGULO));
+		Deck.add(new Carta("Nigeria", Forma.CIRCULO));
+		Deck.add(new Carta("Somalia", Forma.QUADRADO));
+		Deck.add(new Carta("Alasca", Forma.TRIANGULO));
+		Deck.add(new Carta("Calgary", Forma.CIRCULO));
+		Deck.add(new Carta("California", Forma.QUADRADO));
+		Deck.add(new Carta("Groelandia", Forma.CIRCULO));
+		Deck.add(new Carta("Mexico", Forma.QUADRADO));
+		Deck.add(new Carta("Nova York", Forma.QUADRADO));
+		Deck.add(new Carta("Quebec", Forma.CIRCULO));
+		Deck.add(new Carta("Texas", Forma.TRIANGULO));
+		Deck.add(new Carta("Africa do Sul", Forma.TRIANGULO));
+		Deck.add(new Carta("Vancouver", Forma.QUADRADO));
+		Deck.add(new Carta("Arabia Saudita", Forma.CIRCULO));
+		Deck.add(new Carta("Bangladesh", Forma.CIRCULO));
+		Deck.add(new Carta("Cazaquistao", Forma.CIRCULO));
+		Deck.add(new Carta("China", Forma.QUADRADO));
+		Deck.add(new Carta("Coreia do Norte", Forma.QUADRADO));
+		Deck.add(new Carta("Coreia do Sul", Forma.TRIANGULO));
+		Deck.add(new Carta("Estonia", Forma.CIRCULO));
+		Deck.add(new Carta("India", Forma.TRIANGULO));
+		Deck.add(new Carta("Ira", Forma.QUADRADO));
+		Deck.add(new Carta("Iraque", Forma.TRIANGULO));
+		Deck.add(new Carta("Japao", Forma.CIRCULO));
+		Deck.add(new Carta("Jordania", Forma.QUADRADO));
+		Deck.add(new Carta("Letonia", Forma.QUADRADO));
+		Deck.add(new Carta("Mongolia", Forma.TRIANGULO));
+		Deck.add(new Carta("Paquistao", Forma.CIRCULO));
+		Deck.add(new Carta("Russia", Forma.TRIANGULO));
+		Deck.add(new Carta("Siberia", Forma.QUADRADO));
+		Deck.add(new Carta("Siria", Forma.QUADRADO));
+		Deck.add(new Carta("Tailandia", Forma.TRIANGULO));
+		Deck.add(new Carta("Turquia", Forma.TRIANGULO));
+		Deck.add(new Carta("Argentina", Forma.QUADRADO));
+		Deck.add(new Carta("Brasil", Forma.CIRCULO));
+		Deck.add(new Carta("Peru", Forma.TRIANGULO));
+		Deck.add(new Carta("Venezuela", Forma.TRIANGULO));
+		Deck.add(new Carta("Espanha", Forma.CIRCULO));
+		Deck.add(new Carta("Franca", Forma.TRIANGULO));
+		Deck.add(new Carta("Italia", Forma.QUADRADO));
+		Deck.add(new Carta("Polonia", Forma.TRIANGULO));
+		Deck.add(new Carta("Ucrania", Forma.CIRCULO));
+		Deck.add(new Carta("Suecia", Forma.QUADRADO));
+		Deck.add(new Carta("Reino Unido", Forma.CIRCULO));
+		Deck.add(new Carta("Romenia", Forma.TRIANGULO));
+		Deck.add(new Carta("Australia", Forma.TRIANGULO));
+		Deck.add(new Carta("Indonesia", Forma.TRIANGULO));
+		Deck.add(new Carta("Nova Zelandia", Forma.QUADRADO));
+		Deck.add(new Carta("Perth", Forma.CIRCULO));
+
 	}
 	public Carta(String nome,Forma forma) {
 		nomeTerritorio = nome;

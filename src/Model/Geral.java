@@ -1,7 +1,10 @@
 package Model;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 
 
@@ -109,4 +112,34 @@ public class Geral {
 		}
 	}
 	
+	/****** Valores pra view *******/
+	
+	public ArrayList<String> getJogadoresToVIew(){
+		 ArrayList<String> jogs = new ArrayList<String>();
+		for (int i = 0; i < Jogador.jogadores.size(); i++) {
+			 jogs.add(Jogador.jogadores.get(i).nome);
+		}
+		return jogs;
+	}
+	
+	public Map getMapcoords() {
+		Map<String, ArrayList<Point>> aux = new HashMap<String, ArrayList<Point>>();
+		for (int i = 0; i < Territorio.territorios.size(); i++) {
+			ArrayList<Point> points = new ArrayList<Point>();
+			points.add(Territorio.territorios.get(i).Ponto1);
+			points.add(Territorio.territorios.get(i).Ponto2);
+			points.add(Territorio.territorios.get(i).Ponto3);
+			points.add(Territorio.territorios.get(i).Ponto4);
+			aux.put(Territorio.territorios.get(i).Nome, points);
+		}
+		return aux;
+	}
+	
+	public Map getTropasPorTerritorios() {
+		Map<String, Integer> aux = new HashMap<String, Integer>();
+		for (int i = 0; i < Territorio.territorios.size(); i++) {
+			aux.put(Territorio.territorios.get(i).Nome, Territorio.territorios.get(i).GetTropas());
+		}
+		return aux;
+	}
 }

@@ -49,7 +49,7 @@ public class NovoJogo extends JFrame{
 
 	}
 	public void addInterface() {
-        background=new JLabel(new ImageIcon("C:/Users/55219/eclipse-workspace/War/images/novojogo.png"));
+        background=new JLabel(new ImageIcon("C:/Users/Bruno/eclipse-workspace/War/images/novojogo.png"));
         add(background);
         background.setLayout(new FlowLayout());
         makeForm();
