@@ -71,8 +71,10 @@ public class Geral {
 		}
 		//verDados(ataque, defesa);
 		atacante.removeTropas(nmDadosDefesa - dadosGanhos);
-		if(defensor.removeTropas(dadosGanhos))
-			return true;
+		if(defensor.removeTropas(dadosGanhos)) {
+			conquista(territorioDefesa, territorioAtacante);
+			return true;	
+		}
 		return false;
 	}
 	
@@ -89,20 +91,23 @@ public class Geral {
 			throw new IllegalArgumentException("Territorio no combate não existente");
 	}
 	
-	public boolean conquista(String nomeJogador, String nomeTerritorio, int quantidadeTropas) {
+	public boolean conquista(String nomeTerritorio, String nomeTerritorioAtk) {
 		Jogador jogador = null;
-		jogador = jogadores.getJogadorPorNome(nomeJogador);
+		Territorio conquistado = territorios.getTerritorioPorNome(nomeTerritorio);
+		Territorio conquistador = territorios.getTerritorioPorNome(nomeTerritorioAtk);
+		jogador = jogadores.getJogadorPorNome(conquistador.GetDono().nome);
+		
 		if(jogador == null) {
 			throw new IllegalArgumentException("Jogador não existente");
 		}
-		Territorio conquistado = territorios.getTerritorioPorNome(nomeTerritorio);
-		conquistado.SetDono(jogador, quantidadeTropas);
+		conquistado.SetDono(jogador, (conquistador.GetTropas() -1));
 		if(conquistado.GetDono().equals(jogador)) {
 			jogador.getCartas().add(cartas.getCartaConquista());
 			return true;
 		}
 		return false;
 	}
+	
 	public void verDados(int[] atacante,int[] defesa) {
 		for (int i = 0; i < defesa.length; i++) {
 			System.out.println("Dado " +i+" defesa: " + defesa[i]);
@@ -113,7 +118,14 @@ public class Geral {
 	}
 	
 	/****** Valores pra view *******/
-	
+	public int getTropasParaAdicionarRodada(String nomeJogador) {
+		int soma = 0;
+		for (int i = 0; i < Territorio.territorios.size(); i++) {
+			if(Territorio.territorios.get(i).GetDono().nome.compareTo(nomeJogador) == 0)
+				soma++;
+		}
+		return soma/2;
+	}
 	public Map<String, String> getJogadoresToVIew(){
 		Map<String,String> aux = new HashMap<String, String>();
 		for (int i = 0; i < Territorio.territorios.size(); i++) {
@@ -136,9 +148,9 @@ public class Geral {
 	}
 	
 	public Map getTropasPorTerritorios() {
-		Map<String, Integer> aux = new HashMap<String, Integer>();
+		Map<String, String> aux = new HashMap<String, String>();
 		for (int i = 0; i < Territorio.territorios.size(); i++) {
-			aux.put(Territorio.territorios.get(i).Nome, Territorio.territorios.get(i).GetTropas());
+			aux.put(Territorio.territorios.get(i).Nome,  Integer.toString(Territorio.territorios.get(i).GetTropas()));
 		}
 		return aux;
 	}

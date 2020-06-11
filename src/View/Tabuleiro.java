@@ -18,17 +18,24 @@ import javax.swing.event.MouseInputListener;
 
 
 import Controller.DadosPraView;
+import Controller.DistribuicaoExercito;
 import Model.Dado;
+
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class Tabuleiro extends JFrame implements MouseListener  {
 	public final int LARG_DEFAULT=1600;
 	public final int ALT_DEFAULT=1200;
+	JLabel background;
 	public Map coords;
-	public Map tropasPorTerritorios;
+	public Map<String, String> tropasPorTerritorios;
 	public Map<String, String> donoTerritorio;
+	public boolean adicionandoTropas = false;
 	JLabel tropasNoTerritorioLabels[] = new JLabel[51];
-
+	String jogadorDaVez = "Bruno";
+	int tropasParaSeremAdd = 0;
+	DistribuicaoExercito disExercito = new DistribuicaoExercito();
+	
 	public Tabuleiro() {
 		setSize(LARG_DEFAULT,ALT_DEFAULT);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -45,10 +52,24 @@ public class Tabuleiro extends JFrame implements MouseListener  {
 	
 	public void addBackground() {
         setLayout(new BorderLayout());
-        JLabel background=new JLabel(new ImageIcon("images/war_tabuleiro_mapa.png"));
+        background=new JLabel(new ImageIcon("images/war_tabuleiro_mapa.png"));
         background.setLayout(null);
         preencherTropasPorTerritorio();
         add(background);
+        adicionarBtnTropas();
+	}
+	
+	public void adicionarBtnTropas() {
+		JButton btnAddTropas = new JButton("Add Tropas");
+        btnAddTropas.setLocation(0,0);
+        btnAddTropas.setBounds(60, 400, 110, 30);
+        background.add(btnAddTropas);
+        btnAddTropas.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		int tropas = disExercito.getTropasASeremAdicionadasNaRodada(jogadorDaVez);
+        		iniciandoAddExercitos(tropas);
+        	}
+		 });
 	}
 	
 	public void preencherTropasPorTerritorio() {
@@ -64,7 +85,7 @@ public class Tabuleiro extends JFrame implements MouseListener  {
 			//System.out.println(nomeTer);
 			int []pontoMedio = pegarCentro((ArrayList<Point>) coords.get(nomeTer));
 			//System.out.println(pontoMedio[0] + ":" + pontoMedio[1]);
-			tropasNoTerritorioLabels[i].setText(tropasPorTerritorios.get(nomeTer).toString());
+			tropasNoTerritorioLabels[i].setText(tropasPorTerritorios.get(nomeTer));
 			tropasNoTerritorioLabels[i].setLocation(pontoMedio[0], pontoMedio[1]);
 			//System.out.println(tropasNoTerritorioLabels[i].getX() + ":" + tropasNoTerritorioLabels[i].getY());
 			tropasNoTerritorioLabels[i].setSize(10, 10);
@@ -83,17 +104,18 @@ public class Tabuleiro extends JFrame implements MouseListener  {
 		return xy;
 	}
 	
-	public void verificarCliqueTerritorio(int x, int y) {
+	public String verificarCliqueTerritorio(int x, int y) {
 		Object[] territorios = tropasPorTerritorios.entrySet().toArray();
 		
 		for (int i = 0; i < territorios.length; i++) {
 			String nomeTer = territorios[i].toString().split("=")[0];
 			if(checarLocalEmCoord((ArrayList<Point>) coords.get(nomeTer), x, y, nomeTer)){
-				showMessageDialog(this, nomeTer + ": "+ tropasPorTerritorios.get(nomeTer) +"\n Dono:" + donoTerritorio.get(nomeTer));
+				return nomeTer;
 			}
 		}
-		
+		return null;
 	}
+	
 	private boolean checarLocalEmCoord(ArrayList<Point> object, int x, int y, String nome) {
 		if(x >= object.get(0).x && x <= object.get(1).x && x >= object.get(2).x && x <= object.get(3).x) {
 			if(y >= object.get(0).y && y >= object.get(1).y && y <= object.get(2).y && y <= object.get(3).y) {
@@ -102,7 +124,26 @@ public class Tabuleiro extends JFrame implements MouseListener  {
 		}
 		return false;
 	}
-
+	
+	public void iniciandoAddExercitos(int tropas) {
+		adicionandoTropas = true;
+		tropasParaSeremAdd = tropas;
+		showMessageDialog(this, "Vamos começar a adicionar suas tropas da rodada \n Para adicionar uma tropa clique no territorio desejado \n Voce tem direito a: " + tropas + " tropas");
+	}
+	
+	public void adicionarTropa(String nomeTer) {
+		if(donoTerritorio.get(nomeTer).compareTo(jogadorDaVez) == 0) {
+			showMessageDialog(this, "Uma tropa adicionada ao territorio " + nomeTer);
+			tropasParaSeremAdd--;
+		}
+		else
+			showMessageDialog(this, "Territorio não te pertence");
+		if(tropasParaSeremAdd == 0) {
+			showMessageDialog(this, "Todas Tropas adicionadas");
+			adicionandoTropas = false;
+		}
+	}
+	
 	public static void main(String[] args) {
 		Tabuleiro f=new Tabuleiro();
 		f.setTitle("WARZIN");
@@ -112,12 +153,17 @@ public class Tabuleiro extends JFrame implements MouseListener  {
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
 		int x=e.getX(),y=e.getY();
 		x-=75;
 		y-=75;
-		System.out.println(x + ":" + y);
-		verificarCliqueTerritorio(x,y);
+		String nomeTer = verificarCliqueTerritorio(x,y);
+		if(adicionandoTropas) {
+			adicionarTropa(nomeTer);
+		}
+		else {
+			if(nomeTer != null) 
+				showMessageDialog(this, nomeTer + ": "+ tropasPorTerritorios.get(nomeTer) +"\n Dono:" + donoTerritorio.get(nomeTer));
+		}
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {}

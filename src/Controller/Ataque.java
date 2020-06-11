@@ -13,7 +13,4 @@ public class Ataque {
 		}
 		return false;
 	}
-	public boolean conquista(String nomeJogador, String nomeTerritorio, int qtdTropas) {
-		return geral.conquista(nomeJogador, nomeTerritorio, qtdTropas);
-	}
 }

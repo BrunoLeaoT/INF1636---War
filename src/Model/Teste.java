@@ -182,7 +182,7 @@ public class Teste {
 
 		System.out.println("AtacAntes: " + atacAntes + "\t DefAntes2: " + defesAntes);
 		
-		Geral.getGeral().ataque(3,Territorio.territorios.get(1).GetTropas(), "África do Sul",  "Alaska");
+		Geral.getGeral().ataque(3,Territorio.territorios.get(1).GetTropas(), "Africa do Sul",  "Alasca");
 		int tropasDepois = Territorio.territorios.get(0).GetTropas();
 		int tropasDepoisDef = Territorio.territorios.get(1).GetTropas();
 		
@@ -196,7 +196,7 @@ public class Teste {
 	}
 	public static void testeConquista() {
 		boolean conquista = false;
-		if(geral.conquista("Bruno", "Alaska", 2))
+		if(geral.conquista("Alasca","Africa do Sul"))
 			System.out.println("Caso de teste Conquista feito com sucesso");
 		else
 			System.err.println("Caso de teste Conquista feito com INSUCESSO");
