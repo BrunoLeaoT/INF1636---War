@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.*;
+
+import Controller.DadosPraView;
+import Controller.DistribuicaoExercito;
 public class NovoJogo extends JFrame{
 	public final int LARG_DEFAULT=400;
 	public final int ALT_DEFAULT=800;
@@ -19,6 +22,8 @@ public class NovoJogo extends JFrame{
 	JTextField textField;
 	String corSendoEscolhida;
 	Map<String, String> jogadores ;
+	DadosPraView dadosPraView;
+	DistribuicaoExercito distExercito;
 	
 	public NovoJogo() {
 		setSize(LARG_DEFAULT,ALT_DEFAULT);
@@ -26,6 +31,8 @@ public class NovoJogo extends JFrame{
 		addColors();
 		addInterface();
 		jogadores = new HashMap<String, String>();
+		dadosPraView = DadosPraView.getDados();
+		distExercito = new DistribuicaoExercito();
 	}
 	public void addColors() {
 		colors = new ArrayList<String>();
@@ -49,7 +56,7 @@ public class NovoJogo extends JFrame{
 
 	}
 	public void addInterface() {
-        background=new JLabel(new ImageIcon("C:/Users/Bruno/eclipse-workspace/War/images/novojogo.png"));
+        background=new JLabel(new ImageIcon("images/novojogo.png"));
         add(background);
         background.setLayout(new FlowLayout());
         makeForm();
@@ -87,7 +94,11 @@ public class NovoJogo extends JFrame{
         			
         			jogadores.put(textField.getText(), corSendoEscolhida);
         			removeColor(corSendoEscolhida);
-        			JOptionPane.showMessageDialog(b1,"Inclusão Efetuada");
+        			boolean ret = dadosPraView.adicionarJogador(textField.getText(), corSendoEscolhida);
+        			if(ret)
+        				JOptionPane.showMessageDialog(b1,"Inclusão Efetuada");
+        			else
+        				JOptionPane.showMessageDialog(b1,"Inclusão não efetuada, verifque se o nome ou a cor estão diferentes de outros participantes");
         		}
         		else {
         			JOptionPane.showMessageDialog(b1,"Cor já escolhida");
@@ -106,8 +117,13 @@ public class NovoJogo extends JFrame{
         			JOptionPane.showMessageDialog(form,"Número de jogadores inválido");
     				return;	
         		}
-        		Tabuleiro tab = new Tabuleiro();
-        		Tabuleiro.main(null);
+        		if(distExercito.iniciarJogo()) {
+	        		Tabuleiro tab = new Tabuleiro();
+	        		Tabuleiro.main(null);
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(form,"Erro ao iniciar jogo");
+        		}
         	}
 		 });
 	}

@@ -34,7 +34,10 @@ public class Geral {
 			throw new IllegalArgumentException("quantidade de jogadores excedida");
 		new Jogador(nome, cor, null);
 	}
-	
+	public void iniciarJogo() {
+		distribuirExercitosIniciais();
+		jogadores.randomizarJogadores();
+	}
 
 	// ******** Funções Exercito e territorios ********
 	public void distribuirExercitosIniciais() {

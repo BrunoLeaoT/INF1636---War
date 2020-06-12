@@ -11,9 +11,9 @@ public class DadosPraView {
 	
 	private DadosPraView() {
 		// Isso é só pra testar sem criar novo jogo
-		Geral.getGeral().adicionarJogador("Bruno", Cor.VERDE);
-		Geral.getGeral().adicionarJogador("Stefano", Cor.AMARELO);
-		Geral.getGeral().distribuirExercitosIniciais();
+//		Geral.getGeral().adicionarJogador("Bruno", Cor.VERDE);
+//		Geral.getGeral().adicionarJogador("Stefano", Cor.AMARELO);
+//		Geral.getGeral().distribuirExercitosIniciais();
 	}
 	
 	public static DadosPraView getDados(){
@@ -32,4 +32,18 @@ public class DadosPraView {
 	public Map<String, String> getJogadores() {
 		return Geral.getGeral().getJogadoresToVIew();
 	}
+	
+	public boolean adicionarJogador(String nome, String cor) {
+		Cor corEscolhida = Cor.getCorPorString(cor);
+		try {
+			Geral.getGeral().adicionarJogador(nome, corEscolhida);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+		
+	}
+	
+
 }
