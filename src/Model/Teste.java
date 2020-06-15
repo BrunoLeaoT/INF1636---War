@@ -114,7 +114,7 @@ public class Teste {
 	public static void testeAdicionarTropasIniciais() {
 		Geral.getGeral().distribuirExercitosIniciais();
 		for (int i = 0; i < Territorio.territorios.size(); i++) {
-			if(Territorio.territorios.get(i).GetDono() == null || Territorio.territorios.get(i).GetTropas() != 1) {
+			if(Territorio.territorios.get(i).GetDono() == null || Territorio.GetTropas(Territorio.territorios.get(i).Nome) != 1) {
 				System.err.println("Caso Teste tropas iniciais feito com INSUCESSO");
 				return;
 			}
@@ -167,7 +167,7 @@ public class Teste {
 //	}
 	public static void testeAtacanteCom1Tropa() {
 		try {
-			Geral.getGeral().ataque(2, 3,  "África do Sul",  "Alaska");
+			Geral.getGeral().ataque(2, 3,  "África do Sul",  "Alaska",6);
 			System.err.println("Caso teste de ataque foi realizado com INSUCESSO");
 			
 		} catch (Exception e) {
@@ -176,27 +176,29 @@ public class Teste {
 		
 	}
 	public static void testeDadoseAtaque() {
-		Territorio.territorios.get(0).SetTropas(4);
-		int atacAntes = Territorio.territorios.get(0).GetTropas();
-		int defesAntes = Territorio.territorios.get(1).GetTropas();
+		String terr1 = "Africa do Sul";
+		String terr2 = "Angola";
+		Territorio.SetTropas("Africa do Sul",4);
+		int atacAntes = Territorio.GetTropas(terr1);
+		int defesAntes = Territorio.GetTropas(terr2);
 
-		System.out.println("AtacAntes: " + atacAntes + "\t DefAntes2: " + defesAntes);
+		Geral.getGeral().ataque(3,Territorio.GetTropas(terr2), terr1,  terr2,6);
+		int tropasDepois = Territorio.GetTropas(terr1);
+		int tropasDepoisDef = Territorio.GetTropas(terr2);
 		
-		Geral.getGeral().ataque(3,Territorio.territorios.get(1).GetTropas(), "Africa do Sul",  "Alasca");
-		int tropasDepois = Territorio.territorios.get(0).GetTropas();
-		int tropasDepoisDef = Territorio.territorios.get(1).GetTropas();
-		
-		System.out.println("AtacDpss: " + tropasDepois + "\t DefDps2: " + tropasDepoisDef);
-		if(atacAntes == tropasDepois && defesAntes == tropasDepoisDef) {
+		if((atacAntes == tropasDepois && defesAntes == tropasDepoisDef) &&  Territorio.territorios.get(0).GetDono().nome.compareTo(Territorio.territorios.get( 1).GetDono().nome) != 0 ) {
 			System.err.println("Caso teste de ataque foi realizado com INSUCESSO");
+			
 		}
 		else {
 			System.out.println("Caso teste de ataque foi realizado com sucesso" );
+			testeRecebimentoCartaPosConquista(Territorio.territorios.get( 1).GetDono().nome);
 		}
 	}
+
 	public static void testeConquista() {
 		boolean conquista = false;
-		if(geral.conquista("Alasca","Africa do Sul"))
+		if(geral.conquista("Angola","Africa do Sul"))
 			System.out.println("Caso de teste Conquista feito com sucesso");
 		else
 			System.err.println("Caso de teste Conquista feito com INSUCESSO");
@@ -212,6 +214,32 @@ public class Teste {
 		else
 			System.err.println("Caso teste receber carta pos conquista feito com INsucesso");
 	}
+	public static void testeTerrAdjacente() {
+		Jogador jogador1 = Jogador.jogadores.get(0);
+		Jogador jogador2 = Jogador.jogadores.get(1);
+		Jogador jogador3 = Jogador.jogadores.get(2);
+		Territorio Alasca = Territorio.territorios.get(geral.territorios.getTerritorioPorNome("Alasca"));
+		Territorio Calgary = Territorio.territorios.get(geral.territorios.getTerritorioPorNome("Calgary"));
+		Territorio Vancouver = Territorio.territorios.get(geral.territorios.getTerritorioPorNome("Vancouver"));
+		
+		Territorio.SetDono("Alasca",jogador1 ,2);
+		Territorio.SetDono("Calgary", jogador2,2);
+		Territorio.SetDono("Vancouver",jogador3 ,2);
+		
+		if(Alasca.temTerrAdjacente(geral.jogadores.getJogadores().get(1).nome, "Calgary")) {
+			System.out.println("Caso teste tem territorio adjacente feito com sucesso");
+		}
+		else {
+			System.err.println("Caso teste tem territorio adjacente feito com INSUCESSO");
+		}
+		Territorio.SetDono(Calgary.Nome,jogador3, 2);
+		if(!Alasca.temTerrAdjacente(geral.jogadores.getJogadores().get(1).nome, "Calgary")) {
+			System.out.println("Caso teste nao tem territorio adjacente feito com sucesso");
+		}
+		else {
+			System.err.println("Caso teste nao tem territorio adjacente feito com INSUCESSO");
+		}
+	}
 	public static void main(String[] args) {
 		testeInclusãoJogador();
 		testeRandomizarJogadores();
@@ -226,7 +254,8 @@ public class Teste {
 		testeNaoPodeTrocar();
 		//testeObjetivoJogador();
 		testeAtacanteCom1Tropa();
-		testeDadoseAtaque();
-		testeRecebimentoCartaPosConquista("Bruno"); // Teste conquista esta atrelado
+		testeDadoseAtaque(); // testeRecebimentoCartaPosConquista atrelado
+		//testeRecebimentoCartaPosConquista("Bruno"); // Teste conquista esta atrelado
+		testeTerrAdjacente();
 	}
 }

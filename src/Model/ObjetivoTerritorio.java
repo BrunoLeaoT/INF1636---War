@@ -28,7 +28,7 @@ public class ObjetivoTerritorio extends Objetivo{
 				if(nmTerritorios == 24)
 					territoriosConquistados++;
 				else
-					if(territorio.get(i).GetTropas() >= 2)
+					if(Territorio.GetTropas(territorio.get(i).Nome) >= 2)
 						territoriosConquistados++;
 		}
 		

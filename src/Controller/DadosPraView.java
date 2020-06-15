@@ -13,7 +13,9 @@ public class DadosPraView {
 		// Isso é só pra testar sem criar novo jogo
 //		Geral.getGeral().adicionarJogador("Bruno", Cor.VERDE);
 //		Geral.getGeral().adicionarJogador("Stefano", Cor.AMARELO);
+//		Geral.getGeral().adicionarJogador("Taia", Cor.PRETO);
 //		Geral.getGeral().distribuirExercitosIniciais();
+
 	}
 	
 	public static DadosPraView getDados(){
@@ -33,13 +35,17 @@ public class DadosPraView {
 		return Geral.getGeral().getJogadoresToVIew();
 	}
 	
+	public ArrayList<String> getCartasJogador(String jogador) {
+		return Geral.getGeral().getCartasJogador(jogador);
+	}
+
 	public boolean adicionarJogador(String nome, String cor) {
 		Cor corEscolhida = Cor.getCorPorString(cor);
 		try {
 			Geral.getGeral().adicionarJogador(nome, corEscolhida);
 			return true;
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.out.println(e);
 			return false;
 		}
 		

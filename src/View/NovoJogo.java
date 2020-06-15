@@ -12,6 +12,7 @@ import javax.swing.*;
 
 import Controller.DadosPraView;
 import Controller.DistribuicaoExercito;
+import Controller.Jogada;
 public class NovoJogo extends JFrame{
 	public final int LARG_DEFAULT=400;
 	public final int ALT_DEFAULT=800;
@@ -23,7 +24,7 @@ public class NovoJogo extends JFrame{
 	String corSendoEscolhida;
 	Map<String, String> jogadores ;
 	DadosPraView dadosPraView;
-	DistribuicaoExercito distExercito;
+	Jogada jogada;
 	
 	public NovoJogo() {
 		setSize(LARG_DEFAULT,ALT_DEFAULT);
@@ -32,7 +33,8 @@ public class NovoJogo extends JFrame{
 		addInterface();
 		jogadores = new HashMap<String, String>();
 		dadosPraView = DadosPraView.getDados();
-		distExercito = new DistribuicaoExercito();
+		jogada = Jogada.getJogada();
+		
 	}
 	public void addColors() {
 		colors = new ArrayList<String>();
@@ -104,7 +106,7 @@ public class NovoJogo extends JFrame{
         			JOptionPane.showMessageDialog(b1,"Cor já escolhida");
         		}
         	}
-		 });
+        });
 	}
 	
 	public void IniciarJogo() {
@@ -117,13 +119,11 @@ public class NovoJogo extends JFrame{
         			JOptionPane.showMessageDialog(form,"Número de jogadores inválido");
     				return;	
         		}
-        		if(distExercito.iniciarJogo()) {
-	        		Tabuleiro tab = new Tabuleiro();
+        		jogada.setJogadores(jogadores);
+        		if(jogada.iniciarJogo()) 
 	        		Tabuleiro.main(null);
-        		}
-        		else {
+        		else 
         			JOptionPane.showMessageDialog(form,"Erro ao iniciar jogo");
-        		}
         	}
 		 });
 	}

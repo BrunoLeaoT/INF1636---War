@@ -126,10 +126,15 @@ class Carta {
 	
 	public Carta getCartaConquista() {
 		Random rand = new Random();
-		return Deck.get(rand.nextInt(Deck.size()));
+		int index = rand.nextInt(Deck.size());
+		Carta aux = Deck.get(index);
+		Deck.remove(index);
+		return aux;
 	}
 	public String getTerritorio() {
 		return nomeTerritorio;
 	}
-	
+	public String getForma() {
+		return forma.name();
+	}
 }

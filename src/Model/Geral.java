@@ -6,8 +6,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-
-
 public class Geral {
 	Jogador jogadores;
 	Objetivo objetivo ;
@@ -34,6 +32,7 @@ public class Geral {
 			throw new IllegalArgumentException("quantidade de jogadores excedida");
 		new Jogador(nome, cor, null);
 	}
+	
 	public void iniciarJogo() {
 		distribuirExercitosIniciais();
 		jogadores.randomizarJogadores();
@@ -55,16 +54,22 @@ public class Geral {
 	
 	// ******** Funções para ataque******** 
 	
-
-	public boolean ataque(int nmDadosAtaque,int nmDadosDefesa, String territorioAtacante, String territorioDefesa) {
+	public boolean podeAtacar(String atacante, String territorio, String territorioAtacante) {
+		int index =territorios.getTerritorioPorNome(territorio);
+		Territorio defensor = territorios.territorios.get(index);
+		return defensor.temTerrAdjacente(atacante, territorioAtacante);
+	}
+	
+	public boolean ataque(int nmDadosAtaque,int nmDadosDefesa, String territorioAtacante, String territorioDefesa, int valorDadoAtk) {
 		/* Se voltar true o ataque conquistou o territorio, precisa voltar para view e perguntar número de tropas
 		   a se movimentar. */
-		Territorio atacante = territorios.getTerritorioPorNome(territorioAtacante);
-		Territorio defensor = territorios.getTerritorioPorNome(territorioDefesa);
-		verificaçõesAtaque(atacante, defensor,nmDadosAtaque, nmDadosDefesa);
+		verificaçõesAtaque(territorioAtacante, territorioDefesa,nmDadosAtaque, nmDadosDefesa);
 		
 		int dadosGanhos = 0;
 		int[] ataque = dado.JogaDados(nmDadosAtaque);
+		for (int i = 0; i < ataque.length; i++) {
+			ataque[i] = valorDadoAtk;
+		}
 		int[] defesa = dado.JogaDados(nmDadosDefesa);
 		ataque = dado.organizarDados(ataque);
 		defesa = dado.organizarDados(defesa);
@@ -73,22 +78,22 @@ public class Geral {
 				dadosGanhos++;
 		}
 		//verDados(ataque, defesa);
-		atacante.removeTropas(nmDadosDefesa - dadosGanhos);
-		if(defensor.removeTropas(dadosGanhos)) {
+		territorios.removeTropas(territorioAtacante, (nmDadosDefesa - dadosGanhos));
+		if(territorios.removeTropas(territorioDefesa,dadosGanhos)) {
 			conquista(territorioDefesa, territorioAtacante);
 			return true;	
 		}
 		return false;
 	}
 	
-	public void verificaçõesAtaque(Territorio territorioAtacante, Territorio territorioDefesa,int nmDadosAtaque,int nmDadosDefesa) {		
-		if(territorioAtacante.GetTropas() <= 1) 
+	public void verificaçõesAtaque(String territorioAtacante, String territorioDefesa,int nmDadosAtaque,int nmDadosDefesa) {		
+		if(Territorio.GetTropas(territorioAtacante) <= 1) 
 			throw new IllegalArgumentException("Atacante não pode atacar com 1 tropa só");
-		if(territorioDefesa.GetTropas() != nmDadosDefesa)
-			if(territorioDefesa.GetTropas() < 4)
+		if(Territorio.GetTropas(territorioDefesa) != nmDadosDefesa)
+			if(Territorio.GetTropas(territorioDefesa) < 4)
 				throw new IllegalArgumentException("Defensor está com número de dados relacionado com numero de tropas incorreto");
-		if((territorioAtacante.GetTropas() -1) != nmDadosAtaque)
-			if(territorioAtacante.GetTropas() < 5)
+		if((Territorio.GetTropas(territorioAtacante) -1) != nmDadosAtaque)
+			if(Territorio.GetTropas(territorioAtacante) < 5)
 				throw new IllegalArgumentException("Atacante está com número de dados relacionado com numero de tropas incorreto");
 		if(territorioAtacante == null || territorioDefesa == null)
 			throw new IllegalArgumentException("Territorio no combate não existente");
@@ -96,15 +101,15 @@ public class Geral {
 	
 	public boolean conquista(String nomeTerritorio, String nomeTerritorioAtk) {
 		Jogador jogador = null;
-		Territorio conquistado = territorios.getTerritorioPorNome(nomeTerritorio);
-		Territorio conquistador = territorios.getTerritorioPorNome(nomeTerritorioAtk);
-		jogador = jogadores.getJogadorPorNome(conquistador.GetDono().nome);
+		int conquistado = Territorio.getTerritorioPorNome(nomeTerritorio);
+		int conquistador = Territorio.getTerritorioPorNome(nomeTerritorioAtk);
+		jogador = jogadores.getJogadorPorNome(Territorio.territorios.get(conquistador).GetDono().nome);
 		
 		if(jogador == null) {
 			throw new IllegalArgumentException("Jogador não existente");
 		}
-		conquistado.SetDono(jogador, (conquistador.GetTropas() -1));
-		if(conquistado.GetDono().equals(jogador)) {
+		Territorio.SetDono(nomeTerritorio,jogador, (Territorio.GetTropas(nomeTerritorioAtk) -1));
+		if(Territorio.territorios.get(conquistado).GetDono().equals(jogador)) {
 			jogador.getCartas().add(cartas.getCartaConquista());
 			return true;
 		}
@@ -127,6 +132,7 @@ public class Geral {
 			if(Territorio.territorios.get(i).GetDono().nome.compareTo(nomeJogador) == 0)
 				soma++;
 		}
+		soma += Continente.temAlgumContinente(nomeJogador);
 		return soma/2;
 	}
 	public Map<String, String> getJogadoresToVIew(){
@@ -135,6 +141,17 @@ public class Geral {
 			aux.put(Territorio.territorios.get(i).Nome, Territorio.territorios.get(i).GetDono().nome);
 		}
 		return aux;
+	}
+	
+	public void addTropa(String territorio) {
+		try {
+			int tropasAntes = Territorio.GetTropas(territorio);
+			Territorio.SetTropas(territorio, tropasAntes+1);
+			System.out.println(Territorio.GetTropas(territorio));
+		} catch (Exception e) {
+			throw new IllegalArgumentException(e);
+		}
+
 	}
 	
 	public Map getMapcoords() {
@@ -153,8 +170,27 @@ public class Geral {
 	public Map getTropasPorTerritorios() {
 		Map<String, String> aux = new HashMap<String, String>();
 		for (int i = 0; i < Territorio.territorios.size(); i++) {
-			aux.put(Territorio.territorios.get(i).Nome,  Integer.toString(Territorio.territorios.get(i).GetTropas()));
+			String nome = Territorio.territorios.get(i).Nome;
+			aux.put(nome,  Integer.toString(Territorio.GetTropas(nome)));
 		}
 		return aux;
+	}
+	
+	public ArrayList<String> getCartasJogador(String jogador) {
+		ArrayList<Carta> cartas  = jogadores.getJogadorPorNome(jogador).getCartas();
+		ArrayList<String> retCartas = new ArrayList<String>();
+		for (int i = 0; i < cartas.size(); i++) {
+			retCartas.add(cartas.get(i).getTerritorio() + "-" + cartas.get(i).getForma());
+		}
+		return retCartas;
+	}
+	
+	public int getTropasTrocaDeCartas(String jogador) {
+		Jogador aux =jogadores.getJogadorPorNome(jogador);
+		int tropas = cartas.podeTrocarCarta(aux.getCartas());
+		if(tropas > 0) // Isso deveria ser feito melhor, tipo remover só as cartas da troca, mas tempo
+			aux.getCartas().clear();
+		return tropas;
+		
 	}
 }
