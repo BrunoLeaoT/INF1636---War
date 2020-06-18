@@ -5,10 +5,11 @@ import java.util.Map;
 
 import Model.Cor;
 import Model.Geral;
+import View.Tabuleiro;
 
 public class DadosPraView {
 	private static DadosPraView dados = null;
-	
+	private Tabuleiro observer;
 	private DadosPraView() {
 		// Isso é só pra testar sem criar novo jogo
 //		Geral.getGeral().adicionarJogador("Bruno", Cor.VERDE);
@@ -16,6 +17,17 @@ public class DadosPraView {
 //		Geral.getGeral().adicionarJogador("Taia", Cor.PRETO);
 //		Geral.getGeral().distribuirExercitosIniciais();
 
+	}
+	
+	public void notificar() {
+		System.out.println("Notificando antes");
+		observer.getValoresTabuleiro();
+		observer.repaint();
+		System.out.println("Notificando");
+	}
+
+	public void setObserver(Tabuleiro tab) {
+		observer = tab;
 	}
 	
 	public static DadosPraView getDados(){

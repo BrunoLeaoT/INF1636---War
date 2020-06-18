@@ -26,12 +26,15 @@ import Model.Dado;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class Tabuleiro extends JFrame implements MouseListener  {
-	public final int LARG_DEFAULT=1600;
-	public final int ALT_DEFAULT=1200;
+//	public final int LARG_DEFAULT=1600;
+//	public final int ALT_DEFAULT=1200;
+	public final int LARG_DEFAULT=1024;
+	public final int ALT_DEFAULT=768;
 	DistribuicaoExercito disExercito;
 	Jogada jogada;
 	JLabel background;
 	JLabel tropasNoTerritorioLabels[] = new JLabel[51];
+	JComboBox<String> cartasComboBox;
 	public Map coords;
 	public Map<String, String> tropasPorTerritorios;
 	public Map<String, String> donoTerritorio;
@@ -46,6 +49,7 @@ public class Tabuleiro extends JFrame implements MouseListener  {
 		disExercito = new DistribuicaoExercito();
 		jogada = Jogada.getJogada();
 		ataque = new Ataque();
+		DadosPraView.getDados().setObserver(this);
 		setSize(LARG_DEFAULT,ALT_DEFAULT);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getValoresTabuleiro();
@@ -53,11 +57,15 @@ public class Tabuleiro extends JFrame implements MouseListener  {
 	}
 	
 	/** Relativo a interface**/ 
-	
 	public void getValoresTabuleiro() {
 		coords = DadosPraView.getDados().getCoords();
 		tropasPorTerritorios = DadosPraView.getDados().getTropasPorTerritorio();
 		donoTerritorio = DadosPraView.getDados().getJogadores();
+		try {
+			updateComboCartas();			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 
 	
@@ -65,7 +73,6 @@ public class Tabuleiro extends JFrame implements MouseListener  {
         setLayout(new BorderLayout());
         background=new JLabel(new ImageIcon("images/war_tabuleiro_mapa.png"));
         background.setLayout(null);
-        preencherTropasPorTerritorio();
         add(background);
         adicionarBtnTropas();
         adicionarBtnFimRodada();
@@ -76,7 +83,7 @@ public class Tabuleiro extends JFrame implements MouseListener  {
 	public void adicionarBtnTropas() {
 		btnAddTropas = new JButton("Add Tropas");
         btnAddTropas.setLocation(0,0);
-        btnAddTropas.setBounds(60, 400, 110, 30);
+        btnAddTropas.setBounds(0, 650, 110, 30);
         background.add(btnAddTropas);
         btnAddTropas.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -90,7 +97,7 @@ public class Tabuleiro extends JFrame implements MouseListener  {
 	public void adicionarBtnFimRodada() {
 		btnTerminarRodada = new JButton("Fim Rodada");
 		btnTerminarRodada.setLocation(0,200);
-		btnTerminarRodada.setBounds(100, 500, 110, 30);
+		btnTerminarRodada.setBounds(110, 650, 110, 30);
         background.add(btnTerminarRodada);
         btnTerminarRodada.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -99,24 +106,29 @@ public class Tabuleiro extends JFrame implements MouseListener  {
 		 });
 	}
 	
+	public void updateComboCartas() {
+		cartasComboBox.removeAllItems();
+		ArrayList<String> cartas = DadosPraView.getDados().getCartasJogador(jogadorDaVez);
+		for (int i = 0; i < cartas.size(); i++)
+			cartasComboBox.addItem(cartas.get(i));
+	}
+	
 	public void mostarComboCartas() {
 		ArrayList<String> cartas = DadosPraView.getDados().getCartasJogador(jogadorDaVez);
-		JComboBox<String> comboBox = new JComboBox<String>();
-		for (int i = 0; i < cartas.size(); i++)
-			comboBox.addItem(cartas.get(i));
-	    comboBox.addActionListener(new ActionListener() {
+		cartasComboBox = new JComboBox<String>();
+		cartasComboBox.addActionListener(new ActionListener() {
 			@Override
 	        public void actionPerformed(ActionEvent arg0) {
 				
 	        }
 	    });
-	    comboBox.setBounds(160, 285, 120, 20);
+		cartasComboBox.setBounds(220, 650, 120, 20);
 	    JLabel lblName = new JLabel("Suas cartas");
-        lblName.setBounds(160, 255, 120, 20);
+        lblName.setBounds(220, 630, 120, 20);
         background.add(lblName);
-        background.add(comboBox);
+        background.add(cartasComboBox);
         JButton trocaCartas = new JButton("Trocar Cartas");
-        trocaCartas.setBounds(160, 315, 120, 20);
+        trocaCartas.setBounds(220, 670, 120, 20);
         trocaCartas.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		tropasParaSeremAdd += disExercito.trocaDeCartas(jogadorDaVez);
@@ -124,37 +136,9 @@ public class Tabuleiro extends JFrame implements MouseListener  {
         	}
 		 });
         background.add(trocaCartas);
+        updateComboCartas();
 	}
 	
-	public void preencherTropasPorTerritorio() {
-		Object[] territorios = tropasPorTerritorios.entrySet().toArray();
-		//Inicializar labels
-		for(int i = 0; i < tropasNoTerritorioLabels.length; i++) {
-			tropasNoTerritorioLabels[i] = new JLabel();
-		}
-		
-		for (int i = 0; i <1; i++) {
-			String nomeTer = territorios[i].toString().split("=")[0];
-			//System.out.println(nomeTer);
-			int []pontoMedio = pegarCentro((ArrayList<Point>) coords.get(nomeTer));
-			//System.out.println(pontoMedio[0] + ":" + pontoMedio[1]);
-			tropasNoTerritorioLabels[i].setText(tropasPorTerritorios.get(nomeTer));
-			tropasNoTerritorioLabels[i].setLocation(pontoMedio[0], pontoMedio[1]);
-			//System.out.println(tropasNoTerritorioLabels[i].getX() + ":" + tropasNoTerritorioLabels[i].getY());
-			tropasNoTerritorioLabels[i].setSize(10, 10);
-			add(tropasNoTerritorioLabels[i]);
-		}
-	}
-	
-	public int[] pegarCentro(ArrayList<Point> pontos){
-		int []xy = new int[2];
-		//int xMedio = pontos.get(0).x + ((pontos.get(3).x -  pontos.get(0).x)/2);
-		//int yMedio = pontos.get(1).y + ((pontos.get(2).y -  pontos.get(1).y)/2);
-		xy[0] = pontos.get(0).x;
-		xy[1] =  pontos.get(0).y;
-		
-		return xy;
-	}
 	
 	public String verificarCliqueTerritorio(int x, int y) {
 		Object[] territorios = tropasPorTerritorios.entrySet().toArray();
@@ -186,7 +170,12 @@ public class Tabuleiro extends JFrame implements MouseListener  {
 		disExercito.getTropasASeremAdicionadasNaRodada(jogadorDaVez);
 		showMessageDialog(this, "Jogador da vez: " + jogadorDaVez);
 		btnAddTropas.setVisible(true);
-		
+		try {
+			updateComboCartas();			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
 	}
 	
 	public void iniciandoAddExercitos(int tropas) {
@@ -265,7 +254,11 @@ public class Tabuleiro extends JFrame implements MouseListener  {
 		int x=e.getX(),y=e.getY();
 		x-=75;
 		y-=75;
+		System.out.println(x+":"+y);
 		String nomeTer = verificarCliqueTerritorio(x,y);
+		if(nomeTer == null) {
+			return;
+		}
 		if(terrPertenceAoJogador(nomeTer)) {
 			if(adicionandoTropas) {
 				adicionarTropa(nomeTer);

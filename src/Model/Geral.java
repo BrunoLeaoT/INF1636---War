@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import Controller.DadosPraView;
+
 public class Geral {
 	Jogador jogadores;
 	Objetivo objetivo ;
@@ -13,6 +15,7 @@ public class Geral {
 	Territorio territorios;
 	private static Geral singleton;
 	Dado dado = new Dado();
+	
 	private Geral() {
 		jogadores = new Jogador();
 		//objetivo = Objetivo.CreateNew();
@@ -34,8 +37,8 @@ public class Geral {
 	}
 	
 	public void iniciarJogo() {
-		distribuirExercitosIniciais();
 		jogadores.randomizarJogadores();
+		distribuirExercitosIniciais();
 	}
 
 	// ******** Funções Exercito e territorios ********
@@ -49,7 +52,6 @@ public class Geral {
 			}
 			jogadoresList.get(i).getCartas().clear();
 		}
-		
 	}
 	
 	// ******** Funções para ataque******** 
@@ -81,6 +83,7 @@ public class Geral {
 		territorios.removeTropas(territorioAtacante, (nmDadosDefesa - dadosGanhos));
 		if(territorios.removeTropas(territorioDefesa,dadosGanhos)) {
 			conquista(territorioDefesa, territorioAtacante);
+			notificar();
 			return true;	
 		}
 		return false;
@@ -109,8 +112,10 @@ public class Geral {
 			throw new IllegalArgumentException("Jogador não existente");
 		}
 		Territorio.SetDono(nomeTerritorio,jogador, (Territorio.GetTropas(nomeTerritorioAtk) -1));
+		Territorio.SetTropas(nomeTerritorio, 1);
 		if(Territorio.territorios.get(conquistado).GetDono().equals(jogador)) {
 			jogador.getCartas().add(cartas.getCartaConquista());
+			notificar();
 			return true;
 		}
 		return false;
@@ -126,6 +131,9 @@ public class Geral {
 	}
 	
 	/****** Valores pra view *******/
+	public void notificar() {
+		DadosPraView.getDados().notificar();
+	}
 	public int getTropasParaAdicionarRodada(String nomeJogador) {
 		int soma = 0;
 		for (int i = 0; i < Territorio.territorios.size(); i++) {
@@ -147,7 +155,7 @@ public class Geral {
 		try {
 			int tropasAntes = Territorio.GetTropas(territorio);
 			Territorio.SetTropas(territorio, tropasAntes+1);
-			System.out.println(Territorio.GetTropas(territorio));
+			notificar();
 		} catch (Exception e) {
 			throw new IllegalArgumentException(e);
 		}

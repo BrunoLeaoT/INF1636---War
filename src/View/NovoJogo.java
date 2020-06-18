@@ -79,7 +79,7 @@ public class NovoJogo extends JFrame{
 		tip.setBounds(65, 31, 46, 14);
         form.add(tip);
         
-        IniciarJogo();
+        iniciarJogo();
 	}
 	
 	public void addJogador() {
@@ -109,7 +109,7 @@ public class NovoJogo extends JFrame{
         });
 	}
 	
-	public void IniciarJogo() {
+	public void iniciarJogo() {
         JButton iniciar = new JButton("Iniciar Jogo");
         form.add(iniciar);
         
@@ -131,7 +131,7 @@ public class NovoJogo extends JFrame{
 	public void addInput() {
 		JLabel lblName = new JLabel("Name");
 		lblName.setForeground(Color.white);
-        lblName.setBounds(65, 31, 46, 14);
+        lblName.setBounds(200, 200, 46, 14);
         form.add(lblName);
         
         textField = new JTextField();

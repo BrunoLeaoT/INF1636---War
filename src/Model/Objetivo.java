@@ -4,6 +4,7 @@ import java.util.Random;
 
 public abstract class Objetivo 
 {
+	
 	static public Objetivo CreateNew()
 	{
 		Random rand = new Random();
