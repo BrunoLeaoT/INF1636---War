@@ -1,13 +1,12 @@
 package Controller;
 
-import Model.Geral;
 import Model.Partida;
 
 public class Ataque {
-	private Geral geral;
 	private Partida partida;
+	
 	public Ataque() {
-		geral = Geral.getGeral();
+		partida = Partida.getInstancia();
 	}
 	
 	public boolean realizarAtaque(String nomeTerritorioAtacante, String nomeTerritorioDefensor) throws Exception
@@ -16,7 +15,7 @@ public class Ataque {
 		{						
 			if(partida.processaAtaque(nomeTerritorioAtacante, nomeTerritorioDefensor))
 			{
-				// da carta
+				partida.daCartaJogadorDaVez();
 				return true;
 			}
 			else
