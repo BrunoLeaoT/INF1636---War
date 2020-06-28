@@ -27,6 +27,8 @@ public class Territorio
 	{
 		Nome = nome;
 		Continente = cont;
+		Dono = null;
+		Tropas = 0;
 		Ponto1 = new Point(0,0);
 		Ponto2 = new Point(0,0);
 		Ponto3 = new Point(0,0);
@@ -39,11 +41,11 @@ public class Territorio
 		territoriosAdjacentes = aux;
 	}
 	
-	public boolean temTerrAdjacente(String atacante, String territorioAtacante) {
+	public boolean temTerrAdjacente(String atacante, String territorioAtacante) throws Exception {
 		for (int i = 0; i < this.territoriosAdjacentes.length; i++) {
-			int index = getTerritorioPorNome(this.territoriosAdjacentes[i]);
+			Territorio t = Territorios.getInstancia().selectTerritorioByName(this.territoriosAdjacentes[i]);
 			if(this.territoriosAdjacentes[i].compareTo(territorioAtacante) == 0) 
-				if(territorios.get(index).Dono.getNome().compareTo(atacante) == 0)
+				if(t.getDono().getNome().compareTo(atacante) == 0)
 					return true;
 		}
 		return false;
@@ -58,15 +60,21 @@ public class Territorio
 		Ponto4.setLocation(x4, y4);
 	}
 	
-	/// Seta o novo dono do territorio, assim como a quantidade de tropas que traz consigo.
-	public void SetDono(Jogador jogador, int qtdTropas) throws IllegalArgumentException
+	public void remanejarTropas(Territorio destino, int qtdTropas) throws Exception
 	{
-		// Check qtdTropas.
-		if(qtdTropas < 1)
-			throw new IllegalArgumentException("quantidadeTropas deve ser maior que 1");
-		if(jogador == null)
-			throw new IllegalArgumentException("Jogador inválido.");
+		if(qtdTropas > this.getTropas() - 1)
+			throw new Exception("territorio de origem deve ter no minimo uma tropa após remanejamento");
 		
+		// checa se existem caminhos dentre as fronteiras e tal
+		// TODO
+		
+		this.rmTropas(qtdTropas);
+		destino.addTropas(qtdTropas);
+	}
+	
+	/// Seta o novo dono do territorio, assim como a quantidade de tropas que traz consigo.
+	public void setDono(Jogador jogador) throws IllegalArgumentException
+	{
 		Dono = jogador;
 	}
 	
@@ -88,7 +96,8 @@ public class Territorio
 	
 	public void rmTropas(int tropasARemover)
 	{
-		Tropas += tropasARemover;
+		// Tropas nao pode assumir valor inferiror a zero
+		Tropas = Math.min(Tropas - tropasARemover, 0);
 	}
 	
 	public int getTropas()
@@ -116,41 +125,5 @@ public class Territorio
 				return true;
 		
 		return false;
-	}
-	
-	// Seta quantidade de tropas.
-	public static void setTropas(String territorio, int qtdTropas)
-	{
-		int index = getTerritorioPorNome(territorio);
-		// Check qtdTropas.
-		if(qtdTropas < 1)
-			throw new IllegalArgumentException("quantidadeTropas deve deve ser maior que 0");
-		
-		territorios.get(index).Tropas = qtdTropas;
-	}
-	// Remove quantidade de tropas.
-	public boolean removeTropas(String territorio,int qtdTropas)
-	{
-		int index = getTerritorioPorNome(territorio);
-		// Check qtdTropas.
-		if(qtdTropas < 0)
-			throw new IllegalArgumentException("quantidadeTropas deve deve ser maior ou igual que 0");
-		
-		territorios.get(index).Tropas = territorios.get(index).Tropas - qtdTropas;
-		if(territorios.get(index).Tropas < 0)
-			territorios.get(index).Tropas = 0;
-		if(territorios.get(index).Tropas == 0)
-			return true;
-		return false;
-	}
-	
-	public void adicionarTropaPorNome(String nomeTerritorio, int tropas, Jogador jogador) {
-		for(int i = 0; i < Territorio.territorios.size(); i++) {
-			if(territorios.get(i).Nome.compareTo(nomeTerritorio) == 0) {
-				//System.out.println(territorios.get(i).Nome);
-				territorios.get(i).SetDono(nomeTerritorio,jogador, tropas);
-				break;
-			}
-		}
 	}
 }
