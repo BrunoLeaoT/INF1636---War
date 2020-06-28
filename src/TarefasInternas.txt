@@ -4,8 +4,6 @@ PENDENCIAS:
 
 Terminar refatoracao de models - stefano
 	terminar Geral virar Partida - stefano
-		falta cartas
-		falta terminar logica de ataque (creio que so a conquista)
 	terminar Territorio ter Territorios - stefano
 	falta definir territorios adjacentes de cada territorio - stefano
 		por enquanto adicionei um vetor em Territorio, além mdo que ja tinha

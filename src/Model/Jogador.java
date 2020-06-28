@@ -2,6 +2,8 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 class Jogador {
@@ -9,17 +11,27 @@ class Jogador {
 	private String nome;
 	private Cor cor;
 	private Objetivo objetivo;
-	private ArrayList<Carta> cartas;
+	private int tropasDisponiveis;
 	private ArrayList<Territorio> Territorios;
+	private ArrayList<Carta> cartas;
+	private Map<CartaForma, Integer> mapCartaFormaQtd;
 	
-	public Jogador(String nomeRecebido, Cor corRecebida) {
-		
+	public Jogador(String nomeRecebido, Cor corRecebida) 
+	{
 		if(nomeRecebido.equals(""))
 			throw new IllegalArgumentException("Nome não pode ser vazio");
 		
 		nome = nomeRecebido;
 		cor = corRecebida;
+		objetivo = null;
+		tropasDisponiveis = 0;
 		cartas = new ArrayList<Carta>();
+		
+		// inicializa mapCartaFormaQtd
+		mapCartaFormaQtd = new HashMap<CartaForma, Integer>();
+		mapCartaFormaQtd.put(CartaForma.Circulo, 0);
+		mapCartaFormaQtd.put(CartaForma.Quadrado, 0);
+		mapCartaFormaQtd.put(CartaForma.Triangulo, 0);
 	}
 
 	public Objetivo getObjetivo() {
@@ -42,40 +54,98 @@ class Jogador {
 	public void addCarta(Carta c)
 	{
 		cartas.add(c);
+		updateMapCartas(c.getCartaForma(), true);
+	}
+	
+	private ArrayList<Carta> rmCartasForma(CartaForma forma, int qtd)
+	{
+		//TODO
+		// Falta check se existe essa qtd de cartas no map
+		ArrayList<Carta> cartasRemovidas = new ArrayList<Carta>();
+		
+		// Remove cartas do jogador
+		int posCartas = 0;
+		while(posCartas < cartas.size() && qtd > 0)
+		{
+			if(cartas.get(posCartas).getCartaForma() == forma || cartas.get(posCartas).getCartaForma() == CartaForma.Coringa)
+			{
+				// Updata map
+				updateMapCartas(forma, false);
+				
+				// Remove carta da lista
+				cartasRemovidas.add(cartas.remove(posCartas));
+				qtd--;
+			}
+			
+			posCartas++;
+		}
+		
+		return cartasRemovidas;
+	}
+	
+	// updata o map de Cartas de acordo com a forma escolhida para ser adiocionada/removida
+	// boolean isAdicao = true siginifca carta adicionada, isAdicao = false significa carta removida.
+	private void updateMapCartas(CartaForma formaCartaRemovida, boolean isAdicao)
+	{
+		int alteracao;
+		if(isAdicao)
+			alteracao = 1;
+		else
+			alteracao = -1;
+		
+		if(formaCartaRemovida != CartaForma.Coringa)
+			mapCartaFormaQtd.put(formaCartaRemovida, mapCartaFormaQtd.get(formaCartaRemovida) + alteracao);
+		else
+		{
+			mapCartaFormaQtd.put(CartaForma.Circulo, mapCartaFormaQtd.get(formaCartaRemovida) + alteracao);
+			mapCartaFormaQtd.put(CartaForma.Quadrado, mapCartaFormaQtd.get(formaCartaRemovida) + alteracao);
+			mapCartaFormaQtd.put(CartaForma.Triangulo, mapCartaFormaQtd.get(formaCartaRemovida) + alteracao);
+		}
+	}
+	
+	// wrapper que previne tentar fazer troca quando nao dá.
+	// remove necessidade de checks em realizarTrocaCartas e rmCartasForma.
+	// ja adiciona a tropas disponiveis a qtd de exercitos obtidos
+	public ArrayList<Carta> tentaTrocarCartas(int numeroTrocaPartida)
+	{
+		if(podeTrocarCartas())
+		{
+			ArrayList<Carta> cartasTrocadas = realizarTrocaCartas();
+			tropasDisponiveis += calculaTropasTroca(numeroTrocaPartida);
+			return cartasTrocadas;
+		}
+		else
+			return null;
 	}
 	
 	public boolean podeTrocarCartas()
-	{
-		int cartasBola = 0;
-		int cartasQuadrado = 0;
-		int cartasTriangulo = 0;
-		int cartasCoringa = 0;
-		
-		for(Carta c : this.cartas)
-		{
-			switch(c.getCartaForma())
-			{
-				case Circulo:
-					cartasBola++;
-				case Quadrado:
-					cartasQuadrado++;
-				case Triangulo:
-					cartasTriangulo++;
-				case Coringa:
-					cartasCoringa++;
-			}
-		}
-		
-		// ISSO TA ERRADO!!
-		// TODO!!
-		if((cartasBola >= 3 || cartasQuadrado >= 3 || cartasTriangulo >= 3) || (cartasBola >=1 && cartasQuadrado >= 1 && cartasTriangulo >= 1))
+	{		
+		if((mapCartaFormaQtd.get(CartaForma.Circulo) >= 3 || mapCartaFormaQtd.get(CartaForma.Quadrado) >= 3 || mapCartaFormaQtd.get(CartaForma.Triangulo) >= 3)
+				|| (mapCartaFormaQtd.get(CartaForma.Circulo) >=1 && mapCartaFormaQtd.get(CartaForma.Circulo) >= 1 && mapCartaFormaQtd.get(CartaForma.Circulo) >= 1))
 			return true;
 		else
 			return false;
 	}
 	
-	public ArrayList<Carta> getCartas() {
-		return cartas;
+	private ArrayList<Carta> realizarTrocaCartas()
+	{
+		if(mapCartaFormaQtd.get(CartaForma.Circulo) >= 3)
+			return rmCartasForma(CartaForma.Circulo, 3);
+		else if(mapCartaFormaQtd.get(CartaForma.Quadrado) >= 3)
+			return rmCartasForma(CartaForma.Quadrado, 3);
+		else if(mapCartaFormaQtd.get(CartaForma.Triangulo) >= 3)
+			return rmCartasForma(CartaForma.Triangulo, 3);
+		else if(mapCartaFormaQtd.get(CartaForma.Quadrado) >= 1 && mapCartaFormaQtd.get(CartaForma.Quadrado) >= 1 && mapCartaFormaQtd.get(CartaForma.Quadrado) >= 1)
+		{
+			ArrayList<Carta> cartasRemovidas = new ArrayList<Carta>();
+			cartasRemovidas.addAll(rmCartasForma(CartaForma.Circulo, 1));
+			cartasRemovidas.addAll(rmCartasForma(CartaForma.Quadrado, 1));
+			cartasRemovidas.addAll(rmCartasForma(CartaForma.Triangulo, 1));
+			return cartasRemovidas;
+		}
+		// Nunca vai acontecer por causa de tentaTrocarCartas;
+		else
+			return null;
 	}
 	
 	public void addTerritorio(Territorio novo) {
@@ -87,12 +157,12 @@ class Jogador {
 		Territorios.remove(velho);
 	}
 	
-	public int calculaTropasDisponiveis()
+	// atualiza e retorna tropasDisponiveis para o jogador distribuir no inicio do turno
+	public int atualizaTropasDisponiveis()
 	{
-		int tropas = 0;
-		tropas += calculaTropasTerritorios();
-		tropas += calculaTropasContinentes();
-		return tropas;
+		tropasDisponiveis += calculaTropasTerritorios();
+		tropasDisponiveis += calculaTropasContinentes();
+		return tropasDisponiveis;
 	}
 	
 	private int calculaTropasTerritorios()
@@ -113,6 +183,14 @@ class Jogador {
 		return bonusContinente;
 	}
 	
+	private int calculaTropasTroca(int numeroTrocaPartida)
+	{
+		if(numeroTrocaPartida < 5)
+			return 4 + 2 * numeroTrocaPartida;
+		else
+			return (numeroTrocaPartida - 2) * 5;
+	}
+	
 	public boolean hasContinente(Continente cont)
 	{
 		int count = 0;
@@ -126,10 +204,5 @@ class Jogador {
 			return true;
 		else
 			return false;
-	}
-	
-	public void fazerTrocaCartas() throws Exception
-	{
-		throw new Exception("not implemented");
 	}
 }

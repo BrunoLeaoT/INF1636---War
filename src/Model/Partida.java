@@ -1,9 +1,12 @@
 package Model;
 
+import java.util.ArrayList;
+
 public class Partida 
 {
 	static private Partida singleton;
 	private int turno;
+	private int numeroTrocas;
 	
 	static public Partida getInstancia()
 	{
@@ -15,6 +18,7 @@ public class Partida
 	private Partida()
 	{
 		turno = 0;
+		numeroTrocas = 0;
 	}
 	
 	public Jogador getJogadorDaVez()
@@ -24,7 +28,7 @@ public class Partida
 	}
 	
 	public Jogador passaTurno()
-	{
+	{	
 		turno++;
 		return getJogadorDaVez();
 	}
@@ -62,7 +66,9 @@ public class Partida
 		for(int i = 0; i < territorios.getSize(); i++)
 		{
 			Jogador jog = jogadores.selectJogadorByIndex(i % jogadores.getQtdJogadores());
-			territorios.selectTerritorioByIndex(i).SetDono(jog, 1);
+			Territorio t = territorios.selectTerritorioByIndex(i);
+			t.setDono(jog);
+			t.addTropas(1);
 		}
 	}
 	
@@ -100,18 +106,74 @@ public class Partida
 	
 	// Realiza logica de ataque entre dois territorios
 	// Retorna o nome do territorio vencedor
-	public boolean processaAtaque(String nomeTerritorioatacante, String nomeTerritorioDefensor, int qtdDadosAtacante) throws Exception
+	public boolean processaAtaque(String nomeTerritorioatacante, String nomeTerritorioDefensor) throws Exception
 	{
 		Territorio atacante = Territorios.getInstancia().selectTerritorioByName(nomeTerritorioatacante);
 		Territorio defensor = Territorios.getInstancia().selectTerritorioByName(nomeTerritorioDefensor);
 		
-		// Confere se territorio pode atacar com essa qtd de tropas
-		if(atacante.getTropas() - 1 < qtdDadosAtacante)
-			throw new IllegalArgumentException("Voce está tentando atacar com mais tropas do que é permitido");
+		// Estabelece quantidade de dados
+		int qtdDadosDefensor = Math.min(defensor.getTropas(), 3);
+		int qtdDadosAtacante = Math.min(atacante.getTropas() - 1, 3);
+		if(qtdDadosAtacante < 1)
+			throw new IllegalArgumentException("Voce nao pode atacar com somente uma tropa no territorio");
 		
+		// Cria e joga dados
+		Dados dadosDefesa = new Dados(qtdDadosDefensor);
+		Dados dadosAtaque = new Dados(qtdDadosAtacante);
+		int[] resultadosAtaque = dadosDefesa.jogarEOrganizar();
+		int[] resultadosDefesa = dadosAtaque.jogarEOrganizar();
 		
-		// processa e devolve vencedor
-		return true;
+		// Compara dados
+		int vitoriasAtaque = 0;
+		for(int i = 0; i < qtdDadosDefensor; i++)
+		{
+			if(resultadosAtaque[i] > resultadosDefesa[i])
+				vitoriasAtaque++;
+		}
+		
+		atacante.rmTropas(qtdDadosDefensor - vitoriasAtaque);
+		defensor.rmTropas(vitoriasAtaque);
+		
+		// Checa se atacante conquistou territorio
+		if(defensor.getTropas() == 0)
+		{
+			// Atacante conquistou o territorio
+			// Move todas as tropas pro novo territorio
+			
+			// ISSO AQUI TEM QUE SER UM "REMANEJAR"
+			defensor.setDono(atacante.getDono());
+			atacante.remanejarTropas(defensor, atacante.getTropas() - 1);
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public void daCartaJogadorDaVez()
+	{
+		Jogador j = getJogadorDaVez();
+		j.addCarta(Cartas.getInstancia().compraCarta());
+	}
+	
+	public int getTropasDisponiveisJogadorDaVez()
+	{
+		Jogador j = getJogadorDaVez();
+		return j.atualizaTropasDisponiveis();
+	}
+	
+	public void fazTrocaJogadorDaVez() throws Exception
+	{
+		Jogador j = getJogadorDaVez();
+		
+		// remove cartas do jogador
+		ArrayList<Carta> cartasTrocadas = j.tentaTrocarCartas(numeroTrocas);
+		if(cartasTrocadas == null)
+			throw new Exception("Jogador da vez não pode fazer troca de cartas");
+		
+		// volta cartas pro deck e embaralha
+		for(Carta c : cartasTrocadas)
+			Cartas.getInstancia().addCarta(c);
+		Cartas.getInstancia().shuffleDeck();
 	}
 	
 	
