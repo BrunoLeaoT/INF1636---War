@@ -1,6 +1,6 @@
 package Model;
 
-enum CartaForma{
+public enum CartaForma{
 	Quadrado, Circulo, Triangulo, Coringa;
 }
 
