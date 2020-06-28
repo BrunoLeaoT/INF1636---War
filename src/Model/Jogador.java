@@ -39,6 +39,41 @@ class Jogador {
 		return cor;
 	}
 	
+	public void addCarta(Carta c)
+	{
+		cartas.add(c);
+	}
+	
+	public boolean podeTrocarCartas()
+	{
+		int cartasBola = 0;
+		int cartasQuadrado = 0;
+		int cartasTriangulo = 0;
+		int cartasCoringa = 0;
+		
+		for(Carta c : this.cartas)
+		{
+			switch(c.getCartaForma())
+			{
+				case Circulo:
+					cartasBola++;
+				case Quadrado:
+					cartasQuadrado++;
+				case Triangulo:
+					cartasTriangulo++;
+				case Coringa:
+					cartasCoringa++;
+			}
+		}
+		
+		// ISSO TA ERRADO!!
+		// TODO!!
+		if((cartasBola >= 3 || cartasQuadrado >= 3 || cartasTriangulo >= 3) || (cartasBola >=1 && cartasQuadrado >= 1 && cartasTriangulo >= 1))
+			return true;
+		else
+			return false;
+	}
+	
 	public ArrayList<Carta> getCartas() {
 		return cartas;
 	}
