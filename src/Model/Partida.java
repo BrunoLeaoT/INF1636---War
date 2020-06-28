@@ -176,6 +176,12 @@ public class Partida
 		Cartas.getInstancia().shuffleDeck();
 	}
 	
+	public boolean verificaVitorioJogadorDaVez()
+	{
+		Jogador j = getJogadorDaVez();
+		return j.verificarVitoria();
+	}
+	
 	
 	// fazerr funcao de caminahr por turno.
 }
