@@ -43,6 +43,11 @@ class Jogador {
 		objetivo = o;
 	}
 	
+	public boolean verificarVitoria()
+	{
+		return this.objetivo.verificarVitoria(this);
+	}
+	
 	public String getNome() {
 		return nome;
 	}
