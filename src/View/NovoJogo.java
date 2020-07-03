@@ -13,6 +13,7 @@ import javax.swing.*;
 import Controller.DadosPraView;
 import Controller.DistribuicaoExercito;
 import Controller.Jogada;
+import Controller.Salvamento;
 public class NovoJogo extends JFrame{
 	public final int LARG_DEFAULT=400;
 	public final int ALT_DEFAULT=800;
@@ -25,7 +26,7 @@ public class NovoJogo extends JFrame{
 	Map<String, String> jogadores ;
 	DadosPraView dadosPraView;
 	Jogada jogada;
-	
+	Salvamento salvamento;
 	public NovoJogo() {
 		setSize(LARG_DEFAULT,ALT_DEFAULT);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -34,7 +35,7 @@ public class NovoJogo extends JFrame{
 		jogadores = new HashMap<String, String>();
 		dadosPraView = DadosPraView.getDados();
 		jogada = Jogada.getJogada();
-		
+		salvamento = new Salvamento();
 	}
 	
 	public void addColors() {
@@ -60,7 +61,7 @@ public class NovoJogo extends JFrame{
 	}
 	
 	public void addInterface() {
-        background=new JLabel(new ImageIcon("images/novojogo.png"));
+        background=new JLabel(new ImageIcon("images/bgconfiguracao.png"));
         add(background);
         background.setLayout(new FlowLayout());
         makeForm();
@@ -72,10 +73,10 @@ public class NovoJogo extends JFrame{
 		form.setOpaque(false);
 		background.add(form);
 		form.setLayout(new GridLayout(0,2));
-
 		addInput();
 		addComboBox();
         addJogador();
+        btnContinuarJogo();
         
 		JLabel tip = new JLabel("Jogue com 3 a 6 jogadores");
 		tip.setForeground(Color.white);
@@ -84,7 +85,7 @@ public class NovoJogo extends JFrame{
         
         iniciarJogo();
 	}
-	
+
 	public void addJogador() {
         JButton b1 = new JButton("Adicionar jogador");
         form.add(b1);
@@ -110,6 +111,21 @@ public class NovoJogo extends JFrame{
         		}
         	}
         });
+	}
+	
+	public void btnContinuarJogo() {
+		 JButton buttonSalvar = new JButton("Continuar Jogo");
+		 buttonSalvar.setBounds(300, 670, 100, 100);
+	     form.add(buttonSalvar);
+	        
+	     buttonSalvar.addActionListener(new ActionListener() {
+	    	 public void actionPerformed(ActionEvent e) {
+	    		 if(salvamento.carregarJogo())
+	    			 JOptionPane.showMessageDialog(buttonSalvar, "Jogo carregado com sucesso");
+	    		 else
+	    			 JOptionPane.showMessageDialog(buttonSalvar, "Não tem jogo salvo");
+	    	 }
+	     });
 	}
 	
 	public void iniciarJogo() {

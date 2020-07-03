@@ -210,4 +210,8 @@ class Jogador {
 		else
 			return false;
 	}
+
+	public ArrayList<Carta> getCartas() {
+		return cartas;
+	}
 }

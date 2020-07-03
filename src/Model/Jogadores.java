@@ -37,6 +37,15 @@ public class Jogadores
 		return ListaJogadores.get(index);
 	}
 	
+	public Jogador selectJogadorByName(String nome)
+	{
+		for (int i = 0; i < ListaJogadores.size(); i++) {
+			if(ListaJogadores.get(i).getNome().compareTo(nome) == 0)
+				return ListaJogadores.get(i);
+		}
+		return null;
+	}
+	
 	public int getQtdJogadores()
 	{
 		return qtdJogadores;
@@ -56,5 +65,7 @@ public class Jogadores
 	{
 		Collections.shuffle(ListaJogadores);
 	}
+
+
 	
 }

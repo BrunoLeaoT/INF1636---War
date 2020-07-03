@@ -184,4 +184,9 @@ public class Partida
 	
 	
 	// fazerr funcao de caminahr por turno.
+	
+	// CarregarJogo
+	public boolean carregarJogoSalvo() {
+		return Salvar.carregarJogo();
+	}
 }
