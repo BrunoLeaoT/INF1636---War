@@ -22,7 +22,6 @@ import Controller.Ataque;
 import Controller.DadosPraView;
 import Controller.DistribuicaoExercito;
 import Controller.Jogada;
-import Model.Dado;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -314,7 +313,7 @@ public class Tabuleiro extends JFrame implements MouseListener {
 	public void executarAtaque(String terrAtac, String terrDef,String valor) {
 		if ((terrAtac != null) && (terrAtac.length() > 0)) {
 			try {
-				if(ataque.ataqueAoOponente(jogadorDaVez,terrAtac, terrDef, Integer.parseInt(valor)))
+				if(ataque.realizarAtaque(terrAtac, terrDef))
 					showMessageDialog(this, "Territorio Conquistado");
 				else
 					showMessageDialog(this, "Territorio não Conquistado");

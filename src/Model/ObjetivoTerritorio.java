@@ -3,11 +3,13 @@ package Model;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ObjetivoTerritorio extends Objetivo{
+public class ObjetivoTerritorio extends Objetivo
+{
 	int nmTerritorios;
 	boolean PrecisaDuasTropas = false;
 	
-	public ObjetivoTerritorio() {
+	public ObjetivoTerritorio(boolean precisaDuasTropas, int numeroDeTerritorios) 
+	{
 		Random rand = new Random();
 		if(rand.nextBoolean())
 		{
@@ -20,15 +22,15 @@ public class ObjetivoTerritorio extends Objetivo{
 
 	@Override
 	public boolean verificarVitoria(Jogador jogador) {
-		ArrayList<Territorio> territorio = Territorio.territorios;
+		Territorios territorios = Territorios.getInstancia();
 		int territoriosConquistados = 0;
 		
-		for (int i = 0; i < territorio.size(); i++) {
-			if(territorio.get(i).GetDono().getCor().compareTo(jogador.getCor()) == 0)
+		for (int i = 0; i < territorios.getSize(); i++) {
+			if(territorios.selectTerritorioByIndex(i).getDono().getCor().compareTo(jogador.getCor()) == 0)
 				if(nmTerritorios == 24)
 					territoriosConquistados++;
 				else
-					if(Territorio.GetTropas(territorio.get(i).Nome) >= 2)
+					if(territorios.selectTerritorioByIndex(i).getTropas() >= 2)
 						territoriosConquistados++;
 		}
 		

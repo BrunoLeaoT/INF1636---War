@@ -2,57 +2,201 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 class Jogador {
-	static ArrayList<Jogador> jogadores;
-
-	String nome;
+		
+	private String nome;
 	private Cor cor;
-	Objetivo objetivo;
-	private ArrayList<Carta> cartas;
+	private Objetivo objetivo;
+	private int tropasDisponiveis;
 	private ArrayList<Territorio> Territorios;
+	private ArrayList<Carta> cartas;
+	private Map<CartaForma, Integer> mapCartaFormaQtd;
 	
-	public Jogador() {
-		jogadores = new ArrayList<Jogador>();
-	}
-	public Jogador(String nomeRecebido, Cor corRecebida, Objetivo objetivo2) {
+	public Jogador(String nomeRecebido, Cor corRecebida) 
+	{
 		if(nomeRecebido.equals(""))
 			throw new IllegalArgumentException("Nome não pode ser vazio");
-		if(jaSelecionaramCor(corRecebida))
-			throw new IllegalArgumentException("Cor já foi selecionada");
+		
 		nome = nomeRecebido;
 		cor = corRecebida;
-		objetivo = objetivo2;
+		objetivo = null;
+		tropasDisponiveis = 0;
 		cartas = new ArrayList<Carta>();
-		jogadores.add(this);
+		
+		// inicializa mapCartaFormaQtd
+		mapCartaFormaQtd = new HashMap<CartaForma, Integer>();
+		mapCartaFormaQtd.put(CartaForma.Circulo, 0);
+		mapCartaFormaQtd.put(CartaForma.Quadrado, 0);
+		mapCartaFormaQtd.put(CartaForma.Triangulo, 0);
+	}
+
+	public Objetivo getObjetivo() {
+		return objetivo;
 	}
 	
-	//Antes de começar randomizar o os jogadores para determinar ordem
-	public void randomizarJogadores() {
-		Collections.shuffle(jogadores);
+	public void setObjetivo(Objetivo o)
+	{
+		objetivo = o;
 	}
 	
-	private boolean jaSelecionaramCor(Cor cor) {
-		for(int i=0;i<jogadores.size();i++) {
-			if(jogadores.get(i).cor.compareTo(cor) == 0)
-				return true;
-		}
-		return false;
+	public boolean verificarVitoria()
+	{
+		return this.objetivo.verificarVitoria(this);
 	}
 	
-	public ArrayList<Jogador> getJogadores() {
-		return jogadores;
-	}
-	public ArrayList<Carta> getCartas() {
-		return cartas;
+	public String getNome() {
+		return nome;
 	}
 	
 	public Cor getCor() {
 		return cor;
 	}
 	
-	public boolean HasContinente(Continente cont)
+	public void addCarta(Carta c)
+	{
+		cartas.add(c);
+		updateMapCartas(c.getCartaForma(), true);
+	}
+	
+	private ArrayList<Carta> rmCartasForma(CartaForma forma, int qtd)
+	{
+		//TODO
+		// Falta check se existe essa qtd de cartas no map
+		ArrayList<Carta> cartasRemovidas = new ArrayList<Carta>();
+		
+		// Remove cartas do jogador
+		int posCartas = 0;
+		while(posCartas < cartas.size() && qtd > 0)
+		{
+			if(cartas.get(posCartas).getCartaForma() == forma || cartas.get(posCartas).getCartaForma() == CartaForma.Coringa)
+			{
+				// Updata map
+				updateMapCartas(forma, false);
+				
+				// Remove carta da lista
+				cartasRemovidas.add(cartas.remove(posCartas));
+				qtd--;
+			}
+			
+			posCartas++;
+		}
+		
+		return cartasRemovidas;
+	}
+	
+	// updata o map de Cartas de acordo com a forma escolhida para ser adiocionada/removida
+	// boolean isAdicao = true siginifca carta adicionada, isAdicao = false significa carta removida.
+	private void updateMapCartas(CartaForma formaCartaRemovida, boolean isAdicao)
+	{
+		int alteracao;
+		if(isAdicao)
+			alteracao = 1;
+		else
+			alteracao = -1;
+		
+		if(formaCartaRemovida != CartaForma.Coringa)
+			mapCartaFormaQtd.put(formaCartaRemovida, mapCartaFormaQtd.get(formaCartaRemovida) + alteracao);
+		else
+		{
+			mapCartaFormaQtd.put(CartaForma.Circulo, mapCartaFormaQtd.get(formaCartaRemovida) + alteracao);
+			mapCartaFormaQtd.put(CartaForma.Quadrado, mapCartaFormaQtd.get(formaCartaRemovida) + alteracao);
+			mapCartaFormaQtd.put(CartaForma.Triangulo, mapCartaFormaQtd.get(formaCartaRemovida) + alteracao);
+		}
+	}
+	
+	// wrapper que previne tentar fazer troca quando nao dá.
+	// remove necessidade de checks em realizarTrocaCartas e rmCartasForma.
+	// ja adiciona a tropas disponiveis a qtd de exercitos obtidos
+	public ArrayList<Carta> tentaTrocarCartas(int numeroTrocaPartida)
+	{
+		if(podeTrocarCartas())
+		{
+			ArrayList<Carta> cartasTrocadas = realizarTrocaCartas();
+			tropasDisponiveis += calculaTropasTroca(numeroTrocaPartida);
+			return cartasTrocadas;
+		}
+		else
+			return null;
+	}
+	
+	public boolean podeTrocarCartas()
+	{		
+		if((mapCartaFormaQtd.get(CartaForma.Circulo) >= 3 || mapCartaFormaQtd.get(CartaForma.Quadrado) >= 3 || mapCartaFormaQtd.get(CartaForma.Triangulo) >= 3)
+				|| (mapCartaFormaQtd.get(CartaForma.Circulo) >=1 && mapCartaFormaQtd.get(CartaForma.Circulo) >= 1 && mapCartaFormaQtd.get(CartaForma.Circulo) >= 1))
+			return true;
+		else
+			return false;
+	}
+	
+	private ArrayList<Carta> realizarTrocaCartas()
+	{
+		if(mapCartaFormaQtd.get(CartaForma.Circulo) >= 3)
+			return rmCartasForma(CartaForma.Circulo, 3);
+		else if(mapCartaFormaQtd.get(CartaForma.Quadrado) >= 3)
+			return rmCartasForma(CartaForma.Quadrado, 3);
+		else if(mapCartaFormaQtd.get(CartaForma.Triangulo) >= 3)
+			return rmCartasForma(CartaForma.Triangulo, 3);
+		else if(mapCartaFormaQtd.get(CartaForma.Quadrado) >= 1 && mapCartaFormaQtd.get(CartaForma.Quadrado) >= 1 && mapCartaFormaQtd.get(CartaForma.Quadrado) >= 1)
+		{
+			ArrayList<Carta> cartasRemovidas = new ArrayList<Carta>();
+			cartasRemovidas.addAll(rmCartasForma(CartaForma.Circulo, 1));
+			cartasRemovidas.addAll(rmCartasForma(CartaForma.Quadrado, 1));
+			cartasRemovidas.addAll(rmCartasForma(CartaForma.Triangulo, 1));
+			return cartasRemovidas;
+		}
+		// Nunca vai acontecer por causa de tentaTrocarCartas;
+		else
+			return null;
+	}
+	
+	public void addTerritorio(Territorio novo) {
+		Territorios.add(novo);
+	}
+	
+	// Territorios devem ter o mesmo hash; so pode haver uma instancia de terr no codigo.
+	public void rmTerritorio(Territorio velho) {
+		Territorios.remove(velho);
+	}
+	
+	// atualiza e retorna tropasDisponiveis para o jogador distribuir no inicio do turno
+	public int atualizaTropasDisponiveis()
+	{
+		tropasDisponiveis += calculaTropasTerritorios();
+		tropasDisponiveis += calculaTropasContinentes();
+		return tropasDisponiveis;
+	}
+	
+	private int calculaTropasTerritorios()
+	{
+		return Territorios.size()/2;
+	}
+	
+	private int calculaTropasContinentes()
+	{
+		int bonusContinente = 0;
+		
+		for (Continente c : Continente.values())
+		{
+			if(hasContinente(c))
+				bonusContinente += c.Bonus;
+		}
+		
+		return bonusContinente;
+	}
+	
+	private int calculaTropasTroca(int numeroTrocaPartida)
+	{
+		if(numeroTrocaPartida < 5)
+			return 4 + 2 * numeroTrocaPartida;
+		else
+			return (numeroTrocaPartida - 2) * 5;
+	}
+	
+	public boolean hasContinente(Continente cont)
 	{
 		int count = 0;
 		for(Territorio t : Territorios)
@@ -65,13 +209,5 @@ class Jogador {
 			return true;
 		else
 			return false;
-	}
-	public Jogador getJogadorPorNome(String nomeJogador) {
-		for (int i = 0; i < jogadores.size(); i++) {
-			if(nomeJogador.compareTo(jogadores.get(i).nome) == 0) {
-				return jogadores.get(i);
-			}
-		}
-		return null;
 	}
 }

@@ -5,44 +5,13 @@ import java.util.Random;
 
 public class ObjetivoContinente extends Objetivo 
 {
-	private ArrayList<Continente> Continentes;
+	private Continente[] Continentes;
 	private boolean PrecisaOutroQualquer; 
 	
-	public ObjetivoContinente() 
+	public ObjetivoContinente(boolean precisaOutroQualquer, Continente... conts) 
 	{
-		Continentes = new ArrayList<Continente>();
-		PrecisaOutroQualquer = false;
-		
-		Random rand = new Random();
-		switch(rand.nextInt(6)) 
-		{
-			case 0:
-				Continentes.add(Continente.Europa);
-				Continentes.add(Continente.Oceania);
-				PrecisaOutroQualquer = true;
-				break;
-			case 1:
-				Continentes.add(Continente.Asia);
-				Continentes.add(Continente.AmericaDoSul);
-				break;
-			case 2:
-				Continentes.add(Continente.Europa);
-				Continentes.add(Continente.AmericaDoSul);
-				PrecisaOutroQualquer = true;
-				break;
-			case 3:
-				Continentes.add(Continente.Asia);
-				Continentes.add(Continente.Africa);
-				break;
-			case 4:
-				Continentes.add(Continente.AmericaDoNorte);
-				Continentes.add(Continente.Africa);
-				break;
-			case 5:
-				Continentes.add(Continente.AmericaDoNorte);
-				Continentes.add(Continente.Oceania);
-				break;
-		}
+		PrecisaOutroQualquer = precisaOutroQualquer;
+		Continentes = conts;
 	}
 
 	@Override
@@ -52,7 +21,7 @@ public class ObjetivoContinente extends Objetivo
 		ArrayList<Continente> ContinentesEmPosse = new ArrayList<Continente>();
 		for(Continente c : Continentes)
 		{
-			if(jogador.HasContinente(c))
+			if(jogador.hasContinente(c))
 				ContinentesEmPosse.add(c);
 		}
 		

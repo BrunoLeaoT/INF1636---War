@@ -36,6 +36,7 @@ public class NovoJogo extends JFrame{
 		jogada = Jogada.getJogada();
 		
 	}
+	
 	public void addColors() {
 		colors = new ArrayList<String>();
 		colors.add("Amarelo");
@@ -57,6 +58,7 @@ public class NovoJogo extends JFrame{
 		f.setVisible(true);
 
 	}
+	
 	public void addInterface() {
         background=new JLabel(new ImageIcon("images/novojogo.png"));
         add(background);
@@ -64,6 +66,7 @@ public class NovoJogo extends JFrame{
         makeForm();
         
 	}
+	
 	public void makeForm() {
 		form = new JPanel();
 		form.setOpaque(false);
@@ -140,6 +143,7 @@ public class NovoJogo extends JFrame{
         textField.setColumns(10);
         
 	}
+	
 	public void addComboBox() {
 		comboBox = new JComboBox<String>();
 		comboBox.addItem("Cor");

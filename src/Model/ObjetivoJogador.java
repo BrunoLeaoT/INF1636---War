@@ -3,31 +3,28 @@ package Model;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ObjetivoJogador extends Objetivo{
-	Cor jogadorAlvo;
-	static ObjetivoJogador obj = new ObjetivoJogador(null);
+public class ObjetivoJogador extends Objetivo
+{
+	Cor corJogadorAlvo;
 	
-	public ObjetivoJogador(Cor corDoJogadorPraMatar) {
-		jogadorAlvo = corDoJogadorPraMatar;
-	}
-	
-	public ObjetivoJogador() {
-		ArrayList<Jogador> jogadores = Jogador.jogadores;
-		Random rand = new Random();
-		System.out.println(rand.nextInt( Jogador.jogadores.size()));
-		Jogador jogador = jogadores.get(rand.nextInt(Jogador.jogadores.size()));
-		
-		jogadorAlvo = jogador.getCor();
+	public ObjetivoJogador(Cor corVitima)
+	{
+		corJogadorAlvo = corVitima;
 	}
 
 	@Override
 	public boolean verificarVitoria(Jogador jogador) {
-		ArrayList<Territorio> territorio = Territorio.territorios;
-		for (int i = 0; i < territorio.size(); i++) {
-			if(territorio.get(i).GetDono().getCor().compareTo(jogadorAlvo) == 0)
+		Territorios territorios = Territorios.getInstancia();
+		for (int i = 0; i < territorios.getSize() ; i++) {
+			if(territorios.selectTerritorioByIndex(i).getDono().getCor().compareTo(corJogadorAlvo) == 0)
 				return false;
 		}
 		return true;
+	}
+	
+	public Cor getCorAlvo()
+	{
+		return corJogadorAlvo; 
 	}
 
 }

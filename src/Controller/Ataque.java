@@ -1,20 +1,27 @@
 package Controller;
 
-import Model.Geral;
+import Model.Partida;
 
 public class Ataque {
-	public Geral geral;
+	private Partida partida;
+	
 	public Ataque() {
-		geral = Geral.getGeral();
+		partida = Partida.getInstancia();
 	}
-	public boolean ataqueAoOponente(String atacante,String territorioAtacante,String territorioDefesa,int valor) { 
-		if(geral.podeAtacar(atacante, territorioDefesa, territorioAtacante)) {
-			if(geral.ataque(3, 1, territorioAtacante, territorioDefesa,valor)) {
+	
+	public boolean realizarAtaque(String nomeTerritorioAtacante, String nomeTerritorioDefensor) throws Exception
+	{
+		if(partida.podemAtacar(nomeTerritorioAtacante, nomeTerritorioDefensor))
+		{						
+			if(partida.processaAtaque(nomeTerritorioAtacante, nomeTerritorioDefensor))
+			{
+				partida.daCartaJogadorDaVez();
 				return true;
 			}
+			else
+				return false;
 		}
 		else
-			throw new IllegalArgumentException("Voce não tem territorio com fronteira");
-		return false;
+			throw new Exception("Voce nao pode atacar esse territorio");
 	}
 }
