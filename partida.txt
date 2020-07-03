@@ -1,0 +1,56 @@
+Jogadores: 
+Stefano Vermelho Model.ObjetivoContinente@30f39991 0
+Ivan Azul Model.ObjetivoContinente@452b3a41 1
+Bruno Amarelo Model.ObjetivoJogador@4a574795 2
+Territorios: 
+Russia Stefano 1 0
+Letonia Ivan 1 1
+Argentina Bruno 1 2
+Coreia do Norte Stefano 1 3
+Angola Ivan 1 4
+Iraque Bruno 1 5
+Peru Stefano 1 6
+Polonia Ivan 1 7
+Quebec Bruno 1 8
+Paquistao Stefano 1 9
+Reino Unido Ivan 1 10
+Venezuela Bruno 1 11
+Espanha Stefano 1 12
+Siberia Ivan 1 13
+Cazaquistao Bruno 1 14
+Calgary Stefano 1 15
+Ira Ivan 1 16
+Italia Bruno 1 17
+Brasil Stefano 1 18
+Groelandia Ivan 1 19
+California Bruno 1 20
+Bangladesh Stefano 1 21
+Tailandia Ivan 1 22
+Franca Bruno 1 23
+Somalia Stefano 1 24
+Alasca Ivan 1 25
+Perth Bruno 1 26
+Turquia Stefano 1 27
+Texas Ivan 1 28
+Mexico Bruno 1 29
+Indonesia Stefano 1 30
+Romenia Ivan 1 31
+India Bruno 1 32
+Argelia Stefano 1 33
+Coreia do Sul Ivan 1 34
+Ucrania Bruno 1 35
+China Stefano 1 36
+Japao Ivan 1 37
+Siria Bruno 1 38
+Mongolia Stefano 1 39
+Estonia Ivan 1 40
+Africa do Sul Bruno 1 41
+Suecia Stefano 1 42
+Nova York Ivan 1 43
+Arabia Saudita Bruno 1 44
+Australia Stefano 1 45
+Nova Zelandia Ivan 1 46
+Nigeria Bruno 1 47
+Vancouver Stefano 1 48
+Jordania Ivan 1 49
+Egito Bruno 1 50

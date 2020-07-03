@@ -39,9 +39,8 @@ public class Territorios
 	public Territorio selectTerritorioByName(String territorioNome) throws Exception
 	{
 		for(Territorio t : ListaTerritorios)
-			if(t.getNome() == territorioNome)
+			if(t.getNome().compareTo(territorioNome) == 0)
 				return t;
-		
 		throw new Exception("Nome passado nao existe na lista de territorios");
 	}
 	

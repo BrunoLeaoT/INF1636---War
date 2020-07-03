@@ -153,6 +153,10 @@ class Jogador {
 			return null;
 	}
 	
+	public ArrayList<Carta> getCartas() {
+		return cartas;
+	}
+	
 	public void addTerritorio(Territorio novo) {
 		Territorios.add(novo);
 	}
