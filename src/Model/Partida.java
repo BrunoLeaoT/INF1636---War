@@ -36,7 +36,7 @@ public class Partida
 	public void adicionarJogador(String nome, String nomeCor) throws Exception
 	{
 		Cor cor = Cor.valueOf(nomeCor);
-		this.adicionarJogador(nomeCor,  cor);
+		this.adicionarJogador(nome,  cor);
 	}
 	
 	public void adicionarJogador(String nome, Cor cor) throws Exception
@@ -48,7 +48,7 @@ public class Partida
 	// Distribui objetivos e territorios entre os jogadores, alem 
 	public void comecarPartida() throws Exception
 	{
-		if(Jogadores.getInstancia().getQtdJogadores() == 0)
+		if(Jogadores.getInstancia().getQtdJogadores() < 3)
 			throw new Exception(String.format("Impossivel comecar partida com %d jogadores!", Jogadores.getInstancia().getQtdJogadores()));
 		
 		// Embaralha jogadores (primeiro jogador é aleatorio)
@@ -182,7 +182,56 @@ public class Partida
 		Cartas.getInstancia().shuffleDeck();
 	}
 	
-	public boolean verificaVitorioJogadorDaVez()
+	// Candidato a Refactor!!
+	// Poderiaos usar stringbuilder aqui, ja que strings sao imutaveis e o += é caro
+	// podemos usar ToString() em cada objeto
+	public String getTextoObjetivoJogadorDaVez()
+	{
+		Jogador j = getJogadorDaVez();
+		Objetivo o = j.getObjetivo();
+		String texto;
+		
+		if(o instanceof ObjetivoTerritorio)
+		{
+			ObjetivoTerritorio ot = (ObjetivoTerritorio) o;
+			texto = String.format("Seu objetivo é possuir %d territórios simultâneamente", ot.getNumTerritorios());
+			if(ot.getPrecisaDuasTropas())
+				texto += ", e possuir no mínimo dois exércitos em cada";
+			return texto;
+		}
+		else if(o instanceof ObjetivoJogador)
+		{
+			ObjetivoJogador oj = (ObjetivoJogador) o;
+			texto = "Seu objeito é eliminar o jogadores de cor " + oj.getCorAlvo().name();
+			return texto;
+		}
+		else if(o instanceof ObjetivoContinente)
+		{
+			ObjetivoContinente oc = (ObjetivoContinente) o;
+			texto = String.format("Seu objetivo é conquistar na integridade os continentes: %s", oc.getContinentesTexto());
+			return texto;
+		}
+		
+		// nunca vai acontecer:
+		return null;
+	}
+	
+	public String[][] getCartasJogadorDaVez()
+	{
+		Jogador j = getJogadorDaVez();
+		String[][] cartasInfo = new String[j.getQtdCartas()][2];
+		
+		for(int i = 0; i < j.getQtdCartas(); i++)
+		{
+			Carta c = j.getCarta(i);
+			cartasInfo[i][0] = c.getTerritorioNome();
+			cartasInfo[i][1] = c.getCartaForma().name();
+		}
+		
+		return cartasInfo;
+	}
+	
+	public boolean verificaVitoriaJogadorDaVez()
 	{
 		Jogador j = getJogadorDaVez();
 		return j.verificarVitoria();
