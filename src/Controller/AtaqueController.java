@@ -2,7 +2,8 @@ package Controller;
 
 import Model.Partida;
 
-public class AtaqueController {
+public class AtaqueController 
+{
 	private Partida partida;
 	
 	public AtaqueController() {
