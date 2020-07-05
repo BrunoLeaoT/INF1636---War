@@ -1,7 +1,6 @@
 package Model;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class ObjetivoContinente extends Objetivo 
 {
@@ -38,6 +37,14 @@ public class ObjetivoContinente extends Objetivo
 		
 		// Se chegou até aqui, passou nos dois Checks.
 		return true;
+	}
+	
+	public String getContinentesTexto()
+	{
+		if(PrecisaOutroQualquer)
+			return String.format("%s, %s e mais um continente a sua escolha", Continentes[0].getNome(), Continentes[1].getNome());
+		else
+			return String.format("%s e %s", Continentes[0].getNome(), Continentes[1].getNome());
 	}
 	
 }
