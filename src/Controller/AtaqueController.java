@@ -2,10 +2,10 @@ package Controller;
 
 import Model.Partida;
 
-public class Ataque {
+public class AtaqueController {
 	private Partida partida;
 	
-	public Ataque() {
+	public AtaqueController() {
 		partida = Partida.getInstancia();
 	}
 	
