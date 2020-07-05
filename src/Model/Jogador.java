@@ -182,7 +182,7 @@ class Jogador {
 		for (Continente c : Continente.values())
 		{
 			if(hasContinente(c))
-				bonusContinente += c.Bonus;
+				bonusContinente += c.getBonus();
 		}
 		
 		return bonusContinente;
@@ -205,13 +205,24 @@ class Jogador {
 				count++;
 		}
 		
-		if(count == cont.NumeroTerritorios)
+		if(count == cont.getNumeroTerritorios())
 			return true;
 		else
 			return false;
 	}
 
-	public ArrayList<Carta> getCartas() {
+	public ArrayList<Carta> getCartas() 
+	{
 		return cartas;
+	}
+	
+	public Carta getCarta(int index)
+	{
+		return cartas.get(index);
+	}
+	
+	public int getQtdCartas()
+	{
+		return cartas.size();
 	}
 }
