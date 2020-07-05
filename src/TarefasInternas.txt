@@ -8,6 +8,10 @@ Terminar refatoracao de models - stefano
 	falta definir territorios adjacentes de cada territorio - stefano
 		por enquanto adicionei um vetor em Territorio, além mdo que ja tinha
 		falta tambem defiinir todos os adjacentes na inicializacao
+		
+		
+Assegurar que jogador nao pode passar turno se ele tem 5 cartas;
+Nao usar null layout em CartaView, para poder usar JScrollPane e o nome das colunas aparecerem
 
 falta labelling (interface)
 fazer exeptions "personalizadas"?
