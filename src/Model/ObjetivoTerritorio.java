@@ -1,12 +1,11 @@
 package Model;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class ObjetivoTerritorio extends Objetivo
 {
-	int nmTerritorios;
-	boolean PrecisaDuasTropas = false;
+	private int nmTerritorios;
+	private boolean PrecisaDuasTropas = false;
 	
 	public ObjetivoTerritorio(boolean precisaDuasTropas, int numeroDeTerritorios) 
 	{
@@ -38,6 +37,16 @@ public class ObjetivoTerritorio extends Objetivo
 			return true;
 		return false;
 			
+	}
+	
+	public int getNumTerritorios()
+	{
+		return nmTerritorios;
+	}
+	
+	public boolean getPrecisaDuasTropas()
+	{
+		return PrecisaDuasTropas;
 	}
 	
 	

@@ -1,11 +1,8 @@
 package Model;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 public class ObjetivoJogador extends Objetivo
 {
-	Cor corJogadorAlvo;
+	private Cor corJogadorAlvo;
 	
 	public ObjetivoJogador(Cor corVitima)
 	{
