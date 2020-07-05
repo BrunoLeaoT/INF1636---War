@@ -50,7 +50,7 @@ public class Salvar {
 			return true;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			System.out.println("lancei o false né pai");
+			System.out.println("lancei o false né pai"); //KKKK gostei
 			System.out.println(e.getMessage());
 			return false;
 		}
@@ -147,7 +147,7 @@ public class Salvar {
 			jogadoresString += jog.getNome() + " " + jog.getCor().toString() + " " + jog.getObjetivo().toString() + " " + i;
 			ArrayList<Carta> cartas = jog.getCartas();
 			for (int j = 0; j < cartas.size(); j++) {
-				jogadoresString += cartas.get(i).getTerritorio();
+				jogadoresString += cartas.get(i).getTerritorioNome();
 				if( (j +1) < cartas.size())
 					jogadoresString += ",";
 			}
