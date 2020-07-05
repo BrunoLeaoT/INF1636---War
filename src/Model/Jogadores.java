@@ -23,12 +23,20 @@ public class Jogadores
 		qtdJogadores = 0;
 	}
 	
-	public void addJogador(Jogador j) throws Exception
+	public void addJogador(Jogador novoj) throws Exception
 	{
-		if(qtdJogadores > 6)
+		if(qtdJogadores == 6)
 			throw new Exception("O jogo não pode ter mais de 6 jogadores");
 		
-		ListaJogadores.add(j);
+		for(Jogador jexistente : ListaJogadores)
+		{
+			if(jexistente.getNome().equals(novoj.getNome()))
+				throw new Exception("Já existe um jogador com esse nome");
+			if(jexistente.getCor() == novoj.getCor())
+				throw new Exception("Já existe um jogador com essa cor");
+		}
+		
+		ListaJogadores.add(novoj);
 		qtdJogadores++;
 	}
 	

@@ -33,6 +33,12 @@ public class Partida
 		return getJogadorDaVez();
 	}
 	
+	public void adicionarJogador(String nome, String nomeCor) throws Exception
+	{
+		Cor cor = Cor.valueOf(nomeCor);
+		this.adicionarJogador(nomeCor,  cor);
+	}
+	
 	public void adicionarJogador(String nome, Cor cor) throws Exception
 	{
 		Jogador j = new Jogador(nome, cor);
@@ -43,7 +49,7 @@ public class Partida
 	public void comecarPartida() throws Exception
 	{
 		if(Jogadores.getInstancia().getQtdJogadores() == 0)
-			throw new Exception("Impossivel comecar partida sem jogadores!");
+			throw new Exception(String.format("Impossivel comecar partida com %d jogadores!", Jogadores.getInstancia().getQtdJogadores()));
 		
 		// Embaralha jogadores (primeiro jogador é aleatorio)
 		Jogadores.getInstancia().shuffleJogadores();
@@ -181,9 +187,6 @@ public class Partida
 		Jogador j = getJogadorDaVez();
 		return j.verificarVitoria();
 	}
-	
-	
-	// fazerr funcao de caminahr por turno.
 	
 	// CarregarJogo
 	public boolean carregarJogoSalvo() {
