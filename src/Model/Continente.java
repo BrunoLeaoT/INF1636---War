@@ -9,14 +9,29 @@ public enum Continente
 	Europa("Europa", 5, 8),
 	Oceania("Oceania", 2, 4);
 	
-	public final String Nome;
-	public final int Bonus;
-	public final int NumeroTerritorios;
+	private final String Nome;
+	private final int Bonus;
+	private final int NumeroTerritorios;
 	
 	private Continente(String nome, int bonustropa, int qtdTerritorios)
 	{
 		Nome = nome;
 		Bonus = bonustropa;
 		NumeroTerritorios = qtdTerritorios;
+	}
+	
+	public String getNome()
+	{
+		return Nome;
+	}
+	
+	public int getBonus()
+	{
+		return Bonus;
+	}
+	
+	public int getNumeroTerritorios()
+	{
+		return NumeroTerritorios;
 	}
 }
