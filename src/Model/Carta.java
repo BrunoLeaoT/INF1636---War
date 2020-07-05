@@ -9,7 +9,7 @@ class Carta
 	private String nomeTerritorio;
 	private CartaForma forma;
 	
-	public String getTerritorio() {
+	public String getTerritorioNome() {
 		return nomeTerritorio;
 	}
 	
