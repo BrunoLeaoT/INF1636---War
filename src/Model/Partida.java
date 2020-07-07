@@ -1,12 +1,19 @@
 package Model;
 
+import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Partida 
+import View.SelecaoLabel;
+
+public class Partida implements Observado
 {
 	static private Partida singleton;
 	private int turno;
 	private int numeroTrocas;
+	private HashMap<String, String> currentTerritorioSelecionado;
+	private ArrayList<Observador> observadorList;
 	
 	static public Partida getInstancia()
 	{
@@ -19,12 +26,60 @@ public class Partida
 	{
 		turno = 0;
 		numeroTrocas = 0;
+		currentTerritorioSelecionado = new HashMap<String, String>();
+		observadorList = new ArrayList<Observador>();
+	}
+	
+	// Funcoes interface
+	@Override
+	public void addObservador(Observador obs) 
+	{
+		observadorList.add(obs);
+	}
+
+	@Override
+	public void rmObservador(Observador obs) 
+	{
+		observadorList.remove(obs);
+	}
+
+	@Override
+	public void notificarObservadores() 
+	{
+		for(Observador obs : observadorList)
+		{
+			if(obs instanceof SelecaoLabel)
+				obs.atualizarObservacao(geraInfoTerritorioSelecionado());
+		}
+	}
+	
+	// gera uma string com as infos do territorio selecionado corrente.
+	private String geraInfoTerritorioSelecionado()
+	{
+		if(currentTerritorioSelecionado.size() == 0)
+			return "";
+		else
+		{
+			String nomeTerr = currentTerritorioSelecionado.get("nome");
+			String corDono = currentTerritorioSelecionado.get("dono");
+			String tropas = currentTerritorioSelecionado.get("tropas");
+			return String.format("Territorio selecionado: %s; de %s; com %s tropas", nomeTerr, corDono, tropas);
+		}
 	}
 	
 	public Jogador getJogadorDaVez()
 	{
 		int indexVez = turno % Jogadores.getInstancia().getQtdJogadores();
 		return Jogadores.getInstancia().selectJogadorByIndex(indexVez);
+	}
+	
+	public String getTurnoETrocaEmString() {
+		return turno +"-"+numeroTrocas;
+	}
+	
+	public void setTurnoETroca(int turno, int troca) {
+		this.turno = turno;
+		numeroTrocas = troca;
 	}
 	
 	public Jogador passaTurno()
@@ -237,8 +292,36 @@ public class Partida
 		return j.verificarVitoria();
 	}
 	
-	// CarregarJogo
+	// Funções de salvamento
 	public boolean carregarJogoSalvo() {
 		return Salvar.carregarJogo();
+	}
+	
+	public boolean salvarJogo() {
+		Salvar salvar = new Salvar();
+		return salvar.salvarJogo();
+	}
+	
+	// Retorna dados do territorio que possui o ponto, ou hashmapVazio se territorio que possui o ponto nao foi encontrado
+	public void selecionaTerritorio(Point ponto)
+	{		
+		Territorios territorios = Territorios.getInstancia();
+		for(int i = 0; i < territorios.getSize(); i++)
+		{
+			Territorio t = territorios.selectTerritorioByIndex(i);
+			if(t.delimitacaoPossuiPonto(ponto))
+			{
+				currentTerritorioSelecionado.put("nome", t.getNome());
+				currentTerritorioSelecionado.put("dono", t.getDono().getCor().name());
+				currentTerritorioSelecionado.put("tropas", String.valueOf(t.getTropas()));
+				this.notificarObservadores();
+				return;
+			}
+		}
+		
+		// se nao encontra
+		currentTerritorioSelecionado.clear();
+		this.notificarObservadores();
+		return;
 	}
 }

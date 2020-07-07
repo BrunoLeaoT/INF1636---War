@@ -1,6 +1,8 @@
 package Model;
 
 import java.awt.Point;
+import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
@@ -9,19 +11,18 @@ import java.util.Map;
 
 /// Classe Territorio
 /// Representa um territorio no mapa.
-public class Territorio 
+public class Territorio implements Observado
 {	
-	public String Nome;
-	public Continente Continente;
+	private String Nome;
+	private Continente Continente;
 	private Jogador Dono;
 	private int Tropas;
 	private Territorio[] territoriosFronteiricos;
 	private String[] territoriosAdjacentes;
+	private ArrayList<Observador> observadoresDeTropas;
+	
 	// Delimitacao do territorio é estabelecida por um quadrilatero (4 pontos).
-	public Point Ponto1;
-	public Point Ponto2;
-	public Point Ponto3;
-	public Point Ponto4;
+	private Polygon delimitacao;
 	
 	public Territorio(String nome, Continente cont, String terriAdja)
 	{
@@ -29,10 +30,7 @@ public class Territorio
 		Continente = cont;
 		Dono = null;
 		Tropas = 0;
-		Ponto1 = new Point(0,0);
-		Ponto2 = new Point(0,0);
-		Ponto3 = new Point(0,0);
-		Ponto4 = new Point(0,0);
+		observadoresDeTropas = new ArrayList<Observador>();
 		descontruirTerritoriosAjdacentes(terriAdja);
 	}
 	
@@ -54,10 +52,9 @@ public class Territorio
 	// Refatorar isso para menos parametros.
 	public void SetDelimitacao(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4) 
 	{
-		Ponto1.setLocation(x1, y1);
-		Ponto2.setLocation(x2, y2);
-		Ponto3.setLocation(x3, y3);
-		Ponto4.setLocation(x4, y4);
+		int[] xArray = {x1, x2, x3, x4};
+		int[] yArray = {y1,y2,y3, y4};
+		delimitacao = new Polygon(xArray, yArray, 4);
 	}
 	
 	public void remanejarTropas(Territorio destino, int qtdTropas) throws Exception
@@ -87,6 +84,11 @@ public class Territorio
 	public String getNome()
 	{
 		return Nome;
+	}
+	
+	public Continente getContinente()
+	{
+		return Continente;
 	}
 	
 	public void addTropas(int tropasAAdicionar)
@@ -125,5 +127,29 @@ public class Territorio
 				return true;
 		
 		return false;
+	}
+	
+	public boolean delimitacaoPossuiPonto(Point ponto)
+	{
+		return delimitacao.contains(ponto);
+	}
+
+	@Override
+	public void addObservador(Observador obs) 
+	{
+		observadoresDeTropas.add(obs);
+	}
+
+	@Override
+	public void rmObservador(Observador obs)
+	{
+		observadoresDeTropas.remove(obs);
+	}
+
+	@Override
+	public void notificarObservadores()
+	{
+		for(Observador obs : observadoresDeTropas)
+			obs.atualizarObservacao(String.format("%s;%d;%s", this.Dono.getCor().name(), this.Tropas, this.Nome));
 	}
 }
