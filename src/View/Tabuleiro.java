@@ -18,7 +18,7 @@ import java.util.Set;
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 
-import Controller.Ataque;
+import Controller.AtaqueController;
 import Controller.DadosPraView;
 import Controller.DistribuicaoExercito;
 import Controller.Jogada;
@@ -38,7 +38,7 @@ public class Tabuleiro extends JFrame implements MouseListener {
 	JButton btnMoverTropas;
 	// Modulos externos
 	DistribuicaoExercito disExercito;
-	Ataque ataque;
+	AtaqueController ataque;
 	Jogada jogada;
 	// Variaveis do jogo
 	public Map coords;
@@ -56,7 +56,7 @@ public class Tabuleiro extends JFrame implements MouseListener {
 	public Tabuleiro() {
 		disExercito = new DistribuicaoExercito();
 		jogada = Jogada.getJogada();
-		ataque = new Ataque();
+		ataque = new AtaqueController();
 		DadosPraView.getDados().setObserver(this);
 		setSize(LARG_DEFAULT,ALT_DEFAULT);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);

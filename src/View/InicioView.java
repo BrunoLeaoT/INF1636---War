@@ -5,17 +5,18 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import Controller.AdicionarJogadoresController;
 import Controller.InicioController;
+import Controller.Salvamento;
 
 @SuppressWarnings("serial")
 public class InicioView extends JFrame
 {
 	public final int LARG_DEFAULT=400;
 	public final int ALT_DEFAULT=685;
-	
 	private InicioController viewController;
 	private ImagePanel painelFundo;
-	
+	private Salvamento salvamentoController;
 	public static void main(String[] args) 
 	{
 		InicioView i = new InicioView(new InicioController());
@@ -26,6 +27,7 @@ public class InicioView extends JFrame
 	{
 		// props
 		viewController = controller;
+		salvamentoController = new Salvamento();
 		this.setTitle("Inicio Jogo");
 		this.setSize(LARG_DEFAULT, ALT_DEFAULT);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -71,8 +73,12 @@ public class InicioView extends JFrame
         		try 
         		{
         			System.out.println("Carregar Jogo");
-        			// chamar funcao do controller que trata de carregar
-        			// e fazer dispose da view atual
+        			if(salvamentoController.carregarJogo())
+        				JOptionPane.showMessageDialog(new JFrame(), "Jogo carregado com sucesso");
+        			else
+        				JOptionPane.showMessageDialog(new JFrame(), "Não havia jogo salvo");
+        			
+        			dispose();
         		}
         		catch(Exception ex)
         		{
