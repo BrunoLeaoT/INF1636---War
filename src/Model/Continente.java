@@ -34,4 +34,22 @@ public enum Continente
 	{
 		return NumeroTerritorios;
 	}
+	
+	// Para função de carrega jogo salvo
+	public static Continente getContinentePorString(String cont) {
+		if(cont.compareTo("África") == 0)
+			return Africa;
+		else if (cont.compareTo("AméricaDoSul") == 0)
+			return AmericaDoSul;
+		else if (cont.compareTo("AméricaDoNorte") == 0)
+			return AmericaDoNorte;
+		else if (cont.compareTo("Asia") == 0)
+			return Asia;
+		else if (cont.compareTo("Europa") == 0)
+			return Europa;
+		else if (cont.compareTo("Oceania") == 0)
+			return Oceania;
+		else
+			return null;
+	}
 }

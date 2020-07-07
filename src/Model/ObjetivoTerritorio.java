@@ -48,6 +48,17 @@ public class ObjetivoTerritorio extends Objetivo
 	{
 		return PrecisaDuasTropas;
 	}
+
+	@Override
+	public String objetivoEmString() {
+		String objetivo = "Territorio:"+nmTerritorios;
+		if(PrecisaDuasTropas)
+			objetivo += "-2";
+		else
+			objetivo += "-1";
+		// TODO Auto-generated method stub
+		return objetivo ;
+	}
 	
 	
 }

@@ -46,5 +46,16 @@ public class ObjetivoContinente extends Objetivo
 		else
 			return String.format("%s e %s", Continentes[0].getNome(), Continentes[1].getNome());
 	}
+
+	@Override
+	public String objetivoEmString() {
+		String objetivo = "Continente:";
+		if(PrecisaOutroQualquer)
+			objetivo += "PrecisaOutroQualquer,";
+		for (int i = 0; i < Continentes.length; i++) {
+			objetivo += Continentes[i].getNome().replaceAll("\\s", "");
+		}
+		return objetivo;
+	}
 	
 }
