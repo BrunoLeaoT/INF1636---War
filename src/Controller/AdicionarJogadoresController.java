@@ -23,7 +23,7 @@ public class AdicionarJogadoresController
 		// comeca partida
 		partida.comecarPartida();
 		
-		// inicia prox view
+		// inicia view tabuleiro
 		TabuleiroController tabController = new TabuleiroController();
 		TabuleiroView tabView = new TabuleiroView(tabController);
 		tabView.setVisible(true);
