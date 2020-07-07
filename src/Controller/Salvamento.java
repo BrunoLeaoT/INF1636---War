@@ -9,8 +9,8 @@ public class Salvamento {
 		partida = Partida.getInstancia();
 	}
 	
-	public void salvarJogo() {
-		
+	public boolean salvarJogo() {
+		return partida.salvarJogo();
 	}
 	
 	public boolean carregarJogo() {

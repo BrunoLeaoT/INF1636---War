@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import Controller.AdicionarJogadoresController;
+import Controller.Salvamento;
 import Controller.TabuleiroController;
 
 public class TabuleiroView extends JFrame
@@ -16,7 +18,7 @@ public class TabuleiroView extends JFrame
 	
 	private TabuleiroController viewController;
 	private ImagePanel painelFundo;
-	
+	private Salvamento salvamentoController;
 	public static void main(String[] args) 
 	{
 		TabuleiroView t = new TabuleiroView(new TabuleiroController());
@@ -27,6 +29,7 @@ public class TabuleiroView extends JFrame
 	{
 		// props
 		viewController = controller;
+		salvamentoController = new Salvamento();
 		this.setTitle("Tabuleiro Jogo");
 		this.setSize(LARG_DEFAULT, ALT_DEFAULT);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -82,6 +85,7 @@ public class TabuleiroView extends JFrame
         		try 
         		{
         			System.out.println("Salvar jogo");
+        			System.out.println(salvamentoController.salvarJogo());
         		}
         		catch(Exception ex)
         		{

@@ -24,4 +24,9 @@ public class ObjetivoJogador extends Objetivo
 		return corJogadorAlvo; 
 	}
 
+	@Override
+	public String objetivoEmString() {
+		return "Jogador:"+corJogadorAlvo.toString();
+	}
+
 }

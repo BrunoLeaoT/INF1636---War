@@ -20,15 +20,16 @@ public class Salvar {
 	}
 	
 	public static boolean salvarJogo() {
-		String partida = "Jogadores: \n";
-		partida += transformarJogadoresEmString();
-		partida += "Territorios: \n";
-		partida += transformarTerritoriosEmString();
 		try {
+			String partida = "Jogadores: \n";
+			partida += transformarJogadoresEmString();
+			partida += "Territorios: \n";
+			partida += transformarTerritoriosEmString();
+			partida += "RodadaDaVez:"+Partida.getInstancia().getTurnoETrocaEmString();
 			executarGravaçãoDados(partida);
 			return true;
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace());
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -49,8 +50,7 @@ public class Salvar {
 			fazerJogo(aux);
 			return true;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			System.out.println("lancei o false né pai"); //KKKK gostei
+			System.out.println("lancei o false né pai"); //KKKK gostei dkosadkaos esqueci de tirar
 			System.out.println(e.getMessage());
 			return false;
 		}
@@ -70,13 +70,21 @@ public class Salvar {
 		String aux[] = partida.split("Territorios: ");
 		try {		
 			setJogadores(aux[0]);
-			setTerritorios(aux[1].split("\n")[1]);
+			String[] territorios = aux[1].split("RodadaDaVez:");
+			setTerritorios(territorios[0]);
+			setDadosRodada(territorios[1]);
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			throw new IllegalAccessException("Não foi possível salvar o jogo");
 		}
 		
 		
+	}
+
+	private static void setDadosRodada(String dados) {
+		String dadosRodada[] = dados.split("-");
+		Partida.getInstancia().setTurnoETroca(Integer.parseInt(dadosRodada[0]), Integer.parseInt(dadosRodada[1].split("\n")[0]));
 	}
 
 	private static boolean setJogadores(String jogadores) {
@@ -92,24 +100,59 @@ public class Salvar {
 				Cor cor = Cor.getCorPorString(dados[1]);
 				String obj = dados[2];
 				int index =  Integer.parseInt(dados[3]);
-
 				Partida.getInstancia().adicionarJogador(nome, cor);
-				// Setar o obj sla como ainda
+				Objetivo objetivo = setObjetivo(obj);
+				if(objetivo == null)
+					throw new IllegalClassFormatException("Objetivo não pode ser construido");
+				Jogadores.getInstancia().selectJogadorByIndex(index).setObjetivo(objetivo);
 				
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 				return false;
 			}
 		}
 		return true;
 	}
 
+	private static Objetivo setObjetivo(String obj) {
+		String aux[] = obj.split(":");
+		if(aux[0].compareTo("Jogador")==0)
+			return getObjJogador(aux[1]);
+		else if(aux[0].compareTo("Territorio")==0)
+			return getObjTerritorio(aux[1]);
+		else if(aux[0].compareTo("Continente")==0)
+			return getContinente(aux[1]);
+		else
+			return null;
+	}
+
+	private static Objetivo getContinente(String objetivo) {
+		String continentes[] = objetivo.split(",");
+		Continente conts[] = new Continente[2];
+		boolean maisUmQualquer = false;
+		if(continentes[0].compareTo("PrecisaOutroQualquer") == 0)
+			maisUmQualquer = true;
+		for (int i = 0; i < continentes.length; i++)
+			conts[i] = Continente.getContinentePorString(continentes[i]);
+		return new ObjetivoContinente(maisUmQualquer, conts);
+	}
+
+	private static Objetivo getObjTerritorio(String objetivo) {
+		String objTerritorio[] = objetivo.split("-");
+		if(objTerritorio[1].compareTo("2")==0)
+			return new ObjetivoTerritorio(true, Integer.parseInt(objTerritorio[0]));
+		else
+			return new ObjetivoTerritorio(false, Integer.parseInt(objTerritorio[0]));
+	}
+
+	private static Objetivo getObjJogador(String objetivo) {
+		return new ObjetivoJogador(Cor.getCorPorString(objetivo));
+	}
+
 	private static void setTerritorios(String territorios) throws Exception {
 		String aux[] = territorios.split("\n");
-		for (int i = 0; i < aux.length; i++) {
+		for (int i = 1; i < aux.length; i++) {
 			try {
-				String[] dados = aux[i].split(" ");
+				String[] dados = aux[i].split("-");
 				if(dados[0].compareTo("Territorios:") == 0)
 					continue;
 				String nome = dados[0];
@@ -123,6 +166,7 @@ public class Salvar {
 				terr.addTropas(tropas);
 			}
 			catch (Exception e) {
+				e.printStackTrace();
 				throw new IllegalAccessError("Erro ao resgatar territorios");
 			}
 		}
@@ -133,7 +177,7 @@ public class Salvar {
 		Territorio terr;
 		for (int i = 0; i < territorios.getSize(); i++) {
 			terr = territorios.selectTerritorioByIndex(i);
-			territoriosString += terr.Nome + " " + terr.getDono().getNome() + " " + terr.getTropas() + " " + i;
+			territoriosString += terr.Nome + "-" + terr.getDono().getNome() + "-" + terr.getTropas() + "-" + i;
 			territoriosString += "\n";
 		}
 		return territoriosString;
@@ -144,7 +188,7 @@ public class Salvar {
 		Jogador jog;
 		for (int i = 0; i < jogadores.getQtdJogadores(); i++) {
 			jog = jogadores.selectJogadorByIndex(i);
-			jogadoresString += jog.getNome() + " " + jog.getCor().toString() + " " + jog.getObjetivo().toString() + " " + i;
+			jogadoresString += jog.getNome() + " " + jog.getCor().toString() + " " + jog.getObjetivo().objetivoEmString() + " " + i;
 			ArrayList<Carta> cartas = jog.getCartas();
 			for (int j = 0; j < cartas.size(); j++) {
 				jogadoresString += cartas.get(i).getTerritorioNome();
@@ -168,9 +212,7 @@ public class Salvar {
 			Territorios.getInstancia();
 			carregarJogo();
 			verificarJogadores();
-			verificarTerritorios();
-			System.out.println(Territorios.getInstancia().selectTerritorioByIndex(0).getTropas());
-			
+			verificarTerritorios();	
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

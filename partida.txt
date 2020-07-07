@@ -1,56 +1,57 @@
 Jogadores: 
-Bruno Amarelo Model.ObjetivoJogador@30f39991 0
-Stefano Vermelho Model.ObjetivoJogador@452b3a41 1
-Ivan Azul Model.ObjetivoContinente@4a574795 2
+Bruno Amarelo Continente:PrecisaOutroQualquer,EuropaOceania 0
+Stefano Vermelho Continente:PrecisaOutroQualquer,AmÈricadoNorte¡frica 1
+Ivan Azul Continente:PrecisaOutroQualquer,Asia¡frica 2
 Territorios: 
-Jordania Bruno 1 0
-Argelia Stefano 1 1
-Bangladesh Ivan 1 2
-Turquia Bruno 1 3
-Ira Stefano 1 4
-Nigeria Ivan 1 5
-Quebec Bruno 1 6
-Paquistao Stefano 1 7
-Russia Ivan 1 8
-Ucrania Bruno 1 9
-Arabia Saudita Stefano 1 10
-Espanha Ivan 1 11
-Reino Unido Bruno 1 12
-Polonia Stefano 1 13
-Australia Ivan 1 14
-Suecia Bruno 1 15
-Mongolia Stefano 1 16
-Coreia do Norte Ivan 1 17
-Siberia Bruno 1 18
-India Stefano 1 19
-Indonesia Ivan 1 20
-Estonia Bruno 1 21
-Coreia do Sul Stefano 1 22
-Alasca Ivan 1 23
-Africa do Sul Bruno 1 24
-Angola Stefano 1 25
-Cazaquistao Ivan 1 26
-Peru Bruno 1 27
-Egito Stefano 1 28
-Argentina Ivan 1 29
-Japao Bruno 1 30
-Texas Stefano 1 31
-Letonia Ivan 1 32
-Venezuela Bruno 1 33
-Nova York Stefano 1 34
-Siria Ivan 1 35
-Somalia Bruno 1 36
-China Stefano 1 37
-Mexico Ivan 1 38
-Brasil Bruno 1 39
-Iraque Stefano 1 40
-Vancouver Ivan 1 41
-Groelandia Bruno 1 42
-Romenia Stefano 1 43
-Nova Zelandia Ivan 1 44
-Perth Bruno 1 45
-Franca Stefano 1 46
-California Ivan 1 47
-Calgary Bruno 1 48
-Tailandia Stefano 1 49
-Italia Ivan 1 50
+Franca-Bruno-1-0
+Reino Unido-Stefano-1-1
+Letonia-Ivan-1-2
+Argentina-Bruno-1-3
+Quebec-Stefano-1-4
+India-Ivan-1-5
+Ucrania-Bruno-1-6
+Nova York-Stefano-1-7
+Italia-Ivan-1-8
+Nigeria-Bruno-1-9
+Indonesia-Stefano-1-10
+Espanha-Ivan-1-11
+Peru-Bruno-1-12
+Alasca-Stefano-1-13
+Coreia do Sul-Ivan-1-14
+Siberia-Bruno-1-15
+Groelandia-Stefano-1-16
+Suecia-Ivan-1-17
+Siria-Bruno-1-18
+Romenia-Stefano-1-19
+Bangladesh-Ivan-1-20
+Texas-Bruno-1-21
+Coreia do Norte-Stefano-1-22
+Australia-Ivan-1-23
+California-Bruno-1-24
+Argelia-Stefano-1-25
+Mongolia-Ivan-1-26
+Estonia-Bruno-1-27
+Polonia-Stefano-1-28
+Calgary-Ivan-1-29
+Perth-Bruno-1-30
+Mexico-Stefano-1-31
+Iraque-Ivan-1-32
+Egito-Bruno-1-33
+Paquistao-Stefano-1-34
+China-Ivan-1-35
+Brasil-Bruno-1-36
+Turquia-Stefano-1-37
+Russia-Ivan-1-38
+Jordania-Bruno-1-39
+Japao-Stefano-1-40
+Angola-Ivan-1-41
+Africa do Sul-Bruno-1-42
+Arabia Saudita-Stefano-1-43
+Vancouver-Ivan-1-44
+Nova Zelandia-Bruno-1-45
+Ira-Stefano-1-46
+Tailandia-Ivan-1-47
+Venezuela-Bruno-1-48
+Somalia-Stefano-1-49
+Cazaquistao-Ivan-1-50
+RodadaDaVez:0-0

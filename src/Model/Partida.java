@@ -26,6 +26,13 @@ public class Partida
 		int indexVez = turno % Jogadores.getInstancia().getQtdJogadores();
 		return Jogadores.getInstancia().selectJogadorByIndex(indexVez);
 	}
+	public String getTurnoETrocaEmString() {
+		return turno +"-"+numeroTrocas;
+	}
+	public void setTurnoETroca(int turno, int troca) {
+		this.turno = turno;
+		numeroTrocas = troca;
+	}
 	
 	public Jogador passaTurno()
 	{	
@@ -237,8 +244,12 @@ public class Partida
 		return j.verificarVitoria();
 	}
 	
-	// CarregarJogo
+	// Funções de salvamento
 	public boolean carregarJogoSalvo() {
 		return Salvar.carregarJogo();
+	}
+	public boolean salvarJogo() {
+		Salvar salvar = new Salvar();
+		return salvar.salvarJogo();
 	}
 }
