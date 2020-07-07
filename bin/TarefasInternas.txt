@@ -1,0 +1,29 @@
+Objetivo desse arquivo é fazer um controle interno nosso do que falta.
+		
+PENDENCIAS:
+
+Terminar refatoracao de models - stefano
+	terminar Geral virar Partida - stefano
+	terminar Territorio ter Territorios - stefano
+	falta definir territorios adjacentes de cada territorio - stefano
+		por enquanto adicionei um vetor em Territorio, além mdo que ja tinha
+		falta tambem defiinir todos os adjacentes na inicializacao
+		
+		
+Assegurar que jogador nao pode passar turno se ele tem 5 cartas;
+Nao usar null layout em CartaView, para poder usar JScrollPane e o nome das colunas aparecerem
+
+falta labelling (interface)
+fazer exeptions "personalizadas"?
+conferir observer pattern
+
+BUGS:
+
+	verificarVitoria de ObjetivoJogador -> a vitoria depende de quem eliminou a cor, e nao só se ela tem 0 territoriso.
+
+
+DUVIDAS:
+
+addCarta em Cartas -> quando é feita uma troca, a carta volta pro deck?
+em Cartas -> quantos jokers tem o jogo?
+jogadores ganham cartas no inicio do jogo? ou só nas conquistas mesmo?
