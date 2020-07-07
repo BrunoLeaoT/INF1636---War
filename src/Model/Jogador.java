@@ -201,7 +201,7 @@ class Jogador {
 		int count = 0;
 		for(Territorio t : Territorios)
 		{
-			if(t.Continente == cont)
+			if(t.getContinente() == cont)
 				count++;
 		}
 		
