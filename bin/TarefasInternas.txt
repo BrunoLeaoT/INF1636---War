@@ -12,6 +12,12 @@ Terminar refatoracao de models - stefano
 		
 Assegurar que jogador nao pode passar turno se ele tem 5 cartas;
 Nao usar null layout em CartaView, para poder usar JScrollPane e o nome das colunas aparecerem
+mudar nome de salvamento para salvarController, ou passar metodos de salvar para dentro de outros controllers (ja que nao existe salvarView).
+fazer selecaolabel mostrar html, territorioLabel tbm
+fazer check pra remanejar tropas com territorios que nao fazem fronteira
+estabelecer posicoes de cada territorio de acordo com novo mapa
+estabelecer posicoes de territorio labels
+implementar ataque, adicao e remanejamento de tropas na view e no controller
 
 falta labelling (interface)
 fazer exeptions "personalizadas"?
