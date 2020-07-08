@@ -15,9 +15,10 @@ import javax.swing.event.MouseInputAdapter;
 import Controller.AdicionarJogadoresController;
 import Controller.Salvamento;
 import Controller.TabuleiroController;
-
+import Model.Continente;
 import Model.Observador;
 import Model.Partida;
+import Model.Territorio;
 
 public class TabuleiroView extends JFrame
 {
@@ -50,6 +51,7 @@ public class TabuleiroView extends JFrame
 		// objects
 		// panels
 		addPainelFundo();
+		
 
 		// botoes
 		addBotaoPassarTurno();
@@ -62,6 +64,7 @@ public class TabuleiroView extends JFrame
 		
 		//labels
 		addSelecaoLabel();
+		addLabelsTerr();
 		// label de vez
 		// label de tropas disponiveis
 		// label de territorios
@@ -241,6 +244,71 @@ public class TabuleiroView extends JFrame
 		labelSelecao.setBounds((this.LARG_DEFAULT/2) - 300, 15, 600, 30);
 		viewController.addObservadorPartidaSelecaoLabel(labelSelecao);
 		painelFundo.add(labelSelecao);
+	}
+	
+	private void addLabelsTerr() {
+		addTerritorioLabel("Africa do Sul");
+		addTerritorioLabel("Angola");
+		addTerritorioLabel("Argelia");
+		addTerritorioLabel("Egito");
+		addTerritorioLabel("Nigeria");
+		addTerritorioLabel("Somalia");
+		addTerritorioLabel("Alasca");
+		addTerritorioLabel("Calgary");
+		addTerritorioLabel("California");
+		addTerritorioLabel("Groelandia");
+		addTerritorioLabel("Mexico");
+		addTerritorioLabel("Nova York");
+		addTerritorioLabel("Quebec");
+		addTerritorioLabel("Texas");
+		addTerritorioLabel("Vancouver");
+		addTerritorioLabel("Arabia Saudita");
+		addTerritorioLabel("Bangladesh");
+		addTerritorioLabel("Cazaquistao");
+		addTerritorioLabel("China");
+		addTerritorioLabel("Coreia do Sul");
+		addTerritorioLabel("Coreia do Norte");
+		addTerritorioLabel("Estonia");
+		addTerritorioLabel("India");
+		addTerritorioLabel("Ira");
+		addTerritorioLabel("Iraque");
+		addTerritorioLabel("Japao");
+		addTerritorioLabel("Jordania");
+		addTerritorioLabel("Letonia");
+		addTerritorioLabel("Mongolia");
+		addTerritorioLabel("Paquistao");
+		addTerritorioLabel("Russia");
+		addTerritorioLabel("Siberia");
+		addTerritorioLabel("Siria");
+		addTerritorioLabel("Tailandia");
+		addTerritorioLabel("Turquia");
+		addTerritorioLabel("Argentina");
+		addTerritorioLabel("Brasil");
+		addTerritorioLabel("Peru");
+		addTerritorioLabel("Venezuela");
+		addTerritorioLabel("Espanha");
+		addTerritorioLabel("Franca");
+		addTerritorioLabel("Italia");
+		addTerritorioLabel("Polonia");
+		addTerritorioLabel("Reino Unido");
+		addTerritorioLabel("Romenia");
+		addTerritorioLabel("Suecia");
+		addTerritorioLabel("Ucrania");
+		addTerritorioLabel("Australia");
+		addTerritorioLabel("Indonesia");
+		addTerritorioLabel("Nova Zelandia");
+		addTerritorioLabel("Perth");
+	}
+	private void addTerritorioLabel(String territorio)
+	{
+		territorioLabel territorioLabel = new territorioLabel();
+		String centroid[] = viewController.getCentroidTerritorio(territorio).split(";"); 
+		System.out.println(centroid[0]+";"+centroid[1]);
+		//territorioLabel.setLocation(Integer.parseInt(centroid[0]), Integer.parseInt(centroid[1]));
+		territorioLabel.setBounds(Integer.parseInt(centroid[0]) - 25, Integer.parseInt(centroid[1]) - 20, 50, 40);
+		// Dei um offset na metade da altura pq tava muito embaixo
+		viewController.addObservadorTerritorio(territorioLabel, territorio);
+		painelFundo.add(territorioLabel);
 	}
 	
 	// listeners

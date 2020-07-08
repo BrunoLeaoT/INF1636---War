@@ -9,6 +9,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
+
 /// Classe Territorio
 /// Representa um territorio no mapa.
 public class Territorio implements Observado
@@ -57,6 +58,22 @@ public class Territorio implements Observado
 		delimitacao = new Polygon(xArray, yArray, 4);
 	}
 	
+	public String getCentroid() {
+	    int x = 0, y = 0;
+	    int pointCount = delimitacao.npoints;
+	    int ys[] = delimitacao.ypoints;
+	    int xs[] = delimitacao.xpoints;
+	    System.out.println(pointCount);
+	    for (int i = 0;i < pointCount;i++){
+	        x += xs[i];
+	        y += ys[i];
+	    }
+
+	    x = x/pointCount;
+	    y = y/pointCount;
+	    return x+";"+y;
+	}
+	
 	public void remanejarTropas(Territorio destino, int qtdTropas) throws Exception
 	{
 		if(qtdTropas > this.getTropas() - 1)
@@ -67,18 +84,21 @@ public class Territorio implements Observado
 		
 		this.rmTropas(qtdTropas);
 		destino.addTropas(qtdTropas);
+		notificarObservadores();
 	}
 	
 	/// Seta o novo dono do territorio, assim como a quantidade de tropas que traz consigo.
 	public void setDono(Jogador jogador) throws IllegalArgumentException
 	{
 		Dono = jogador;
+		notificarObservadores();
 	}
 	
 	/// Geta jogador dono do territorio.
 	public Jogador getDono()
 	{
 		return Dono;
+		
 	}
 	
 	public String getNome()
@@ -94,12 +114,14 @@ public class Territorio implements Observado
 	public void addTropas(int tropasAAdicionar)
 	{
 		Tropas += tropasAAdicionar;
+		notificarObservadores();
 	}
 	
 	public void rmTropas(int tropasARemover)
 	{
 		// Tropas nao pode assumir valor inferiror a zero
 		Tropas = Math.min(Tropas - tropasARemover, 0);
+		notificarObservadores();
 	}
 	
 	public int getTropas()

@@ -1,6 +1,7 @@
 package View;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 import javax.swing.JLabel;
@@ -17,6 +18,9 @@ class territorioLabel extends JLabel implements Observador
 		this.setBackground(Color.BLACK);
         this.setForeground(Color.WHITE);
         this.setHorizontalAlignment(CENTER);
+        //this.setSize(50, 40);
+        Font font = new Font("Verdana", Font.PLAIN, 8);
+        this.setFont(font);
         setOpaque(false);
 	}
 	
@@ -31,7 +35,8 @@ class territorioLabel extends JLabel implements Observador
 	{
 		if(o instanceof String)
 		{
-			this.setText((String)o);
+			String aux[] = ((String)o).split(";");
+			this.setText("<html><span> "+ aux[0] +"-"+aux[1]+ "</span> <br>"+aux[2]+"</html>");
 		}
 	}
 }
