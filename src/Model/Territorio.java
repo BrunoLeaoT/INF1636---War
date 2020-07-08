@@ -120,7 +120,7 @@ public class Territorio implements Observado
 	public void rmTropas(int tropasARemover)
 	{
 		// Tropas nao pode assumir valor inferiror a zero
-		Tropas = Math.min(Tropas - tropasARemover, 0);
+		Tropas = Math.max(Tropas - tropasARemover, 0);
 		notificarObservadores();
 	}
 	
