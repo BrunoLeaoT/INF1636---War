@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import View.InfoLabel;
+import View.SelecaoLabel;
+import View.JogadorDaVezLabel;
 
 public class Partida implements Observado
 {
@@ -13,12 +14,14 @@ public class Partida implements Observado
 	
 	private int turno;
 	private int numeroTrocas;
+	private Jogador jogadorDaVez;
 	private HashMap<String, String> currentTerritorioSelecionado;
 		
 	// boolean para contralar momentos da vez do jogador (primeiro ele insere tropas, depois ataca, depois remaneja)
+	// nao devem ser referenciados diretamente, mas sim pelos metodos encerraFaseAtaque() e encerraFaseInserirTropas
 	private boolean acabouFaseAtaque;
 	private boolean acabouFaseInserirTropas;
-
+	
 	// obervadores
 	private ArrayList<Observador> observadorList;
 	
@@ -42,6 +45,9 @@ public class Partida implements Observado
 	public void addObservador(Observador obs) 
 	{
 		observadorList.add(obs);
+		
+		// notifica observadores por default
+		this.notificarObservadores();
 	}
 
 	@Override
@@ -55,14 +61,25 @@ public class Partida implements Observado
 	{
 		for(Observador obs : observadorList)
 		{
-			if(obs instanceof InfoLabel)
+			if(obs instanceof SelecaoLabel)
 				obs.atualizarObservacao(geraInfoTerritorioSelecionado());
+			else if (obs instanceof JogadorDaVezLabel)
+				obs.atualizarObservacao(geraInfoJogadorDaVez());
 		}
 	}
 	
 	private Territorio getTerritorioNaPosicao(int x, int y) throws Exception
 	{
 		return Territorios.getInstancia().selectTerritorioByCoordenada(x, y);
+	}
+	
+	// gera uma string com as infos do jogador da vez
+	private String geraInfoJogadorDaVez()
+	{
+		String nome = this.jogadorDaVez.getNome();
+		String cor = this.jogadorDaVez.getCor().name();
+		int tropasDisponiveis = this.jogadorDaVez.getTropasDisponiveis();
+		return String.format("Jogador da vez: %s (%s), com %d tropas para serem distribuidas", nome, cor, tropasDisponiveis);
 	}
 	
 	// gera uma string com as infos do territorio selecionado corrente.
@@ -79,18 +96,11 @@ public class Partida implements Observado
 		}
 	}
 	
-	public Jogador getJogadorDaVez()
+	public void updateJogadorDaVez()
 	{
 		int indexVez = turno % Jogadores.getInstancia().getQtdJogadores();
-		return Jogadores.getInstancia().selectJogadorByIndex(indexVez);
-	}
-	
-	public String getInfoJogadorDaVez()
-	{
-		int indexVez = turno % Jogadores.getInstancia().getQtdJogadores();
-		Jogador j = Jogadores.getInstancia().selectJogadorByIndex(indexVez);
-		
-		return "Vez de " + j.getNome() + ", da cor " + j.getCor().name();
+		jogadorDaVez = Jogadores.getInstancia().selectJogadorByIndex(indexVez);
+		jogadorDaVez.atualizaTropasDisponiveis();
 	}
 	
 	public String getTurnoETrocaEmString() {
@@ -102,19 +112,40 @@ public class Partida implements Observado
 		numeroTrocas = troca;
 	}
 	
-	public Jogador passaTurno()
+	public boolean passaTurno() throws Exception
 	{	
+		verificaJogadorInseriuTodasAsTropas();
+		
+		// verifica se jogador que encerra a vez ganhou o jogo
+		//this.verificaVitoriaJogadorDaVez();
+		
+		// configura prox turno
 		turno++;
+		updateJogadorDaVez();
 		resetFasesTurno();
-		getJogadorDaVez().atualizaTropasDisponiveis();
-		return getJogadorDaVez();
+		
+		// notifica observers sobre novo turno
+		this.notificarObservadores();
+		
+		return false;
 	}
 	
 	// reseta o turno para fase inicial, em que o jogador pode fazer ataques, insercoes de tropas ou remanejamento
 	public void resetFasesTurno()
-	{
-		acabouFaseAtaque = false;
+	{	
+		// na primeira rodada ngm pode atacar
+		if(turno / Jogadores.getInstancia().getQtdJogadores() == 0)
+			acabouFaseAtaque = true;
+		else
+			acabouFaseAtaque = false;
+		
 		acabouFaseInserirTropas = false;
+	}
+	
+	private void verificaJogadorInseriuTodasAsTropas() throws Exception
+	{
+		if(jogadorDaVez.getTropasDisponiveis() != 0)
+			throw new Exception("Voce não pode realizar essa ação antes de inserir todas as tropas disponíveis");
 	}
 	
 	public void adicionarJogador(String nome, String nomeCor) throws Exception
@@ -146,9 +177,12 @@ public class Partida implements Observado
 		Objetivos.getInstancia().limpaObjetivosImpossiveis(Jogadores.getInstancia().getJogadoresCor());
 		Objetivos.getInstancia().shuffleObjetivos();
 		distribuirObjetivos();
+
+		// setta jogador da vez
+		this.updateJogadorDaVez();
 		
-		// calcula tropas disponiveis para cada jogador inicialmente
-		Jogadores.getInstancia().atualizarTropasDisponiveisTodos();
+		// notifica observers sobre o inicio da partida
+		this.notificarObservadores();
 	}
 	
 	public void distribuirTerritorios()
@@ -186,16 +220,21 @@ public class Partida implements Observado
 		
 		Territorio t = Territorios.getInstancia().selectTerritorioByName(this.currentTerritorioSelecionado.get("nome"));
 		
-		if(t.getDono() != this.getJogadorDaVez())
+		if(t.getDono() != this.jogadorDaVez)
 			throw new Exception("Voce não pode inserir tropas em um território que não é seu");
 		
 		t.addTropas(1);
 		removeTropasDisponiveisJogadorDaVez(1);
+		
+		// notifica observers sobre insercao de tropas
+		this.notificarObservadores();
 	}
 	
 	// Remaneja TODAS as tropas do territorio selecionado para outro nas coordenadas x,y
 	public void selecionadoRemanejaTropas(int xDestino, int yDestino) throws Exception
 	{
+		verificaJogadorInseriuTodasAsTropas();
+		
 		// jogador comecou a remanejar -> acabou fase de ataque
 		acabouFaseAtaque = true;
 		
@@ -211,6 +250,8 @@ public class Partida implements Observado
 	// Confere se territorio selecionado pode atacar territorio desejado
 	public boolean selecionadoPodeAtacar(int xDefensor, int yDefensor) throws Exception
 	{
+		verificaJogadorInseriuTodasAsTropas();
+			
 		// jogador comecou a atacar -> acabou fase de insercao de tropas
 		acabouFaseInserirTropas = true;
 
@@ -274,28 +315,18 @@ public class Partida implements Observado
 	
 	public void daCartaJogadorDaVez()
 	{
-		Jogador j = getJogadorDaVez();
-		j.addCarta(Cartas.getInstancia().compraCarta());
-	}
-	
-	public int getTropasDisponiveisJogadorDaVez()
-	{
-		Jogador j = getJogadorDaVez();
-		return j.getTropasDisponiveis();
+		this.jogadorDaVez.addCarta(Cartas.getInstancia().compraCarta());
 	}
 	
 	public void removeTropasDisponiveisJogadorDaVez(int qtd) throws Exception
 	{
-		Jogador j = getJogadorDaVez();
-		j.rmTropasDisponiveis(qtd);
+		this.jogadorDaVez.rmTropasDisponiveis(qtd);
 	}
 	
 	public void fazTrocaJogadorDaVez() throws Exception
-	{
-		Jogador j = getJogadorDaVez();
-		
+	{		
 		// remove cartas do jogador
-		ArrayList<Carta> cartasTrocadas = j.tentaTrocarCartas(numeroTrocas);
+		ArrayList<Carta> cartasTrocadas = this.jogadorDaVez.tentaTrocarCartas(numeroTrocas);
 		if(cartasTrocadas == null)
 			throw new Exception("Jogador da vez não pode fazer troca de cartas");
 		
@@ -310,8 +341,7 @@ public class Partida implements Observado
 	// podemos usar ToString() em cada objeto
 	public String getTextoObjetivoJogadorDaVez()
 	{
-		Jogador j = getJogadorDaVez();
-		Objetivo o = j.getObjetivo();
+		Objetivo o = this.jogadorDaVez.getObjetivo();
 		String texto;
 		
 		if(o instanceof ObjetivoTerritorio)
@@ -341,12 +371,11 @@ public class Partida implements Observado
 	
 	public String[][] getCartasJogadorDaVez()
 	{
-		Jogador j = getJogadorDaVez();
-		String[][] cartasInfo = new String[j.getQtdCartas()][2];
+		String[][] cartasInfo = new String[this.jogadorDaVez.getQtdCartas()][2];
 		
-		for(int i = 0; i < j.getQtdCartas(); i++)
+		for(int i = 0; i < this.jogadorDaVez.getQtdCartas(); i++)
 		{
-			Carta c = j.getCarta(i);
+			Carta c = this.jogadorDaVez.getCarta(i);
 			cartasInfo[i][0] = c.getTerritorioNome();
 			cartasInfo[i][1] = c.getCartaForma().name();
 		}
@@ -356,8 +385,7 @@ public class Partida implements Observado
 	
 	public boolean verificaVitoriaJogadorDaVez()
 	{
-		Jogador j = getJogadorDaVez();
-		return j.verificarVitoria();
+		return this.jogadorDaVez.verificarVitoria();
 	}
 	
 	// Funções de salvamento
