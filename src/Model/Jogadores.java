@@ -73,11 +73,4 @@ public class Jogadores
 	{
 		Collections.shuffle(ListaJogadores);
 	}
-	
-	public void atualizarTropasDisponiveisTodos()
-	{
-		for(Jogador j : ListaJogadores)
-			j.atualizaTropasDisponiveis();
-	}
-	
 }
