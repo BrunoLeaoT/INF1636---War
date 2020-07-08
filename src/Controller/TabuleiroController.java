@@ -45,6 +45,6 @@ public class TabuleiroController
 	public void trySelecionarTerritorio(int x, int y)
 	{
 		Point p = new Point(x,y);
-		partida.selecionaTerritorio(p);
+		partida.setTerritorioCorrente(p);
 	}
 }

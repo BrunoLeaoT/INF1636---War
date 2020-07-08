@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.event.MouseInputAdapter;
 
 import Controller.AdicionarJogadoresController;
+import Controller.AtaqueController;
 import Controller.Salvamento;
 import Controller.TabuleiroController;
 
@@ -21,14 +22,28 @@ import Model.Partida;
 
 public class TabuleiroView extends JFrame
 {
+	//props
 	public final int LARG_DEFAULT=1024;
 	public final int ALT_DEFAULT=800;
 	
+	//views
 	private TabuleiroController viewController;
 	private Salvamento salvamentoController;
+	private AtaqueController ataqueController;
 	
+	// objs
 	public SelecaoLabel labelSelecao;
 	private ImagePanel painelFundo;
+	
+	// booleans para controlar alvos
+	private boolean clicouBotaoAtacar;
+	private boolean clicouBotaoInserirTropas;
+	private boolean clicouBotaoRemanejar;
+	
+	// boolean para contralar momentos da vez do jogador (primeiro ele insere tropas, depois ataca, depois remaneja)
+	private boolean acabouFaseAtaque;
+	private boolean acabouFaseInserirTropas;
+	private boolean acabouFaseRemanejar;
 	
 	public static void main(String[] args) 
 	{
@@ -41,6 +56,7 @@ public class TabuleiroView extends JFrame
 		// props
 		viewController = controller;
 		salvamentoController = new Salvamento();
+		ataqueController = new AtaqueController();
 		this.setTitle("Tabuleiro Jogo");
 		this.setSize(LARG_DEFAULT, ALT_DEFAULT);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -179,7 +195,9 @@ public class TabuleiroView extends JFrame
         		try 
         		{
         			System.out.println("Atacar");
-        			// controller de atacar
+        			clicouBotaoAtacar = true;
+        			clicouBotaoRemanejar = false;
+        			clicouBotaoInserirTropas = false;
         		}
         		catch(Exception ex)
         		{
@@ -201,7 +219,9 @@ public class TabuleiroView extends JFrame
         		try 
         		{
         			System.out.println("Adicionar tropas");
-        			// metodo controller
+        			clicouBotaoAtacar = false;
+        			clicouBotaoRemanejar = false;
+        			clicouBotaoInserirTropas = true;
         		}
         		catch(Exception ex)
         		{
@@ -223,7 +243,9 @@ public class TabuleiroView extends JFrame
         		try 
         		{
         			System.out.println("Remanejar tropas");
-        			// metodo controller
+        			clicouBotaoAtacar = false;
+        			clicouBotaoRemanejar = true;
+        			clicouBotaoInserirTropas = false;
         		}
         		catch(Exception ex)
         		{
@@ -251,7 +273,34 @@ public class TabuleiroView extends JFrame
 			@Override
 			public void mouseClicked(MouseEvent e) 
 			{
-				viewController.trySelecionarTerritorio(e.getX(), e.getY());
+				int coordX = e.getX();
+				int coordY = e.getY();
+				
+				System.out.println("PENIS");
+				
+				try 
+				{
+				// se nao esta realizando nenhuma acao, selecioan o terr clicado
+				if(!clicouBotaoAtacar && !clicouBotaoRemanejar && !clicouBotaoInserirTropas)
+					viewController.trySelecionarTerritorio(coordX, coordY);
+				else if(clicouBotaoAtacar)
+					ataqueController.tryRealizarAtaque(coordX, coordY);
+				else if(clicouBotaoRemanejar)
+					//ataqueController.tryRealizarAtaque(coordX, coordY);
+					;
+				else if(clicouBotaoInserirTropas)
+					//ataqueController.tryRealizarAtaque(coordX, coordY);
+					;
+				
+				clicouBotaoAtacar = false;
+    			clicouBotaoRemanejar = true;
+    			clicouBotaoInserirTropas = false;
+				}
+				catch(Exception ex)
+        		{
+					System.out.println(ex.toString());
+        			JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        		}
 			}
 		});
 	}

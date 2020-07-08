@@ -1,5 +1,6 @@
 package Model;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -43,6 +44,17 @@ public class Territorios
 				return t;
 		
 		throw new Exception("Nome passado nao existe na lista de territorios");
+	}
+	
+	public Territorio selectTerritorioByCoordenada(int x, int y) throws Exception
+	{
+		Point p = new Point(x,y);
+		
+		for(Territorio t : ListaTerritorios)
+			if(t.delimitacaoPossuiPonto(p))
+				return t;
+		
+		throw new Exception("Não foi encontrado um território nessa posição/coordenada");
 	}
 	
 	private void InicializaTerritorios()

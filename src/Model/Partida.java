@@ -157,20 +157,24 @@ public class Partida implements Observado
 		t.rmTropas(tropas);
 	}
 	
-	public boolean podemAtacar(String nomeTerritorioAtacante, String nomeTerritorioDefensor) throws Exception
+	// Confere se territorio selecionado pode atacar territorio desejado
+	public boolean selecionadoPodeAtacar(int xDefensor, int yDefensor) throws Exception
 	{
-		Territorio atacante = Territorios.getInstancia().selectTerritorioByName(nomeTerritorioAtacante);
-		Territorio defensor = Territorios.getInstancia().selectTerritorioByName(nomeTerritorioDefensor);
+		if(currentTerritorioSelecionado.get("nome") == null)
+			throw new Exception("Voce precisa ter um territorio selecionado antes de atacar outro. Um território, caso esteja selecionado, aparece no topo da tela.");
+
+		Territorio atacante = Territorios.getInstancia().selectTerritorioByName(currentTerritorioSelecionado.get("nome"));
+		Territorio defensor = Territorios.getInstancia().selectTerritorioByCoordenada(xDefensor, yDefensor);
 		
 		return atacante.podeAtacar(defensor);
 	}
 	
-	// Realiza logica de ataque entre dois territorios
-	// Retorna o nome do territorio vencedor
-	public boolean processaAtaque(String nomeTerritorioatacante, String nomeTerritorioDefensor) throws Exception
+	// Realiza logica de ataque entre o territorio selecionado contra outro de entrada
+	// Retorna o true se teritorio selecionao ganhou, false caso contrario
+	public boolean processaAtaque(int xDefensor, int yDefensor) throws Exception
 	{
-		Territorio atacante = Territorios.getInstancia().selectTerritorioByName(nomeTerritorioatacante);
-		Territorio defensor = Territorios.getInstancia().selectTerritorioByName(nomeTerritorioDefensor);
+		Territorio atacante = Territorios.getInstancia().selectTerritorioByName(currentTerritorioSelecionado.get("nome"));
+		Territorio defensor = Territorios.getInstancia().selectTerritorioByCoordenada(xDefensor, yDefensor);
 		
 		// Estabelece quantidade de dados
 		int qtdDadosDefensor = Math.min(defensor.getTropas(), 3);
@@ -303,7 +307,7 @@ public class Partida implements Observado
 	}
 	
 	// Retorna dados do territorio que possui o ponto, ou hashmapVazio se territorio que possui o ponto nao foi encontrado
-	public void selecionaTerritorio(Point ponto)
+	public void setTerritorioCorrente(Point ponto)
 	{		
 		Territorios territorios = Territorios.getInstancia();
 		for(int i = 0; i < territorios.getSize(); i++)

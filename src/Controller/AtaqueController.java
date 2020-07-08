@@ -6,15 +6,16 @@ public class AtaqueController
 {
 	private Partida partida;
 	
-	public AtaqueController() {
+	public AtaqueController() 
+	{
 		partida = Partida.getInstancia();
 	}
 	
-	public boolean realizarAtaque(String nomeTerritorioAtacante, String nomeTerritorioDefensor) throws Exception
+	public boolean tryRealizarAtaque(int xDefensor, int yDefensor) throws Exception
 	{
-		if(partida.podemAtacar(nomeTerritorioAtacante, nomeTerritorioDefensor))
+		if(partida.selecionadoPodeAtacar(xDefensor,yDefensor))
 		{						
-			if(partida.processaAtaque(nomeTerritorioAtacante, nomeTerritorioDefensor))
+			if(partida.processaAtaque(xDefensor, yDefensor))
 			{
 				partida.daCartaJogadorDaVez();
 				return true;
@@ -23,6 +24,6 @@ public class AtaqueController
 				return false;
 		}
 		else
-			throw new Exception("Voce nao pode atacar esse territorio");
+			throw new Exception("Voce nao pode atacar esse territorio.");
 	}
 }
