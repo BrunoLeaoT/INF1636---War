@@ -41,7 +41,7 @@ public enum Continente
 			return Africa;
 		else if (cont.compareTo("AméricadoSul") == 0)
 			return AmericaDoSul;
-		else if (cont.compareTo("AméricaDoNorte") == 0)
+		else if (cont.compareTo("AméricadoNorte") == 0)
 			return AmericaDoNorte;
 		else if (cont.compareTo("Asia") == 0)
 			return Asia;

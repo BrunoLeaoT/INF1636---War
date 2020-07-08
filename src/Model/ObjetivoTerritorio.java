@@ -56,7 +56,6 @@ public class ObjetivoTerritorio extends Objetivo
 			objetivo += "-2";
 		else
 			objetivo += "-1";
-		// TODO Auto-generated method stub
 		return objetivo ;
 	}
 	

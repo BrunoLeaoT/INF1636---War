@@ -94,12 +94,9 @@ public class Salvar {
 		for (int i = 0; i < aux.length; i++) {
 			String[] dados = aux[i].split(";");
 			try {
-				
-				System.out.println(dados[0].compareTo("Jogadores:"));
 				if(dados[0].compareTo("Jogadores: ") == 0)
 					continue;
 				String nome = dados[0];
-				System.out.println(aux[i]);
 				Cor cor = Cor.getCorPorString(dados[1]);
 				String obj = dados[2];
 				int index =  Integer.parseInt(dados[3]);
@@ -155,8 +152,6 @@ public class Salvar {
 				break;
 			conts[i] = Continente.getContinentePorString(continentes[i]);
 		}
-		System.out.println("Continente"  +conts[0]);
-		System.out.println(conts[1]);
 		return new ObjetivoContinente(maisUmQualquer, conts);
 	}
 
@@ -183,7 +178,6 @@ public class Salvar {
 				String dono = dados[1];
 				int tropas = Integer.parseInt(dados[2]);
 				Territorio terr = Territorios.getInstancia().selectTerritorioByName(nome);
-				System.out.println("Dono" + dono);
 				if(Jogadores.getInstancia().selectJogadorByName(dono) == null)
 					throw new IllegalClassFormatException("Jogador dono do território não existe");
 				terr.setDono(Jogadores.getInstancia().selectJogadorByName(dono));
@@ -213,8 +207,6 @@ public class Salvar {
 		for (int i = 0; i < jogadores.getQtdJogadores(); i++) {
 			jog = jogadores.selectJogadorByIndex(i);
 			jogadoresString += jog.getNome() + ";" + jog.getCor().toString() + ";" + jog.getObjetivo().objetivoEmString() + ";" + i+ ";" ;
-			System.out.println("TamCartas: " + jog.getCartas().size());
-			System.out.println("AsCartas: " +transformarCartasEmString(jog.getCartas()));
 			if(jog.getCartas().size() > 0)
 				jogadoresString += transformarCartasEmString(jog.getCartas());
 			jogadoresString += "\n";
@@ -242,7 +234,6 @@ public class Salvar {
 			carregarJogo();
 			verificarJogadores();
 			verificarTerritorios();
-			System.out.println(jogadores.selectJogadorByIndex(0).getCarta(0).getTerritorioNome());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
