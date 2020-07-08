@@ -23,6 +23,24 @@ public class TabuleiroController
 	{
 		partida.addObservador(obs);
 	}
+	public String getCentroidTerritorio(String territorio) {
+		try {
+			return partida.getCentroidTerritorio(territorio);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "Erro";
+		}
+	}
+	public void addObservadorTerritorio(Observador obs, String territorio)
+	{
+		// Deleguei pra partida pq não soube acessar os territorios daqui
+		try {
+			partida.addObservadorTerritorio(obs, territorio);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	public void tryShowObjetivo()
 	{

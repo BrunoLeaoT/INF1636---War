@@ -328,4 +328,13 @@ public class Partida implements Observado
 		this.notificarObservadores();
 		return;
 	}
+
+	public String getCentroidTerritorio(String territorio) throws Exception {
+		return Territorios.getInstancia().selectTerritorioByName(territorio).getCentroid();
+	}
+
+	public void addObservadorTerritorio(Observador obs, String territorio) throws Exception {
+		Territorios.getInstancia().selectTerritorioByName(territorio).addObservador(obs);
+		Territorios.getInstancia().selectTerritorioByName(territorio).notificarObservadores();
+	}
 }
