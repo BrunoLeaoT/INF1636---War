@@ -19,7 +19,7 @@ class territorioLabel extends JLabel implements Observador
         this.setForeground(Color.WHITE);
         this.setHorizontalAlignment(CENTER);
         //this.setSize(50, 40);
-        Font font = new Font("Verdana", Font.PLAIN, 8);
+        Font font = new Font("Verdana", Font.PLAIN, 10);
         this.setFont(font);
         setOpaque(false);
 	}
@@ -35,8 +35,8 @@ class territorioLabel extends JLabel implements Observador
 	{
 		if(o instanceof String)
 		{
-			String aux[] = ((String)o).split(";");
-			this.setText("<html><span> "+ aux[0] +"-"+aux[1]+ "</span> <br>"+aux[2]+"</html>");
+			String territorioInfoParts[] = ((String)o).split(";");
+			this.setText("<html><span> "+ territorioInfoParts[0] +"-"+territorioInfoParts[1]+ "</span> <br>"+territorioInfoParts[2]+"</html>");
 		}
 	}
 }
