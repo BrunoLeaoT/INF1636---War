@@ -1,57 +1,57 @@
 Jogadores: 
-BRuno leso;Amarelo;Jogador:Amarelo;0
-BRu;Preto;Continente:PrecisaOutroQualquer,Asia,África;1
-BRuno ;Azul;Continente:PrecisaOutroQualquer,Europa,Oceania;2
+Ivan;Azul;Continente:PrecisaOutroQualquer,Europa,Oceania;0;
+Stefano;Vermelho;Jogador:Azul;1;africa do Sul
+Bruno Çeãp;Amarelo;Continente:Asia,AméricadoSul;2;
 Territorios: 
-Iraque-BRuno leso-1-0
-Tailandia-BRu-1-1
-Coreia do Sul-BRuno -1-2
-Quebec-BRuno leso-1-3
-Ira-BRu-1-4
-Somalia-BRuno -1-5
-Suecia-BRuno leso-1-6
-Venezuela-BRu-1-7
-Letonia-BRuno -1-8
-Vancouver-BRuno leso-1-9
-Indonesia-BRu-1-10
-Australia-BRuno -1-11
-Egito-BRuno leso-5-12
-Perth-BRu-1-13
-Romenia-BRuno -1-14
-Jordania-BRuno leso-1-15
-Espanha-BRu-1-16
-Cazaquistao-BRuno -1-17
-Turquia-BRuno leso-1-18
-Japao-BRu-1-19
-India-BRuno -1-20
-Alasca-BRuno leso-1-21
-Bangladesh-BRu-1-22
-Coreia do Norte-BRuno -1-23
-Franca-BRuno leso-1-24
-Groelandia-BRu-1-25
-Siria-BRuno -1-26
-Polonia-BRuno leso-1-27
-Calgary-BRu-1-28
-Argentina-BRuno -1-29
-Arabia Saudita-BRuno leso-1-30
-Texas-BRu-1-31
-Argelia-BRuno -1-32
-Paquistao-BRuno leso-1-33
-Estonia-BRu-1-34
-Africa do Sul-BRuno -1-35
-Ucrania-BRuno leso-1-36
-Nova Zelandia-BRu-1-37
-Brasil-BRuno -1-38
-Nigeria-BRuno leso-1-39
-China-BRu-1-40
-California-BRuno -1-41
-Nova York-BRuno leso-1-42
-Italia-BRu-1-43
-Russia-BRuno -1-44
-Mexico-BRuno leso-1-45
-Siberia-BRu-1-46
-Mongolia-BRuno -1-47
-Peru-BRuno leso-1-48
-Angola-BRu-1-49
-Reino Unido-BRuno -1-50
-RodadaDaVez:0-0
+Africa do Sul-Stefano-1-0
+Angola-Stefano-1-1
+Argelia-Stefano-1-2
+Egito-Stefano-4-3
+Nigeria-Stefano-6-4
+Somalia-Stefano-1-5
+Alasca-Stefano-1-6
+Calgary-Stefano-1-7
+California-Bruno Çeãp-1-8
+Groelandia-Stefano-1-9
+Mexico-Stefano-1-10
+Nova York-Bruno Çeãp-1-11
+Quebec-Bruno Çeãp-7-12
+Texas-Bruno Çeãp-6-13
+Vancouver-Bruno Çeãp-1-14
+Arabia Saudita-Bruno Çeãp-1-15
+Bangladesh-Bruno Çeãp-1-16
+Cazaquistao-Stefano-1-17
+China-Stefano-1-18
+Coreia do Sul-Bruno Çeãp-1-19
+Coreia do Norte-Stefano-6-20
+Estonia-Stefano-1-21
+India-Stefano-1-22
+Ira-Stefano-1-23
+Iraque-Stefano-1-24
+Japao-Bruno Çeãp-1-25
+Jordania-Stefano-1-26
+Letonia-Stefano-1-27
+Mongolia-Stefano-1-28
+Paquistao-Stefano-1-29
+Russia-Bruno Çeãp-1-30
+Siberia-Bruno Çeãp-1-31
+Siria-Stefano-1-32
+Tailandia-Bruno Çeãp-1-33
+Turquia-Stefano-1-34
+Argentina-Stefano-6-35
+Brasil-Stefano-1-36
+Peru-Stefano-1-37
+Venezuela-Stefano-8-38
+Espanha-Bruno Çeãp-1-39
+Franca-Stefano-1-40
+Italia-Stefano-1-41
+Polonia-Bruno Çeãp-1-42
+Reino Unido-Stefano-1-43
+Romenia-Stefano-1-44
+Suecia-Bruno Çeãp-1-45
+Ucrania-Bruno Çeãp-1-46
+Australia-Stefano-1-47
+Indonesia-Stefano-1-48
+Nova Zelandia-Stefano-1-49
+Perth-Stefano-5-50
+RodadaDaVez:29-0

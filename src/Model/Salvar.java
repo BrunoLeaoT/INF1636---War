@@ -8,10 +8,12 @@ import java.io.PrintWriter;
 import java.lang.instrument.IllegalClassFormatException;
 import java.util.ArrayList;
 
+
 public class Salvar {
 	static Jogadores jogadores;
 	static Territorios territorios;
 	
+
 	public Salvar() {
 		jogadores = Jogadores.getInstancia();
 		territorios = Territorios.getInstancia();
@@ -33,6 +35,7 @@ public class Salvar {
 	}
 	
 	private static void executarGravaçãoDados(String partida) throws IOException {
+		FileWriter file = new FileWriter("partida.txt");
 		PrintWriter outputStream = new PrintWriter(new FileWriter("partida.txt"));
 		String[] part = partida.split("\n");
 		for (int i = 0; i < part.length; i++)
@@ -105,13 +108,24 @@ public class Salvar {
 				if(objetivo == null)
 					throw new IllegalClassFormatException("Objetivo não pode ser construido");
 				Jogadores.getInstancia().selectJogadorByIndex(index).setObjetivo(objetivo);
-				
+				try {
+					setCartas(Jogadores.getInstancia().selectJogadorByIndex(index),dados[4]);
+				} catch (Exception e) {
+					continue;
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				return false;
 			}
 		}
 		return true;
+	}
+
+	private static void setCartas(Jogador instancia, String dados) {
+		String cartas[] = dados.split("-");
+		for (int i = 0; i < cartas.length; i++) {
+			instancia.addCarta(Cartas.getInstancia().compraCartaByNome(cartas[i]));
+		}
 	}
 
 	private static Objetivo setObjetivo(String obj) {
@@ -198,31 +212,37 @@ public class Salvar {
 		Jogador jog;
 		for (int i = 0; i < jogadores.getQtdJogadores(); i++) {
 			jog = jogadores.selectJogadorByIndex(i);
-			jogadoresString += jog.getNome() + ";" + jog.getCor().toString() + ";" + jog.getObjetivo().objetivoEmString() + ";" + i;
-			ArrayList<Carta> cartas = jog.getCartas();
-			for (int j = 0; j < cartas.size(); j++) {
-				jogadoresString += cartas.get(i).getTerritorioNome();
-				if( (j +1) < cartas.size())
-					jogadoresString += ",";
-			}
-			
+			jogadoresString += jog.getNome() + ";" + jog.getCor().toString() + ";" + jog.getObjetivo().objetivoEmString() + ";" + i+ ";" ;
+			System.out.println("TamCartas: " + jog.getCartas().size());
+			System.out.println("AsCartas: " +transformarCartasEmString(jog.getCartas()));
+			if(jog.getCartas().size() > 0)
+				jogadoresString += transformarCartasEmString(jog.getCartas());
 			jogadoresString += "\n";
 		}
 		return jogadoresString;
 	}
-	
+	private static String transformarCartasEmString(ArrayList<Carta> cartas) {
+		String todasCartas = "";
+		for (int i = 0; i < cartas.size(); i++) {
+			todasCartas += cartas.get(i).getTerritorioNome() + "-";	
+		}
+		if(todasCartas.length() > 0)
+			return todasCartas.substring(0, todasCartas.length() -1); // Remover ultimo traço
+		return "";
+	}
 	public static void main(String[] args) {
 		try {
-			Partida.getInstancia().adicionarJogador("Bruno Çeãp", Cor.Amarelo);
-			Partida.getInstancia().adicionarJogador("Stefano", Cor.Vermelho);
-			Partida.getInstancia().adicionarJogador("Ivan", Cor.Azul);
-			Partida.getInstancia().comecarPartida();
+			//Partida.getInstancia().adicionarJogador("Bruno Çeãp", Cor.Amarelo);
+			//Partida.getInstancia().adicionarJogador("Stefano", Cor.Vermelho);
+			//Partida.getInstancia().adicionarJogador("Ivan", Cor.Azul);
+			//Partida.getInstancia().comecarPartida();
 			new Salvar();
-			salvarJogo();
+			//salvarJogo();
 			Territorios.getInstancia();
 			carregarJogo();
 			verificarJogadores();
-			verificarTerritorios();	
+			verificarTerritorios();
+			System.out.println(jogadores.selectJogadorByIndex(0).getCarta(0).getTerritorioNome());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
