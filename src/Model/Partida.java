@@ -223,8 +223,8 @@ public class Partida implements Observado
 		if(t.getDono() != this.jogadorDaVez)
 			throw new Exception("Voce não pode inserir tropas em um território que não é seu");
 		
-		t.addTropas(1);
 		removeTropasDisponiveisJogadorDaVez(1);
+		t.addTropas(1);
 		
 		// notifica observers sobre insercao de tropas
 		this.notificarObservadores();
@@ -256,10 +256,10 @@ public class Partida implements Observado
 		acabouFaseInserirTropas = true;
 
 		if(acabouFaseAtaque == true)
-			throw new Exception("Voce encerrou a fase de ataque no momento que comecou a remanejar tropas");
+			throw new Exception("Você não pode atacar territórios na primeira rodada, ou após remanejar tropas");
 		
 		if(currentTerritorioSelecionado.get("nome") == null)
-			throw new Exception("Voce precisa ter um territorio selecionado antes de atacar outro. Um território, caso esteja selecionado, aparece no topo da tela.");
+			throw new Exception("Você precisa ter um territorio selecionado antes de atacar outro. Um território, caso esteja selecionado, aparece no topo da tela.");
 
 		Territorio atacante = Territorios.getInstancia().selectTerritorioByName(currentTerritorioSelecionado.get("nome"));
 		Territorio defensor = getTerritorioNaPosicao(xDefensor, yDefensor);
