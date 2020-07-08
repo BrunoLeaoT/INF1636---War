@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 
 public class Dados 
@@ -23,16 +24,19 @@ public class Dados
 	// calcula e retorna os resultados
 	public int[] jogarDados()
 	{
-		for(int r : resultados)
-			r = rand.nextInt(6) + 1;
-
+		for(int i = 0; i < resultados.length; i++)
+		{
+			resultados[i] = rand.nextInt(6) + 1;
+		}
+		
 		return resultados;
 	}
 	
-	// organiza e retorna os resultados
+	// organiza em ordem descendente e retorna os resultados
 	public int[] organizarResultados() 
 	{
 		Arrays.sort(resultados);
+		inverterOrderResultados();
 		return resultados;
 	}
 	
@@ -47,5 +51,13 @@ public class Dados
 		jogarDados();
 		organizarResultados();
 		return resultados;
+	}
+	
+	private void inverterOrderResultados()
+	{
+		int[] temp = new int[resultados.length];
+		for(int indexRes = resultados.length - 1, indexTemp = 0; indexRes >= 0; indexRes--, indexTemp++)
+			temp[indexTemp] = resultados[indexRes];
+		resultados = temp;
 	}
 }

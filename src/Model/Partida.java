@@ -178,6 +178,12 @@ public class Partida implements Observado
 	// Insere UMA tropa ao territorio na posicao
 	public void inserirTropasEmSelecionado() throws Exception
 	{
+		if(currentTerritorioSelecionado.get("nome") == null)
+			throw new Exception("Voce precisa ter um territorio selecionado para inserir tropas nele. Um território, caso esteja selecionado, aparece no topo da tela.");
+		
+		if(acabouFaseInserirTropas)
+			throw new Exception("Voce saiu da fase de inserir tropas a partir do momento que atacou um territorio");
+		
 		Territorio t = Territorios.getInstancia().selectTerritorioByName(this.currentTerritorioSelecionado.get("nome"));
 		
 		if(t.getDono() != this.getJogadorDaVez())
@@ -209,7 +215,7 @@ public class Partida implements Observado
 		acabouFaseInserirTropas = true;
 
 		if(acabouFaseAtaque == true)
-			throw new Exception("Voce já remanejou e tropas, e portanto não pode mais atacar");
+			throw new Exception("Voce encerrou a fase de ataque no momento que comecou a remanejar tropas");
 		
 		if(currentTerritorioSelecionado.get("nome") == null)
 			throw new Exception("Voce precisa ter um territorio selecionado antes de atacar outro. Um território, caso esteja selecionado, aparece no topo da tela.");
@@ -236,12 +242,13 @@ public class Partida implements Observado
 		// Cria e joga dados
 		Dados dadosDefesa = new Dados(qtdDadosDefensor);
 		Dados dadosAtaque = new Dados(qtdDadosAtacante);
-		int[] resultadosAtaque = dadosDefesa.jogarEOrganizar();
-		int[] resultadosDefesa = dadosAtaque.jogarEOrganizar();
+		int[] resultadosDefesa = dadosDefesa.jogarEOrganizar();
+		int[] resultadosAtaque = dadosAtaque.jogarEOrganizar();
 		
 		// Compara dados
 		int vitoriasAtaque = 0;
-		for(int i = 0; i < qtdDadosDefensor; i++)
+
+		for(int i = 0; i < qtdDadosDefensor && i < qtdDadosAtacante; i++)
 		{
 			if(resultadosAtaque[i] > resultadosDefesa[i])
 				vitoriasAtaque++;

@@ -112,6 +112,7 @@ public class TabuleiroView extends JFrame
         		}
         		catch(Exception ex)
         		{
+        			ex.printStackTrace();
         			JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         		}
         	}
@@ -134,6 +135,7 @@ public class TabuleiroView extends JFrame
         		}
         		catch(Exception ex)
         		{
+        			ex.printStackTrace();
         			JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         		}
         	}
@@ -156,6 +158,7 @@ public class TabuleiroView extends JFrame
         		}
         		catch(Exception ex)
         		{
+        			ex.printStackTrace();
         			JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         		}
         	}
@@ -178,6 +181,7 @@ public class TabuleiroView extends JFrame
         		}
         		catch(Exception ex)
         		{
+        			ex.printStackTrace();
         			JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         		}
         	}
@@ -201,6 +205,7 @@ public class TabuleiroView extends JFrame
         		}
         		catch(Exception ex)
         		{
+        			ex.printStackTrace();
         			JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         		}
         	}
@@ -223,6 +228,7 @@ public class TabuleiroView extends JFrame
         		}
         		catch(Exception ex)
         		{
+        			ex.printStackTrace();
         			JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         		}
         	}
@@ -246,6 +252,7 @@ public class TabuleiroView extends JFrame
         		}
         		catch(Exception ex)
         		{
+        			ex.printStackTrace();
         			JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         		}
         	}
@@ -360,7 +367,7 @@ public class TabuleiroView extends JFrame
 				}
 				catch(Exception ex)
         		{
-					System.out.println(ex.toString());
+					ex.printStackTrace();
         			JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         		}
 				finally
