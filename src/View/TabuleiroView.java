@@ -33,9 +33,8 @@ public class TabuleiroView extends JFrame
 	private AtaqueController ataqueController;
 	
 	// objs
-	public InfoLabel labelSelecao;
-	public InfoLabel labelJogadorDaVez;
-	public InfoLabel labelTropasDisponiveis;
+	public SelecaoLabel labelSelecao;
+	public JogadorDaVezLabel labelJogadorDaVez;
 	private ImagePanel painelFundo;
 	
 	// booleans para controlar alvos
@@ -108,7 +107,6 @@ public class TabuleiroView extends JFrame
         		{
         			System.out.println("Passar vez");
         			viewController.tryAcabarVez();
-        			labelJogadorDaVez.setText(viewController.getInfoJogadorDaVez());
         		}
         		catch(Exception ex)
         		{
@@ -263,7 +261,7 @@ public class TabuleiroView extends JFrame
 	// labels
 	private void addSelecaoLabel()
 	{
-		labelSelecao = new InfoLabel("Clique em um territorio para selecioná-lo");
+		labelSelecao = new SelecaoLabel("Clique em um territorio para selecioná-lo");
 		labelSelecao.setBounds((this.LARG_DEFAULT/2) - 300, 15, 600, 30);
 		viewController.addObservadorPartidaSelecaoLabel(labelSelecao);
 		painelFundo.add(labelSelecao);
@@ -271,12 +269,12 @@ public class TabuleiroView extends JFrame
 	
 	private void addLabelJogadorDaVez()
 	{
-		labelJogadorDaVez = new InfoLabel("Jogador da vez aparecerá aqui");
+		labelJogadorDaVez = new JogadorDaVezLabel("jogador da vez aqui");
 		labelJogadorDaVez.setBounds((this.LARG_DEFAULT/2) - 300, 595, 600, 30);
-		viewController.addObservadorPartidaSelecaoLabel(labelSelecao);
+		viewController.addObservadorPartidajogadorDaVez(labelJogadorDaVez);
 		painelFundo.add(labelJogadorDaVez);
 	}
-	
+
 	private void addLabelsTerr() 
 	{
 		addTerritorioLabel("Africa do Sul");
@@ -351,7 +349,7 @@ public class TabuleiroView extends JFrame
 		{
 			@Override
 			public void mouseClicked(MouseEvent e) 
-			{
+			{				
 				int coordX = e.getX();
 				int coordY = e.getY();
 				
