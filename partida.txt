@@ -1,57 +1,57 @@
 Jogadores: 
-Bruno Amarelo Continente:PrecisaOutroQualquer,EuropaOceania 0
-Stefano Vermelho Continente:PrecisaOutroQualquer,AméricadoNorteÁfrica 1
-Ivan Azul Continente:PrecisaOutroQualquer,AsiaÁfrica 2
+Bruno;Amarelo;Territorio:24-1;0;africa do Sul-Angola-Argélia
+Stefano;Verde;Continente:PrecisaOutroQualquer,Europa,AméricadoSul;1;
+Ivan;Azul;Continente:PrecisaOutroQualquer,AméricadoNorte,Oceania;2;
 Territorios: 
-Franca-Bruno-1-0
-Reino Unido-Stefano-1-1
-Letonia-Ivan-1-2
-Argentina-Bruno-1-3
-Quebec-Stefano-1-4
-India-Ivan-1-5
-Ucrania-Bruno-1-6
-Nova York-Stefano-1-7
+California-Bruno-1-0
+Africa do Sul-Stefano-1-1
+Nigeria-Ivan-1-2
+Mongolia-Bruno-5-3
+Estonia-Stefano-1-4
+Quebec-Bruno-5-5
+Siria-Bruno-1-6
+China-Bruno-1-7
 Italia-Ivan-1-8
-Nigeria-Bruno-1-9
-Indonesia-Stefano-1-10
-Espanha-Ivan-1-11
-Peru-Bruno-1-12
-Alasca-Stefano-1-13
-Coreia do Sul-Ivan-1-14
-Siberia-Bruno-1-15
-Groelandia-Stefano-1-16
-Suecia-Ivan-1-17
-Siria-Bruno-1-18
-Romenia-Stefano-1-19
-Bangladesh-Ivan-1-20
-Texas-Bruno-1-21
-Coreia do Norte-Stefano-1-22
-Australia-Ivan-1-23
-California-Bruno-1-24
-Argelia-Stefano-1-25
-Mongolia-Ivan-1-26
-Estonia-Bruno-1-27
-Polonia-Stefano-1-28
-Calgary-Ivan-1-29
-Perth-Bruno-1-30
-Mexico-Stefano-1-31
-Iraque-Ivan-1-32
-Egito-Bruno-1-33
-Paquistao-Stefano-1-34
-China-Ivan-1-35
-Brasil-Bruno-1-36
-Turquia-Stefano-1-37
-Russia-Ivan-1-38
-Jordania-Bruno-1-39
-Japao-Stefano-1-40
-Angola-Ivan-1-41
-Africa do Sul-Bruno-1-42
-Arabia Saudita-Stefano-1-43
-Vancouver-Ivan-1-44
-Nova Zelandia-Bruno-1-45
-Ira-Stefano-1-46
-Tailandia-Ivan-1-47
-Venezuela-Bruno-1-48
-Somalia-Stefano-1-49
-Cazaquistao-Ivan-1-50
-RodadaDaVez:0-0
+Jordania-Bruno-5-9
+Iraque-Stefano-1-10
+Angola-Ivan-1-11
+Romenia-Bruno-5-12
+Siberia-Bruno-5-13
+Nova Zelandia-Bruno-1-14
+India-Bruno-1-15
+Cazaquistao-Bruno-1-16
+Turquia-Ivan-1-17
+Nova York-Bruno-1-18
+Ira-Stefano-1-19
+Venezuela-Bruno-1-20
+Letonia-Bruno-1-21
+Reino Unido-Stefano-1-22
+Coreia do Norte-Ivan-1-23
+Brasil-Bruno-1-24
+Russia-Stefano-1-25
+Paquistao-Ivan-1-26
+Coreia do Sul-Bruno-1-27
+Somalia-Stefano-1-28
+Texas-Ivan-1-29
+Polonia-Bruno-1-30
+Ucrania-Stefano-1-31
+Franca-Ivan-1-32
+Mexico-Bruno-1-33
+Argentina-Stefano-1-34
+Alasca-Ivan-1-35
+Bangladesh-Bruno-1-36
+Argelia-Stefano-1-37
+Peru-Ivan-1-38
+Egito-Bruno-1-39
+Espanha-Stefano-1-40
+Arabia Saudita-Ivan-1-41
+Australia-Bruno-1-42
+Indonesia-Stefano-1-43
+Calgary-Ivan-1-44
+Groelandia-Bruno-1-45
+Japao-Stefano-1-46
+Vancouver-Ivan-1-47
+Tailandia-Bruno-1-48
+Perth-Stefano-1-49
+Suecia-Ivan-1-50
+RodadaDaVez:2-0

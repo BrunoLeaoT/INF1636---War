@@ -342,8 +342,8 @@ public class Partida implements Observado
 	public String getTextoObjetivoJogadorDaVez()
 	{
 		Objetivo o = this.jogadorDaVez.getObjetivo();
+
 		String texto;
-		
 		if(o instanceof ObjetivoTerritorio)
 		{
 			ObjetivoTerritorio ot = (ObjetivoTerritorio) o;
@@ -364,7 +364,6 @@ public class Partida implements Observado
 			texto = String.format("Seu objetivo é conquistar na integridade os continentes: %s", oc.getContinentesTexto());
 			return texto;
 		}
-		
 		// nunca vai acontecer:
 		return null;
 	}

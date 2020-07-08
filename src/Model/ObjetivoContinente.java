@@ -53,9 +53,9 @@ public class ObjetivoContinente extends Objetivo
 		if(PrecisaOutroQualquer)
 			objetivo += "PrecisaOutroQualquer,";
 		for (int i = 0; i < Continentes.length; i++) {
-			objetivo += Continentes[i].getNome().replaceAll("\\s", "");
+			objetivo += Continentes[i].getNome().replaceAll("\\s", "") + ",";
 		}
-		return objetivo;
+		return objetivo.substring(0, objetivo.length() -1); // Remover ultima virgula
 	}
 	
 }

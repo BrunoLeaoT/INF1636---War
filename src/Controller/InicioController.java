@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Partida;
 import View.AdicionarJogadoresView;
+import View.TabuleiroView;
 
 public class InicioController 
 {
@@ -20,6 +21,8 @@ public class InicioController
 	
 	public void tryCarregarJogoSalvo()
 	{
-		
+		TabuleiroController tabController = new TabuleiroController();
+		TabuleiroView tabView = new TabuleiroView(tabController);
+		tabView.setVisible(true);
 	}
 }

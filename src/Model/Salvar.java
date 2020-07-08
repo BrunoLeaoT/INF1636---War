@@ -8,10 +8,12 @@ import java.io.PrintWriter;
 import java.lang.instrument.IllegalClassFormatException;
 import java.util.ArrayList;
 
+
 public class Salvar {
 	static Jogadores jogadores;
 	static Territorios territorios;
 	
+
 	public Salvar() {
 		jogadores = Jogadores.getInstancia();
 		territorios = Territorios.getInstancia();
@@ -33,6 +35,7 @@ public class Salvar {
 	}
 	
 	private static void executarGravaçãoDados(String partida) throws IOException {
+		FileWriter file = new FileWriter("partida.txt");
 		PrintWriter outputStream = new PrintWriter(new FileWriter("partida.txt"));
 		String[] part = partida.split("\n");
 		for (int i = 0; i < part.length; i++)
@@ -48,7 +51,6 @@ public class Salvar {
 			fazerJogo(aux);
 			return true;
 		} catch (Exception e) {
-			System.out.println("lancei o false né pai"); //KKKK gostei dkosadkaos esqueci de tirar
 			System.out.println(e.getMessage());
 			return false;
 		}
@@ -88,12 +90,12 @@ public class Salvar {
 	private static boolean setJogadores(String jogadores) {
 		// TODO Auto-generated method stub
 		String aux[] = jogadores.split("\n");
+		
 		for (int i = 0; i < aux.length; i++) {
-			String[] dados = aux[i].split(" ");
+			String[] dados = aux[i].split(";");
 			try {
-				if(dados[0].compareTo("Jogadores:") == 0)
+				if(dados[0].compareTo("Jogadores: ") == 0)
 					continue;
-				System.out.println(dados[0]);
 				String nome = dados[0];
 				Cor cor = Cor.getCorPorString(dados[1]);
 				String obj = dados[2];
@@ -103,12 +105,24 @@ public class Salvar {
 				if(objetivo == null)
 					throw new IllegalClassFormatException("Objetivo não pode ser construido");
 				Jogadores.getInstancia().selectJogadorByIndex(index).setObjetivo(objetivo);
-				
+				try {
+					setCartas(Jogadores.getInstancia().selectJogadorByIndex(index),dados[4]);
+				} catch (Exception e) {
+					continue;
+				}
 			} catch (Exception e) {
+				e.printStackTrace();
 				return false;
 			}
 		}
 		return true;
+	}
+
+	private static void setCartas(Jogador instancia, String dados) {
+		String cartas[] = dados.split("-");
+		for (int i = 0; i < cartas.length; i++) {
+			instancia.addCarta(Cartas.getInstancia().compraCartaByNome(cartas[i]));
+		}
 	}
 
 	private static Objetivo setObjetivo(String obj) {
@@ -127,10 +141,17 @@ public class Salvar {
 		String continentes[] = objetivo.split(",");
 		Continente conts[] = new Continente[2];
 		boolean maisUmQualquer = false;
-		if(continentes[0].compareTo("PrecisaOutroQualquer") == 0)
+		if(continentes[0].compareTo("PrecisaOutroQualquer") == 0) {
+			continentes[0] = continentes[1];
+			continentes[1] = continentes[2];
+			continentes[2] = null;
 			maisUmQualquer = true;
-		for (int i = 0; i < continentes.length; i++)
+		}
+		for (int i = 0; i < conts.length; i++) {
+			if(continentes[0] == null)
+				break;
 			conts[i] = Continente.getContinentePorString(continentes[i]);
+		}
 		return new ObjetivoContinente(maisUmQualquer, conts);
 	}
 
@@ -185,31 +206,34 @@ public class Salvar {
 		Jogador jog;
 		for (int i = 0; i < jogadores.getQtdJogadores(); i++) {
 			jog = jogadores.selectJogadorByIndex(i);
-			jogadoresString += jog.getNome() + " " + jog.getCor().toString() + " " + jog.getObjetivo().objetivoEmString() + " " + i;
-			ArrayList<Carta> cartas = jog.getCartas();
-			for (int j = 0; j < cartas.size(); j++) {
-				jogadoresString += cartas.get(i).getTerritorioNome();
-				if( (j +1) < cartas.size())
-					jogadoresString += ",";
-			}
-			
+			jogadoresString += jog.getNome() + ";" + jog.getCor().toString() + ";" + jog.getObjetivo().objetivoEmString() + ";" + i+ ";" ;
+			if(jog.getCartas().size() > 0)
+				jogadoresString += transformarCartasEmString(jog.getCartas());
 			jogadoresString += "\n";
 		}
 		return jogadoresString;
 	}
-	
+	private static String transformarCartasEmString(ArrayList<Carta> cartas) {
+		String todasCartas = "";
+		for (int i = 0; i < cartas.size(); i++) {
+			todasCartas += cartas.get(i).getTerritorioNome() + "-";	
+		}
+		if(todasCartas.length() > 0)
+			return todasCartas.substring(0, todasCartas.length() -1); // Remover ultimo traço
+		return "";
+	}
 	public static void main(String[] args) {
 		try {
-			Partida.getInstancia().adicionarJogador("Bruno", Cor.Amarelo);
-			Partida.getInstancia().adicionarJogador("Stefano", Cor.Vermelho);
-			Partida.getInstancia().adicionarJogador("Ivan", Cor.Azul);
-			Partida.getInstancia().comecarPartida();
+			//Partida.getInstancia().adicionarJogador("Bruno Çeãp", Cor.Amarelo);
+			//Partida.getInstancia().adicionarJogador("Stefano", Cor.Vermelho);
+			//Partida.getInstancia().adicionarJogador("Ivan", Cor.Azul);
+			//Partida.getInstancia().comecarPartida();
 			new Salvar();
-			salvarJogo();
+			//salvarJogo();
 			Territorios.getInstancia();
 			carregarJogo();
 			verificarJogadores();
-			verificarTerritorios();	
+			verificarTerritorios();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

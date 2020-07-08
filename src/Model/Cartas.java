@@ -36,6 +36,16 @@ public class Cartas
 		return Deck.remove(0);
 	}
 	
+	public Carta compraCartaByNome(String nome) // Pro treco de salvar
+	{
+		int index = 0;
+		for (int i = 0; i < Deck.size(); i++) {
+			if(Deck.get(i).getTerritorioNome().compareTo(nome) == 0)
+				index = i;
+		}
+		return Deck.remove(index);
+	}
+	
 	private void InicializaCartas()
 	{
 		// Africa.
