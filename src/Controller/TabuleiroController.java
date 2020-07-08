@@ -23,6 +23,7 @@ public class TabuleiroController
 	{
 		partida.addObservador(obs);
 	}
+	
 	public String getCentroidTerritorio(String territorio) {
 		try {
 			return partida.getCentroidTerritorio(territorio);
@@ -33,13 +34,18 @@ public class TabuleiroController
 	}
 	public void addObservadorTerritorio(Observador obs, String territorio)
 	{
-		// Deleguei pra partida pq não soube acessar os territorios daqui
-		try {
+		try 
+		{
 			partida.addObservadorTerritorio(obs, territorio);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) 
+		{
 			e.printStackTrace();
 		}
+	}
+	
+	public String getInfoJogadorDaVez()
+	{
+		return partida.getInfoJogadorDaVez();
 	}
 	
 	public void tryShowObjetivo()
@@ -64,5 +70,16 @@ public class TabuleiroController
 	{
 		Point p = new Point(x,y);
 		partida.setTerritorioCorrente(p);
+	}
+	
+	public void tryRemanejar(int x, int y) throws Exception 
+	{
+		Point p = new Point(x,y);
+		partida.selecionadoRemanejaTropas(x, y);
+	}
+	
+	public void tryInserirTropasEmSelecionado() throws Exception
+	{
+		partida.inserirTropasEmSelecionado();
 	}
 }

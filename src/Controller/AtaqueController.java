@@ -24,6 +24,6 @@ public class AtaqueController
 				return false;
 		}
 		else
-			throw new Exception("Voce nao pode atacar esse territorio.");
+			throw new Exception("Voce nao pode atacar esse territorio. Certifique-se que o territorio selecionado possui mais de 1 tropa, faz fronteira com o que deseja atacar, e o que deseja atacar não seja seu.");
 	}
 }
