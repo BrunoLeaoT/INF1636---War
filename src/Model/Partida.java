@@ -353,10 +353,12 @@ public class Partida implements Observado
 		return cartasInfo;
 	}
 	
-	public boolean verificaVitoriaJogadorDaVez()
+	public String verificaVitoriaJogadorDaVez()
 	{
 		Jogador j = getJogadorDaVez();
-		return j.verificarVitoria();
+		if(j.verificarVitoria())
+			return j.getNome();
+		return "";
 	}
 	
 	// Funções de salvamento

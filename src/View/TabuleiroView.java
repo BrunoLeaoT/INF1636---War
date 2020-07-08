@@ -107,7 +107,11 @@ public class TabuleiroView extends JFrame
         		try 
         		{
         			System.out.println("Passar vez");
-        			viewController.tryAcabarVez();
+        			String teveGanhador = viewController.tryAcabarVez();
+        			if(teveGanhador.length() > 0) {
+        				JOptionPane.showMessageDialog(new JFrame(), "Parabéns " + teveGanhador + " por ganhar a partida!");
+        				dispose();
+    				}	
         			labelJogadorDaVez.setText(viewController.getInfoJogadorDaVez());
         		}
         		catch(Exception ex)

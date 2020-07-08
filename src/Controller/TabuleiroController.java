@@ -62,9 +62,11 @@ public class TabuleiroController
 		cv.setVisible(true);
 	}
 	
-	public void tryAcabarVez()
+	public String tryAcabarVez()
 	{
+		String vitorioso = partida.verificaVitoriaJogadorDaVez();
 		partida.passaTurno();
+		return vitorioso;
 	}
 	
 	public void trySelecionarTerritorio(int x, int y)

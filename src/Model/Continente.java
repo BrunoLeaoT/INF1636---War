@@ -2,10 +2,10 @@ package Model;
 
 public enum Continente
 {
-	Africa("África", 3, 19),
-	AmericaDoNorte("América do Norte", 5, 8),
-	AmericaDoSul("América do Sul", 2, 6),
-	Asia("Asia", 7, 15),
+	Africa("África", 3, 6),
+	AmericaDoNorte("América do Norte", 5, 9),
+	AmericaDoSul("América do Sul", 2, 4),
+	Asia("Asia", 7, 20),
 	Europa("Europa", 5, 8),
 	Oceania("Oceania", 2, 4);
 	

@@ -20,8 +20,10 @@ public class ObjetivoContinente extends Objetivo
 		ArrayList<Continente> ContinentesEmPosse = new ArrayList<Continente>();
 		for(Continente c : Continentes)
 		{
-			if(jogador.hasContinente(c))
+			if(jogador.hasContinente(c)) {
 				ContinentesEmPosse.add(c);
+			}
+			
 		}
 		
 		// Checa se dentre os continentes que o jogador possui estão os que o objetivo precisa.
