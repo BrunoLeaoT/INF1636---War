@@ -46,13 +46,7 @@ public class CartaView extends JFrame
 	private void addTable()
 	{
 		String[] nomesColunas = {"Nome país", "Forma"};
-		//String[][] tableData = viewController.tryGetCartas();
-		
-		String[][] tableData = { 
-	            { "Kundan Kumar Jha", "4031"}, 
-	            { "Anand Jha", "6014"} 
-	        }; 
-		
+		String[][] tableData = viewController.tryGetCartas();		
 		
 		JTable tabelaCartas = new JTable(tableData, nomesColunas);
 		tabelaCartas.setBounds(25, 25, 430, 80);
