@@ -48,7 +48,6 @@ public class Salvar {
 			fazerJogo(aux);
 			return true;
 		} catch (Exception e) {
-			System.out.println("lancei o false né pai"); //KKKK gostei dkosadkaos esqueci de tirar
 			System.out.println(e.getMessage());
 			return false;
 		}
@@ -88,12 +87,12 @@ public class Salvar {
 	private static boolean setJogadores(String jogadores) {
 		// TODO Auto-generated method stub
 		String aux[] = jogadores.split("\n");
+		
 		for (int i = 0; i < aux.length; i++) {
 			String[] dados = aux[i].split(" ");
 			try {
 				if(dados[0].compareTo("Jogadores:") == 0)
 					continue;
-				System.out.println(dados[0]);
 				String nome = dados[0];
 				Cor cor = Cor.getCorPorString(dados[1]);
 				String obj = dados[2];
@@ -105,6 +104,7 @@ public class Salvar {
 				Jogadores.getInstancia().selectJogadorByIndex(index).setObjetivo(objetivo);
 				
 			} catch (Exception e) {
+				e.printStackTrace();
 				return false;
 			}
 		}
@@ -127,10 +127,19 @@ public class Salvar {
 		String continentes[] = objetivo.split(",");
 		Continente conts[] = new Continente[2];
 		boolean maisUmQualquer = false;
-		if(continentes[0].compareTo("PrecisaOutroQualquer") == 0)
+		if(continentes[0].compareTo("PrecisaOutroQualquer") == 0) {
+			continentes[0] = continentes[1];
+			continentes[1] = continentes[2];
+			continentes[2] = null;
 			maisUmQualquer = true;
-		for (int i = 0; i < continentes.length; i++)
+		}
+		for (int i = 0; i < conts.length; i++) {
+			if(continentes[0] == null)
+				break;
 			conts[i] = Continente.getContinentePorString(continentes[i]);
+		}
+		System.out.println("Continente"  +conts[0]);
+		System.out.println(conts[1]);
 		return new ObjetivoContinente(maisUmQualquer, conts);
 	}
 
@@ -157,6 +166,7 @@ public class Salvar {
 				String dono = dados[1];
 				int tropas = Integer.parseInt(dados[2]);
 				Territorio terr = Territorios.getInstancia().selectTerritorioByName(nome);
+				System.out.println("Dono" + dono);
 				if(Jogadores.getInstancia().selectJogadorByName(dono) == null)
 					throw new IllegalClassFormatException("Jogador dono do território não existe");
 				terr.setDono(Jogadores.getInstancia().selectJogadorByName(dono));

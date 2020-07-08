@@ -51,6 +51,7 @@ public class TabuleiroController
 	public void tryShowObjetivo()
 	{
 		String textoObjetivo = partida.getTextoObjetivoJogadorDaVez();
+		System.out.println(textoObjetivo);
 		ObjetivoView ov = new ObjetivoView(textoObjetivo);
 		ov.setVisible(true);
 	}

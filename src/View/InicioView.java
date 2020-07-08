@@ -77,7 +77,7 @@ public class InicioView extends JFrame
         				JOptionPane.showMessageDialog(new JFrame(), "Jogo carregado com sucesso");
         			else
         				JOptionPane.showMessageDialog(new JFrame(), "Não havia jogo salvo");
-        			
+        			viewController.tryCarregarJogoSalvo();
         			dispose();
         		}
         		catch(Exception ex)

@@ -303,31 +303,36 @@ public class Partida implements Observado
 	// podemos usar ToString() em cada objeto
 	public String getTextoObjetivoJogadorDaVez()
 	{
+
 		Jogador j = getJogadorDaVez();
 		Objetivo o = j.getObjetivo();
 		String texto;
-		
 		if(o instanceof ObjetivoTerritorio)
 		{
 			ObjetivoTerritorio ot = (ObjetivoTerritorio) o;
+			System.out.println("a pronto 1");
 			texto = String.format("Seu objetivo é possuir %d territórios simultâneamente", ot.getNumTerritorios());
 			if(ot.getPrecisaDuasTropas())
 				texto += ", e possuir no mínimo dois exércitos em cada";
+			System.out.println(texto);
 			return texto;
 		}
 		else if(o instanceof ObjetivoJogador)
 		{
 			ObjetivoJogador oj = (ObjetivoJogador) o;
+			System.out.println("a pronto 2");
 			texto = "Seu objeito é eliminar o jogadores de cor " + oj.getCorAlvo().name();
+			System.out.println(texto);
 			return texto;
 		}
 		else if(o instanceof ObjetivoContinente)
 		{
 			ObjetivoContinente oc = (ObjetivoContinente) o;
+			System.out.println("a pronto 3");
 			texto = String.format("Seu objetivo é conquistar na integridade os continentes: %s", oc.getContinentesTexto());
+			System.out.println(texto);
 			return texto;
 		}
-		
 		// nunca vai acontecer:
 		return null;
 	}
