@@ -8,9 +8,9 @@ import javax.swing.JLabel;
 import Model.Observador;
 
 @SuppressWarnings("serial")
-public class InfoLabel extends JLabel implements Observador
+public class SelecaoLabel extends JLabel implements Observador
 {
-	public InfoLabel(String textoInicial)
+	public SelecaoLabel(String textoInicial)
 	{
 		this.setText(textoInicial);
 		this.setLayout(null);
@@ -33,5 +33,13 @@ public class InfoLabel extends JLabel implements Observador
 		{
 			this.setText((String)o);
 		}
-	}	
+	}
+	
+	public void toggleVisibility()
+	{
+		if(this.isVisible())
+			this.setVisible(false);
+		else
+			this.setVisible(true);
+	}
 }
