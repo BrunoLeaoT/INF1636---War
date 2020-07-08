@@ -8,11 +8,11 @@ import javax.swing.JLabel;
 import Model.Observador;
 
 @SuppressWarnings("serial")
-public class SelecaoLabel extends JLabel implements Observador
+public class InfoLabel extends JLabel implements Observador
 {
-	public SelecaoLabel()
+	public InfoLabel(String textoInicial)
 	{
-		this.setText("Clique em um territorio para selecioná-lo");
+		this.setText(textoInicial);
 		this.setLayout(null);
 		this.setBackground(Color.BLACK);
         this.setForeground(Color.WHITE);
