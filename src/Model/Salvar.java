@@ -89,11 +89,14 @@ public class Salvar {
 		String aux[] = jogadores.split("\n");
 		
 		for (int i = 0; i < aux.length; i++) {
-			String[] dados = aux[i].split(" ");
+			String[] dados = aux[i].split(";");
 			try {
-				if(dados[0].compareTo("Jogadores:") == 0)
+				
+				System.out.println(dados[0].compareTo("Jogadores:"));
+				if(dados[0].compareTo("Jogadores: ") == 0)
 					continue;
 				String nome = dados[0];
+				System.out.println(aux[i]);
 				Cor cor = Cor.getCorPorString(dados[1]);
 				String obj = dados[2];
 				int index =  Integer.parseInt(dados[3]);
@@ -195,7 +198,7 @@ public class Salvar {
 		Jogador jog;
 		for (int i = 0; i < jogadores.getQtdJogadores(); i++) {
 			jog = jogadores.selectJogadorByIndex(i);
-			jogadoresString += jog.getNome() + " " + jog.getCor().toString() + " " + jog.getObjetivo().objetivoEmString() + " " + i;
+			jogadoresString += jog.getNome() + ";" + jog.getCor().toString() + ";" + jog.getObjetivo().objetivoEmString() + ";" + i;
 			ArrayList<Carta> cartas = jog.getCartas();
 			for (int j = 0; j < cartas.size(); j++) {
 				jogadoresString += cartas.get(i).getTerritorioNome();
@@ -210,7 +213,7 @@ public class Salvar {
 	
 	public static void main(String[] args) {
 		try {
-			Partida.getInstancia().adicionarJogador("Bruno", Cor.Amarelo);
+			Partida.getInstancia().adicionarJogador("Bruno Çeãp", Cor.Amarelo);
 			Partida.getInstancia().adicionarJogador("Stefano", Cor.Vermelho);
 			Partida.getInstancia().adicionarJogador("Ivan", Cor.Azul);
 			Partida.getInstancia().comecarPartida();

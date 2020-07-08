@@ -336,9 +336,7 @@ public class TabuleiroView extends JFrame
 	{
 		territorioLabel territorioLabel = new territorioLabel();
 		String centroid[] = viewController.getCentroidTerritorio(territorio).split(";"); 
-		System.out.println(centroid[0]+";"+centroid[1]);
-		//territorioLabel.setLocation(Integer.parseInt(centroid[0]), Integer.parseInt(centroid[1]));
-		territorioLabel.setBounds(Integer.parseInt(centroid[0]) - 25, Integer.parseInt(centroid[1]) - 20, 50, 40);
+		territorioLabel.setBounds(Integer.parseInt(centroid[0]) - 25, Integer.parseInt(centroid[1]) - 20, 60, 40);
 		// Dei um offset na metade da altura pq tava muito embaixo
 		viewController.addObservadorTerritorio(territorioLabel, territorio);
 		painelFundo.add(territorioLabel);
