@@ -5,14 +5,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import View.SelecaoLabel;
+import View.InfoLabel;
 
 public class Partida implements Observado
 {
 	static private Partida singleton;
+	
 	private int turno;
 	private int numeroTrocas;
 	private HashMap<String, String> currentTerritorioSelecionado;
+		
+	// boolean para contralar momentos da vez do jogador (primeiro ele insere tropas, depois ataca, depois remaneja)
+	private boolean acabouFaseAtaque;
+	private boolean acabouFaseInserirTropas;
+
+	// obervadores
 	private ArrayList<Observador> observadorList;
 	
 	static public Partida getInstancia()
@@ -48,9 +55,14 @@ public class Partida implements Observado
 	{
 		for(Observador obs : observadorList)
 		{
-			if(obs instanceof SelecaoLabel)
+			if(obs instanceof InfoLabel)
 				obs.atualizarObservacao(geraInfoTerritorioSelecionado());
 		}
+	}
+	
+	private Territorio getTerritorioNaPosicao(int x, int y) throws Exception
+	{
+		return Territorios.getInstancia().selectTerritorioByCoordenada(x, y);
 	}
 	
 	// gera uma string com as infos do territorio selecionado corrente.
@@ -73,6 +85,14 @@ public class Partida implements Observado
 		return Jogadores.getInstancia().selectJogadorByIndex(indexVez);
 	}
 	
+	public String getInfoJogadorDaVez()
+	{
+		int indexVez = turno % Jogadores.getInstancia().getQtdJogadores();
+		Jogador j = Jogadores.getInstancia().selectJogadorByIndex(indexVez);
+		
+		return "Vez de " + j.getNome() + ", da cor " + j.getCor().name();
+	}
+	
 	public String getTurnoETrocaEmString() {
 		return turno +"-"+numeroTrocas;
 	}
@@ -85,7 +105,16 @@ public class Partida implements Observado
 	public Jogador passaTurno()
 	{	
 		turno++;
+		resetFasesTurno();
+		getJogadorDaVez().atualizaTropasDisponiveis();
 		return getJogadorDaVez();
+	}
+	
+	// reseta o turno para fase inicial, em que o jogador pode fazer ataques, insercoes de tropas ou remanejamento
+	public void resetFasesTurno()
+	{
+		acabouFaseAtaque = false;
+		acabouFaseInserirTropas = false;
 	}
 	
 	public void adicionarJogador(String nome, String nomeCor) throws Exception
@@ -117,6 +146,9 @@ public class Partida implements Observado
 		Objetivos.getInstancia().limpaObjetivosImpossiveis(Jogadores.getInstancia().getJogadoresCor());
 		Objetivos.getInstancia().shuffleObjetivos();
 		distribuirObjetivos();
+		
+		// calcula tropas disponiveis para cada jogador inicialmente
+		Jogadores.getInstancia().atualizarTropasDisponiveisTodos();
 	}
 	
 	public void distribuirTerritorios()
@@ -143,28 +175,47 @@ public class Partida implements Observado
 		}
 	}
 	
-	// Adiciona tropas a um territorio
-	public void addTropasTerritorio(String nomeTerritorio, int tropas) throws Exception
+	// Insere UMA tropa ao territorio na posicao
+	public void inserirTropasEmSelecionado() throws Exception
 	{
-		Territorio t = Territorios.getInstancia().selectTerritorioByName(nomeTerritorio);
-		t.addTropas(tropas);
+		Territorio t = Territorios.getInstancia().selectTerritorioByName(this.currentTerritorioSelecionado.get("nome"));
+		
+		if(t.getDono() != this.getJogadorDaVez())
+			throw new Exception("Voce não pode inserir tropas em um território que não é seu");
+		
+		t.addTropas(1);
+		removeTropasDisponiveisJogadorDaVez(1);
 	}
 	
-	// Remove tropas de um territorio
-	public void rmTropasTerritorio(String nomeTerritorio, int tropas) throws Exception
+	// Remaneja TODAS as tropas do territorio selecionado para outro nas coordenadas x,y
+	public void selecionadoRemanejaTropas(int xDestino, int yDestino) throws Exception
 	{
-		Territorio t = Territorios.getInstancia().selectTerritorioByName(nomeTerritorio);
-		t.rmTropas(tropas);
+		// jogador comecou a remanejar -> acabou fase de ataque
+		acabouFaseAtaque = true;
+		
+		if(currentTerritorioSelecionado.get("nome") == null)
+			throw new Exception("Voce precisa ter um territorio selecionado antes de enviar tropas para outro. Um território, caso esteja selecionado, aparece no topo da tela.");
+
+		Territorio origem = Territorios.getInstancia().selectTerritorioByName(currentTerritorioSelecionado.get("nome"));
+		Territorio destino = getTerritorioNaPosicao(xDestino, yDestino);
+		
+		origem.remanejarTropas(destino, origem.getTropas() - 1);
 	}
 	
 	// Confere se territorio selecionado pode atacar territorio desejado
 	public boolean selecionadoPodeAtacar(int xDefensor, int yDefensor) throws Exception
 	{
+		// jogador comecou a atacar -> acabou fase de insercao de tropas
+		acabouFaseInserirTropas = true;
+
+		if(acabouFaseAtaque == true)
+			throw new Exception("Voce já remanejou e tropas, e portanto não pode mais atacar");
+		
 		if(currentTerritorioSelecionado.get("nome") == null)
 			throw new Exception("Voce precisa ter um territorio selecionado antes de atacar outro. Um território, caso esteja selecionado, aparece no topo da tela.");
 
 		Territorio atacante = Territorios.getInstancia().selectTerritorioByName(currentTerritorioSelecionado.get("nome"));
-		Territorio defensor = Territorios.getInstancia().selectTerritorioByCoordenada(xDefensor, yDefensor);
+		Territorio defensor = getTerritorioNaPosicao(xDefensor, yDefensor);
 		
 		return atacante.podeAtacar(defensor);
 	}
@@ -172,7 +223,7 @@ public class Partida implements Observado
 	// Realiza logica de ataque entre o territorio selecionado contra outro de entrada
 	// Retorna o true se teritorio selecionao ganhou, false caso contrario
 	public boolean processaAtaque(int xDefensor, int yDefensor) throws Exception
-	{
+	{		
 		Territorio atacante = Territorios.getInstancia().selectTerritorioByName(currentTerritorioSelecionado.get("nome"));
 		Territorio defensor = Territorios.getInstancia().selectTerritorioByCoordenada(xDefensor, yDefensor);
 		
@@ -223,7 +274,13 @@ public class Partida implements Observado
 	public int getTropasDisponiveisJogadorDaVez()
 	{
 		Jogador j = getJogadorDaVez();
-		return j.atualizaTropasDisponiveis();
+		return j.getTropasDisponiveis();
+	}
+	
+	public void removeTropasDisponiveisJogadorDaVez(int qtd) throws Exception
+	{
+		Jogador j = getJogadorDaVez();
+		j.rmTropasDisponiveis(qtd);
 	}
 	
 	public void fazTrocaJogadorDaVez() throws Exception
@@ -329,12 +386,13 @@ public class Partida implements Observado
 		return;
 	}
 
-	public String getCentroidTerritorio(String territorio) throws Exception {
+	public String getCentroidTerritorio(String territorio) throws Exception 
+	{
 		return Territorios.getInstancia().selectTerritorioByName(territorio).getCentroid();
 	}
 
-	public void addObservadorTerritorio(Observador obs, String territorio) throws Exception {
+	public void addObservadorTerritorio(Observador obs, String territorio) throws Exception 
+	{
 		Territorios.getInstancia().selectTerritorioByName(territorio).addObservador(obs);
-		Territorios.getInstancia().selectTerritorioByName(territorio).notificarObservadores();
 	}
 }

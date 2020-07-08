@@ -18,7 +18,6 @@ public class Territorio implements Observado
 	private Continente Continente;
 	private Jogador Dono;
 	private int Tropas;
-	private Territorio[] territoriosFronteiricos;
 	private String[] territoriosAdjacentes;
 	private ArrayList<Observador> observadoresDeTropas;
 	
@@ -35,20 +34,12 @@ public class Territorio implements Observado
 		descontruirTerritoriosAjdacentes(terriAdja);
 	}
 	
-	public void descontruirTerritoriosAjdacentes(String terrs) {
+	public void descontruirTerritoriosAjdacentes(String terrs) 
+	{
 		String []aux = terrs.split(",");
 		territoriosAdjacentes = aux;
 	}
 	
-	public boolean temTerrAdjacente(String atacante, String territorioAtacante) throws Exception {
-		for (int i = 0; i < this.territoriosAdjacentes.length; i++) {
-			Territorio t = Territorios.getInstancia().selectTerritorioByName(this.territoriosAdjacentes[i]);
-			if(this.territoriosAdjacentes[i].compareTo(territorioAtacante) == 0) 
-				if(t.getDono().getNome().compareTo(atacante) == 0)
-					return true;
-		}
-		return false;
-	}
 	/// Estabelece delimitacao do territorio.
 	// Refatorar isso para menos parametros.
 	public void SetDelimitacao(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4) 
@@ -79,18 +70,27 @@ public class Territorio implements Observado
 		if(qtdTropas > this.getTropas() - 1)
 			throw new Exception("territorio de origem deve ter no minimo uma tropa após remanejamento");
 		
-		// checa se existem caminhos dentre as fronteiras e tal
-		// TODO
+		if(!this.fazFronteira(destino.getNome()))
+			throw new Exception("Territorio de destino não faz fronteira com o de origem");
 		
 		this.rmTropas(qtdTropas);
 		destino.addTropas(qtdTropas);
 		notificarObservadores();
 	}
 	
-	/// Seta o novo dono do territorio, assim como a quantidade de tropas que traz consigo.
+	/// Seta o novo dono do territorio e atualiza a lista de territorios do dono
 	public void setDono(Jogador jogador) throws IllegalArgumentException
 	{
+		// atualiza territorios de dono antigo
+		if(Dono != null)
+			Dono.rmTerritorio(this);
+		
+		// setta novo dono
 		Dono = jogador;
+		
+		// atualiza territorios do novo dono
+		Dono.addTerritorio(this);
+		
 		notificarObservadores();
 	}
 	
@@ -135,17 +135,17 @@ public class Territorio implements Observado
 		// Se territorio vitima faz fronteira
 		// Se territorio atacante tem mais de uma tropa
 		if(this.getDono() != possivelVitima.getDono())
-			if(this.fazFronteira(possivelVitima))
+			if(this.fazFronteira(possivelVitima.getNome()))
 				if(this.Tropas > 1)
 					return true;
 		
 		return false;
 	}
 	
-	public boolean fazFronteira(Territorio candidatoAFronteirico)
+	public boolean fazFronteira(String nomeAdjacente)
 	{
-		for(Territorio t : this.territoriosFronteiricos)
-			if(t.Nome == candidatoAFronteirico.Nome)
+		for(String s : territoriosAdjacentes)
+			if(s.equals(nomeAdjacente))
 				return true;
 		
 		return false;
@@ -160,6 +160,9 @@ public class Territorio implements Observado
 	public void addObservador(Observador obs) 
 	{
 		observadoresDeTropas.add(obs);
+		
+		// notifica logo que é adicionado para que as labels ja comecem com texto
+		notificarObservadores();
 	}
 
 	@Override

@@ -12,7 +12,7 @@ class Jogador {
 	private Cor cor;
 	private Objetivo objetivo;
 	private int tropasDisponiveis;
-	private ArrayList<Territorio> Territorios;
+	private ArrayList<Territorio> territorios;
 	private ArrayList<Carta> cartas;
 	private Map<CartaForma, Integer> mapCartaFormaQtd;
 	
@@ -26,6 +26,7 @@ class Jogador {
 		objetivo = null;
 		tropasDisponiveis = 0;
 		cartas = new ArrayList<Carta>();
+		territorios = new ArrayList<Territorio>();
 		
 		// inicializa mapCartaFormaQtd
 		mapCartaFormaQtd = new HashMap<CartaForma, Integer>();
@@ -54,6 +55,19 @@ class Jogador {
 	
 	public Cor getCor() {
 		return cor;
+	}
+	
+	public int getTropasDisponiveis()
+	{
+		return tropasDisponiveis;
+	}
+	
+	public void rmTropasDisponiveis(int qtd) throws Exception
+	{
+		if(tropasDisponiveis - qtd < 0)
+			throw new Exception("Jogador não possui tropas disponíveis suficiente");
+		
+		tropasDisponiveis -= qtd;
 	}
 	
 	public void addCarta(Carta c)
@@ -154,25 +168,24 @@ class Jogador {
 	}
 	
 	public void addTerritorio(Territorio novo) {
-		Territorios.add(novo);
+		territorios.add(novo);
 	}
 	
 	// Territorios devem ter o mesmo hash; so pode haver uma instancia de terr no codigo.
 	public void rmTerritorio(Territorio velho) {
-		Territorios.remove(velho);
+		territorios.remove(velho);
 	}
 	
 	// atualiza e retorna tropasDisponiveis para o jogador distribuir no inicio do turno
-	public int atualizaTropasDisponiveis()
+	public void atualizaTropasDisponiveis()
 	{
 		tropasDisponiveis += calculaTropasTerritorios();
 		tropasDisponiveis += calculaTropasContinentes();
-		return tropasDisponiveis;
 	}
 	
 	private int calculaTropasTerritorios()
 	{
-		return Territorios.size()/2;
+		return territorios.size()/2;
 	}
 	
 	private int calculaTropasContinentes()
@@ -199,7 +212,7 @@ class Jogador {
 	public boolean hasContinente(Continente cont)
 	{
 		int count = 0;
-		for(Territorio t : Territorios)
+		for(Territorio t : territorios)
 		{
 			if(t.getContinente() == cont)
 				count++;
