@@ -121,6 +121,7 @@ public class AdicionarJogadoresView extends JFrame
         		}
         		catch(Exception ex)
         		{
+        			System.out.println(e.toString());
         			JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         		}
         	}
