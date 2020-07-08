@@ -19,6 +19,8 @@ estabelecer posicoes de cada territorio de acordo com novo mapa
 estabelecer posicoes de territorio labels
 implementar ataque, adicao e remanejamento de tropas na view e no controller
 acertar territorio selecioando ser um territorio, e string que ele passa pra view ser ele.toString()
+add label de tropas disponiveis? isso pede um observer em jogador
+label de territorios nao mostra numero de tropas quando nome da cor é grande
 
 falta labelling (interface)
 fazer exeptions "personalizadas"?
