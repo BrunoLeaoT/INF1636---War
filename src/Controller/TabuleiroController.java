@@ -24,14 +24,11 @@ public class TabuleiroController
 		partida.addObservador(obs);
 	}
 	
-	public String getCentroidTerritorio(String territorio) {
-		try {
-			return partida.getCentroidTerritorio(territorio);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "Erro";
-		}
+	public void addObservadorPartidajogadorDaVez(Observador obs)
+	{
+		partida.addObservador(obs);
 	}
+	
 	public void addObservadorTerritorio(Observador obs, String territorio)
 	{
 		try 
@@ -43,9 +40,14 @@ public class TabuleiroController
 		}
 	}
 	
-	public String getInfoJogadorDaVez()
-	{
-		return partida.getInfoJogadorDaVez();
+	public String getCentroidTerritorio(String territorio) {
+		try 
+		{
+			return partida.getCentroidTerritorio(territorio);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "Erro";
+		}
 	}
 	
 	public void tryShowObjetivo()
@@ -61,7 +63,7 @@ public class TabuleiroController
 		cv.setVisible(true);
 	}
 	
-	public void tryAcabarVez()
+	public void tryAcabarVez() throws Exception
 	{
 		partida.passaTurno();
 	}
