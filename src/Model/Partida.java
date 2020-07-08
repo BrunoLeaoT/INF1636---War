@@ -178,13 +178,15 @@ public class Partida implements Observado
 		Objetivos.getInstancia().shuffleObjetivos();
 		distribuirObjetivos();
 
+		 this.comecarPartida2();
+	}
+	public void comecarPartida2() {
 		// setta jogador da vez
 		this.updateJogadorDaVez();
 		
 		// notifica observers sobre o inicio da partida
 		this.notificarObservadores();
 	}
-	
 	public void distribuirTerritorios()
 	{
 		Territorios territorios = Territorios.getInstancia();
