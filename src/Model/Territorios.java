@@ -159,8 +159,8 @@ public class Territorios
 		ListaTerritorios.add(new Territorio("Indonesia", Continente.Oceania,"Perth,Australia"));
 		ListaTerritorios.get(48).SetDelimitacao(837,481,939,484,848,507,942,523);
 		ListaTerritorios.add(new Territorio("Nova Zelandia", Continente.Oceania,"Australia"));
-		ListaTerritorios.get(49).SetDelimitacao(928,603,946,602,923,643,944,645);
+		ListaTerritorios.get(49).SetDelimitacao(923,607,942,608,906,672,932,675);
 		ListaTerritorios.add(new Territorio("Perth", Continente.Oceania,"Australia,Indonesia"));
-		ListaTerritorios.get(50).SetDelimitacao(790,635,854,546,766,635,816,632);
+		ListaTerritorios.get(50).SetDelimitacao(730,539,856,535,766,637,816,635);
 	}
 }
