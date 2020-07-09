@@ -12,11 +12,17 @@ import java.util.ArrayList;
 public class Salvar {
 	static Jogadores jogadores;
 	static Territorios territorios;
-	
+	static Salvar singleton;
 
-	public Salvar() {
+	private Salvar() {
 		jogadores = Jogadores.getInstancia();
 		territorios = Territorios.getInstancia();
+	}
+	
+	public static Salvar getInstancia() {
+		if(singleton == null)
+			singleton = new Salvar();
+		return singleton;
 	}
 	
 	public static boolean salvarJogo() {
