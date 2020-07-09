@@ -82,6 +82,7 @@ public class TabuleiroController
 		partida.setTerritorioCorrente(p);
 	}
 	
+
 	public void tryRemanejar(int x, int y) throws Exception 
 	{
 		Point p = new Point(x,y);
