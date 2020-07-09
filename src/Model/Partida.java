@@ -423,7 +423,7 @@ public class Partida implements Observado
 		{
 			Territorio t = territorios.selectTerritorioByIndex(i);
 			//if(t.delimitacaoPossuiPonto(ponto))
-			if(t.verificarClique(ponto))
+			if(t.contemPonto(ponto))
 			{
 				currentTerritorioSelecionado.put("nome", t.getNome());
 				currentTerritorioSelecionado.put("dono", t.getDono().getCor().name());

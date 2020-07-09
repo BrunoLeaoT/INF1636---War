@@ -51,7 +51,7 @@ public class Territorios
 		Point p = new Point(x,y);
 		
 		for(Territorio t : ListaTerritorios)
-			if(t.delimitacaoPossuiPonto(p))
+			if(t.contemPonto(p))
 				return t;
 		
 		throw new Exception("Não foi encontrado um território nessa posição/coordenada");
