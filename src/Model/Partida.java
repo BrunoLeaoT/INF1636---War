@@ -408,7 +408,8 @@ public class Partida implements Observado
 		for(int i = 0; i < territorios.getSize(); i++)
 		{
 			Territorio t = territorios.selectTerritorioByIndex(i);
-			if(t.delimitacaoPossuiPonto(ponto))
+			//if(t.delimitacaoPossuiPonto(ponto))
+			if(t.verificarClique(ponto))
 			{
 				currentTerritorioSelecionado.put("nome", t.getNome());
 				currentTerritorioSelecionado.put("dono", t.getDono().getCor().name());
@@ -423,6 +424,7 @@ public class Partida implements Observado
 		this.notificarObservadores();
 		return;
 	}
+	
 
 	public String getCentroidTerritorio(String territorio) throws Exception 
 	{

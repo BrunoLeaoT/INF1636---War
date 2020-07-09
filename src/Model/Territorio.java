@@ -49,6 +49,17 @@ public class Territorio implements Observado
 		delimitacao = new Polygon(xArray, yArray, 4);
 	}
 	
+	boolean verificarClique(Point ponto) {
+		int x[] = delimitacao.xpoints;
+		int y[] = delimitacao.ypoints;
+		if(ponto.x >= x[0] && ponto.x <= x[1] && ponto.x >= x[2] && ponto.x <= x[3]) {
+			if(ponto.y >= y[0] && ponto.y >= y[1] && ponto.y <= y[2] && ponto.y <= y[3]) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public String getCentroid() {
 	    int x = 0, y = 0;
 	    int pointCount = delimitacao.npoints;
