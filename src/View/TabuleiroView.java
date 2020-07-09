@@ -1,26 +1,19 @@
 package View;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.event.MouseInputAdapter;
 
-import Controller.AdicionarJogadoresController;
 import Controller.AtaqueController;
-import Controller.Salvamento;
+import Controller.SalvarController;
 import Controller.TabuleiroController;
-import Model.Continente;
-import Model.Observador;
-import Model.Partida;
-import Model.Territorio;
 
+@SuppressWarnings("serial")
 public class TabuleiroView extends JFrame
 {
 	//props
@@ -29,7 +22,7 @@ public class TabuleiroView extends JFrame
 	
 	//views
 	private TabuleiroController viewController;
-	private Salvamento salvamentoController;
+	private SalvarController salvamentoController;
 	private AtaqueController ataqueController;
 	
 	// objs
@@ -51,7 +44,7 @@ public class TabuleiroView extends JFrame
 	{
 		// props
 		viewController = controller;
-		salvamentoController = new Salvamento();
+		salvamentoController = new SalvarController();
 		ataqueController = new AtaqueController();
 		this.setTitle("Tabuleiro Jogo");
 		this.setSize(LARG_DEFAULT, ALT_DEFAULT);

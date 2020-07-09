@@ -3,7 +3,6 @@ package Model;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import View.SelecaoLabel;
 import View.JogadorDaVezLabel;
@@ -36,6 +35,9 @@ public class Partida implements Observado
 	{
 		turno = 0;
 		numeroTrocas = 0;
+
+
+		
 		currentTerritorioSelecionado = new HashMap<String, String>();
 		observadorList = new ArrayList<Observador>();
 	}
@@ -180,9 +182,12 @@ public class Partida implements Observado
 		Objetivos.getInstancia().shuffleObjetivos();
 		distribuirObjetivos();
 
-		 this.comecarPartida2();
+		 this.iniciarPartida();
 	}
-	public void comecarPartida2() {
+	
+	// após carregar partida, inicia ela notificando os observadores e setando o jogador da vez
+	public void iniciarPartida() 
+	{
 		// setta jogador da vez
 		this.updateJogadorDaVez();
 		
@@ -248,6 +253,12 @@ public class Partida implements Observado
 		Territorio origem = Territorios.getInstancia().selectTerritorioByName(currentTerritorioSelecionado.get("nome"));
 		Territorio destino = getTerritorioNaPosicao(xDestino, yDestino);
 		
+		if(origem.getDono() != jogadorDaVez)
+			throw new Exception("Voce nao pode remanejar de um territorio inimigo");
+		
+		if(destino.getDono() != origem.getDono())
+			throw new Exception("Voce nao pode remanejar tropas para um território inimigo");
+		
 		origem.remanejarTropas(destino, origem.getTropas() - 1);
 	}
 	
@@ -301,6 +312,9 @@ public class Partida implements Observado
 		
 		atacante.rmTropas(qtdDadosDefensor - vitoriasAtaque);
 		defensor.rmTropas(vitoriasAtaque);
+		
+		if(atacante.getTropas() == 0)
+			System.out.println("xabu");
 		
 		// Checa se atacante conquistou territorio
 		if(defensor.getTropas() == 0)
@@ -400,8 +414,7 @@ public class Partida implements Observado
 	}
 	
 	public boolean salvarJogo() {
-		Salvar salvar = new Salvar();
-		return salvar.salvarJogo();
+		return Salvar.salvarJogo();
 	}
 	
 	// Retorna dados do territorio que possui o ponto, ou hashmapVazio se territorio que possui o ponto nao foi encontrado
@@ -412,7 +425,7 @@ public class Partida implements Observado
 		{
 			Territorio t = territorios.selectTerritorioByIndex(i);
 			//if(t.delimitacaoPossuiPonto(ponto))
-			if(t.verificarClique(ponto))
+			if(t.contemPonto(ponto))
 			{
 				currentTerritorioSelecionado.put("nome", t.getNome());
 				currentTerritorioSelecionado.put("dono", t.getDono().getCor().name());

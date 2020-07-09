@@ -35,7 +35,6 @@ public class Salvar {
 	}
 	
 	private static void executarGravaçãoDados(String partida) throws IOException {
-		FileWriter file = new FileWriter("partida.txt");
 		PrintWriter outputStream = new PrintWriter(new FileWriter("partida.txt"));
 		String[] part = partida.split("\n");
 		for (int i = 0; i < part.length; i++)

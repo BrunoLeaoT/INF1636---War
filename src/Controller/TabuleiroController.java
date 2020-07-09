@@ -1,17 +1,14 @@
 package Controller;
 
 import java.awt.Point;
-import java.util.HashMap;
 
 import Model.Observador;
 import Model.Partida;
 import View.CartaView;
 import View.ObjetivoView;
-import View.TabuleiroView;
 
 public class TabuleiroController 
 {
-	private TabuleiroView tabView;
 	private Partida partida;
 	
 	public TabuleiroController() 
@@ -64,15 +61,12 @@ public class TabuleiroController
 		cv.setVisible(true);
 	}
 	
-	public String tryAcabarVez()
+	public String tryAcabarVez() throws Exception
 	{
 		String vitorioso = partida.verificaVitoriaJogadorDaVez();
-		try {
-			partida.passaTurno();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		partida.passaTurno();
+		
 		return vitorioso;
 	}
 	

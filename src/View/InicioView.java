@@ -5,9 +5,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import Controller.AdicionarJogadoresController;
 import Controller.InicioController;
-import Controller.Salvamento;
+import Controller.SalvarController;
 
 @SuppressWarnings("serial")
 public class InicioView extends JFrame
@@ -16,7 +15,7 @@ public class InicioView extends JFrame
 	public final int ALT_DEFAULT=685;
 	private InicioController viewController;
 	private ImagePanel painelFundo;
-	private Salvamento salvamentoController;
+	private SalvarController salvamentoController;
 	public static void main(String[] args) 
 	{
 		InicioView i = new InicioView(new InicioController());
@@ -27,7 +26,7 @@ public class InicioView extends JFrame
 	{
 		// props
 		viewController = controller;
-		salvamentoController = new Salvamento();
+		salvamentoController = new SalvarController();
 		this.setTitle("Inicio Jogo");
 		this.setSize(LARG_DEFAULT, ALT_DEFAULT);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);

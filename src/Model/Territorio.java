@@ -2,13 +2,7 @@ package Model;
 
 import java.awt.Point;
 import java.awt.Polygon;
-import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-
 
 /// Classe Territorio
 /// Representa um territorio no mapa.
@@ -49,7 +43,7 @@ public class Territorio implements Observado
 		delimitacao = new Polygon(xArray, yArray, 4);
 	}
 	
-	boolean verificarClique(Point ponto) {
+	boolean contemPonto(Point ponto) {
 		int x[] = delimitacao.xpoints;
 		int y[] = delimitacao.ypoints;
 		if(ponto.x >= x[0] && ponto.x <= x[1] && ponto.x >= x[2] && ponto.x <= x[3]) {
@@ -160,11 +154,6 @@ public class Territorio implements Observado
 				return true;
 		
 		return false;
-	}
-	
-	public boolean delimitacaoPossuiPonto(Point ponto)
-	{
-		return delimitacao.contains(ponto);
 	}
 
 	@Override

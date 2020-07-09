@@ -21,7 +21,7 @@ public class InicioController
 	
 	public void tryCarregarJogoSalvo()
 	{
-		partida.comecarPartida2();
+		partida.iniciarPartida();
 		TabuleiroController tabController = new TabuleiroController();
 		TabuleiroView tabView = new TabuleiroView(tabController);
 		tabView.setVisible(true);
