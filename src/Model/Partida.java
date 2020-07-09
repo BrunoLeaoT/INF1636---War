@@ -3,7 +3,6 @@ package Model;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import View.SelecaoLabel;
 import View.JogadorDaVezLabel;
@@ -36,6 +35,9 @@ public class Partida implements Observado
 	{
 		turno = 0;
 		numeroTrocas = 0;
+
+
+		
 		currentTerritorioSelecionado = new HashMap<String, String>();
 		observadorList = new ArrayList<Observador>();
 	}
@@ -178,9 +180,12 @@ public class Partida implements Observado
 		Objetivos.getInstancia().shuffleObjetivos();
 		distribuirObjetivos();
 
-		 this.comecarPartida2();
+		 this.iniciarPartida();
 	}
-	public void comecarPartida2() {
+	
+	// após carregar partida, inicia ela notificando os observadores e setando o jogador da vez
+	public void iniciarPartida() 
+	{
 		// setta jogador da vez
 		this.updateJogadorDaVez();
 		

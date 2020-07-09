@@ -2,13 +2,7 @@ package Model;
 
 import java.awt.Point;
 import java.awt.Polygon;
-import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-
 
 /// Classe Territorio
 /// Representa um territorio no mapa.

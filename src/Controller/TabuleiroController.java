@@ -1,7 +1,6 @@
 package Controller;
 
 import java.awt.Point;
-import java.util.HashMap;
 
 import Model.Observador;
 import Model.Partida;

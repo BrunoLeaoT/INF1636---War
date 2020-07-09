@@ -2,10 +2,10 @@ package Controller;
 
 import Model.Partida;
 
-public class Salvamento {
+public class SalvarController {
 	private Partida partida;
 	
-	public Salvamento() {
+	public SalvarController() {
 		partida = Partida.getInstancia();
 	}
 	

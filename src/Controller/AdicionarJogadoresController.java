@@ -2,7 +2,6 @@ package Controller;
 
 import Model.Partida;
 import View.TabuleiroView;
-import Model.Cor;
 
 public class AdicionarJogadoresController 
 {

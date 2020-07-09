@@ -6,12 +6,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 
 import Controller.CartaController;
-import Controller.TabuleiroController;
 
 @SuppressWarnings("serial")
 public class CartaView extends JFrame
