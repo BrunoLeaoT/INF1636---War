@@ -98,7 +98,9 @@ public class Partida implements Observado
 	
 	public void updateJogadorDaVez()
 	{
+		System.out.println(turno + " + "  + Jogadores.getInstancia().getQtdJogadores());
 		int indexVez = turno % Jogadores.getInstancia().getQtdJogadores();
+		System.out.println(indexVez);
 		jogadorDaVez = Jogadores.getInstancia().selectJogadorByIndex(indexVez);
 		jogadorDaVez.atualizaTropasDisponiveis();
 	}

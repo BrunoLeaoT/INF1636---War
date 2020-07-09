@@ -56,7 +56,7 @@ public class Jogadores
 	
 	public int getQtdJogadores()
 	{
-		return qtdJogadores;
+		return ListaJogadores.size();
 	}
 	
 	// Retorna lista de cores (de jogadores) existentes na partida 
@@ -72,5 +72,9 @@ public class Jogadores
 	public void shuffleJogadores()
 	{
 		Collections.shuffle(ListaJogadores);
+	}
+
+	public void removeJogador(String nome) {
+		ListaJogadores.remove(selectJogadorByName(nome));
 	}
 }

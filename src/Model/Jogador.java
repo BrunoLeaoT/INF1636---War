@@ -174,6 +174,8 @@ class Jogador {
 	// Territorios devem ter o mesmo hash; so pode haver uma instancia de terr no codigo.
 	public void rmTerritorio(Territorio velho) {
 		territorios.remove(velho);
+		if(territorios.size() == 0)
+			Jogadores.getInstancia().removeJogador(nome);
 	}
 	
 	// atualiza e retorna tropasDisponiveis para o jogador distribuir no inicio do turno
