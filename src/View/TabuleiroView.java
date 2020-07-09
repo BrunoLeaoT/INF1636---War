@@ -8,19 +8,14 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.event.MouseInputAdapter;
 
-import Controller.AdicionarJogadoresController;
 import Controller.AtaqueController;
 import Controller.Salvamento;
 import Controller.TabuleiroController;
-import Model.Continente;
-import Model.Observador;
-import Model.Partida;
-import Model.Territorio;
 
+@SuppressWarnings("serial")
 public class TabuleiroView extends JFrame
 {
 	//props

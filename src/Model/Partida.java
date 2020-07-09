@@ -398,8 +398,7 @@ public class Partida implements Observado
 	}
 	
 	public boolean salvarJogo() {
-		Salvar salvar = new Salvar();
-		return salvar.salvarJogo();
+		return Salvar.salvarJogo();
 	}
 	
 	// Retorna dados do territorio que possui o ponto, ou hashmapVazio se territorio que possui o ponto nao foi encontrado
